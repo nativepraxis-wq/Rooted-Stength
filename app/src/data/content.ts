@@ -1030,10 +1030,10 @@ export const cropProfiles = {
       contested: 'Plantain vs. cooking banana naming varies regionally; both are noted.' },
     coconut: { name: 'Coconut', botanical: 'Cocos nucifera · kokonut · coco', c1: '#665C4A', c2: '#574E3F',
       origin: 'Spread across the tropics by ocean and trade, the coconut became a keystone of Afro-diasporic cooking — from Bahia\u2019s "Coconut Coast" and Garifuna rice-and-beans to Gullah Geechee coconut-molasses sweets and Trinidadian toolum.',
-      body: 'Coconut water is a natural potassium-and-electrolyte rehydrator; the meat and milk add satiating healthy fat and richness — a hot-climate energy and hydration food.',
-      grow: 'A tropical palm — not home-growable in temperate zones; buy young water and unsweetened milk or cream.',
-      dishes: 'Moqueca, callaloo rundown, rice cooked in coconut milk, sorrel drinks, toolum and monkey-meat candies.',
-      contested: 'Coconut carries land, ancestor and future across many diaspora cuisines; the Atlas credits each tradition rather than flattening them into one "tropical" style.' },
+      body: 'Fat carries vitamins A, D, E and K; the water is a potassium electrolyte; fresh flesh adds fiber. Whole-food forms and moderation — see Coconut Foodways.',
+      grow: 'Coastal tropics only: salt-tolerant, sun-hungry, 6–10 years to first fruit. Not a windowsill crop — buy from island growers.',
+      dishes: 'Rundown (Jamaica), oil-down (Grenada), rice and peas, coconut bake, sorrel with coconut cream — the pot starts with milk pressed from grated flesh.',
+      contested: 'Health-food and saturated-fat framings disagree — the Atlas presents both traditional practice and mainstream heart guidance rather than one claim.' },
     baobab: { name: 'Baobab', botanical: 'Adansonia digitata · "tree of life"', c1: '#665C4A', c2: '#574E3F',
       origin: 'From the savannas of mainland Africa; the "upside-down tree" whose dried fruit pulp has fed and healed communities across the Sahel and East Africa for millennia.',
       body: 'The tangy fruit pulp offers around 10× the vitamin C of oranges, plus potassium, calcium and prebiotic fiber — the vitamin C sharply boosts iron uptake from a plant plate.',
@@ -2291,21 +2291,3 @@ export const a11yMeta = {
 
 
 
-/*
-  Three cropProfiles keys were defined twice in the prototype: coconut,
-  moringa and seamoss. In JavaScript the later definition silently wins, so
-  the earlier entries below never rendered anywhere in the app. They are
-  preserved here rather than deleted — they are real editorial copy that
-  someone wrote, and which of the two pairs should survive is an editorial
-  call, not a build-time one. See docs/DISCREPANCIES.md.
-
-  Nothing reads this export. It exists so the copy is not lost.
-*/
-export const cropProfilesShadowed = {
-    coconut: { name: 'Coconut', botanical: 'Cocos nucifera · the tree of life', c1: '#665C4A', c2: '#574E3F',
-      origin: 'Indo-Pacific in origin, carried along ocean trade routes and naturalized across the tropical diaspora — coastal groves, provision grounds and market economies from Zanzibar to Trinidad.',
-      body: 'Fat carries vitamins A, D, E and K; the water is a potassium electrolyte; fresh flesh adds fiber. Whole-food forms and moderation — see Coconut Foodways.',
-      grow: 'Coastal tropics only: salt-tolerant, sun-hungry, 6–10 years to first fruit. Not a windowsill crop — buy from island growers.',
-      dishes: 'Rundown (Jamaica), oil-down (Grenada), rice and peas, coconut bake, sorrel with coconut cream — the pot starts with milk pressed from grated flesh.',
-      contested: 'Health-food and saturated-fat framings disagree — the Atlas presents both traditional practice and mainstream heart guidance rather than one claim.' },
-};

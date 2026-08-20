@@ -76,22 +76,31 @@ inactive grey.
 `--tab-inactive`. Section colours are still used for card stripes and chips,
 where the README's description does hold.
 
-## 5. `cropProfiles.coconut` is defined twice — **needs a decision**
+## 5. `cropProfiles.coconut` was defined twice — **RESOLVED: merged**
 
-`cropProfiles` contains two different `coconut` entries. In JavaScript the later
-one silently wins, so the first has never rendered anywhere in the app. They are
-genuinely different copy — different botanical subtitle, different origin
-paragraph, different dish list:
+`cropProfiles` contained two different `coconut` entries. JavaScript silently
+kept the later one, so the first had never rendered anywhere in the app. Both
+were real editorial writing; neither was simply better.
 
-- **first (dead):** "Cocos nucifera · the tree of life" — Indo-Pacific origin,
-  Zanzibar to Trinidad, rundown / oil-down / rice and peas
-- **second (live):** "Cocos nucifera · kokonut · coco" — Bahia's Coconut Coast,
-  Garifuna, Gullah Geechee, Trinidadian toolum
+They are now one entry. Each field was taken **whole and verbatim** from one of
+the two — no sentence-level blending, so every line remains exactly as an editor
+wrote it:
 
-**Build uses:** the live (second) entry, matching prototype behaviour exactly.
-The dead entry is preserved in `cropProfilesShadowed` in `src/data/content.ts`
-rather than deleted — it is real editorial copy, and which of the two should
-survive is a content decision.
+| field | from | why |
+|---|---|---|
+| `botanical` | live | keeps the vernacular *kokonut · coco*, and avoids colliding with baobab's "tree of life" twelve lines below |
+| `origin` | live | centres the diaspora and names specific traditions (Bahia, Garifuna, Gullah Geechee, Trinidadian toolum) |
+| `body` | dead | more precise, and carries the whole-food/moderation caveat |
+| `grow` | dead | actionable — salt tolerance, years to first fruit, who to buy from |
+| `dishes` | dead | names the country per dish (Rundown/Jamaica, oil-down/Grenada), per Content Rule 8 |
+| `contested` | dead | surfaces the saturated-fat disagreement instead of resolving it, which is the Codex's stated method |
+
+Verified field-by-field against both originals: every value is byte-identical to
+one of them. The `cropProfilesShadowed` export has been removed — nothing is
+orphaned any more.
+
+TypeScript catches a duplicate key in an object literal, so this class of defect
+cannot silently recur in this file.
 
 ## 6. Route count: 86 or 80?
 
