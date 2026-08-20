@@ -1,0 +1,50 @@
+name: CI
+
+# Runs the three checks that were previously only ever run by hand.
+# Nothing merges to main on trust alone.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A new push to a PR cancels the run still in flight for it.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Typecheck, contrast, build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Contrast is a real gate, not a report: scripts/contrast.mjs exits
+      # non-zero if any pairing drops below its WCAG 2.2 AA threshold, in
+      # either theme. The handoff requires re-verification whenever a colour
+      # changes, and this is what enforces it.
+      - name: Contrast audit
+        run: npm run contrast
+
+      - name: Build
+        run: npm run build
