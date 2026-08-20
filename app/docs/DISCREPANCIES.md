@@ -5,38 +5,41 @@ defect. Nothing here was resolved silently — each item says what the build doe
 and what still needs an editorial decision.
 
 The handoff names `Rooted Strength.dc.html` as **"The primary reference"**, so
-where the README's summary tables disagree with the prototype's actual code, the
-prototype wins. The README states *"Every value in this document is the actual
-value used in the prototype"* — that is not true in the cases below.
+where the README's summary tables disagree with the prototype's actual code the
+prototype wins by default — except where an explicit editorial decision has
+overridden that, as in item 1 below. The README states *"Every value in this
+document is the actual value used in the prototype"*; that is not true in the
+cases here.
 
 ---
 
-## 1. Dish classification labels differ, and it changes what is claimed — **needs a decision**
+## 1. Dish classification labels — **RESOLVED: README wording adopted**
 
-This is the one that matters editorially. The README names five classifications:
+The README and the prototype named these differently. The prototype's wording
+shipped first; the README's has since been adopted by editorial decision.
 
-> Traditionally vegan · Plant-forward tradition · **Adapted from a meat/dairy
-> original** · **Postcolonial reclamation** · Contemporary innovation
-
-The prototype's `clsTier` map has six, with different wording:
-
-| key | prototype label | README label |
+| key | shipped now (README) | was (prototype) |
 |---|---|---|
-| `vegan` | Traditionally vegan | Traditionally vegan |
-| `forward` | Traditionally plant-forward | Plant-forward tradition |
-| `adapt` | Adaptation | Adapted from a meat/dairy original |
-| `recon` | Diasporic reconstruction | Postcolonial reclamation |
-| `diasporic` | Diasporic innovation | *(absent)* |
-| `contemp` | Contemporary innovation | Contemporary innovation |
+| `vegan` | Traditionally vegan | *(unchanged)* |
+| `forward` | Plant-forward tradition | Traditionally plant-forward |
+| `adapt` | **Adapted from a meat/dairy original** | Adaptation |
+| `recon` | **Postcolonial reclamation** | Diasporic reconstruction |
+| `diasporic` | Diasporic innovation | *(unchanged — see below)* |
+| `contemp` | Contemporary innovation | *(unchanged)* |
 
-"Diasporic reconstruction" and "postcolonial reclamation" are not synonyms —
-one describes a culinary act, the other a political one. Likewise "Adaptation"
-is silent about *what* was adapted from, where the README's phrasing states it.
+Two of these changes say more than the prototype's did. `adapt` now names what
+the dish was adapted *from*, which serves Content Rule 1 more directly than a
+bare "Adaptation". `recon` now names a political act rather than a culinary one.
 
-Given Content Rule 1 ("Never relabel a dish to suit a diet… five distinct
-labels"), which wording ships is an editorial call, not a build-time one.
+**`diasporic` keeps the prototype's wording.** The README lists only five
+classifications and omits this one entirely, but the key is in live use in the
+codex data (Chinese-Jamaican soy cooking), so it cannot be dropped. If the
+README's five are meant to be exhaustive, that dish needs re-classifying — an
+editorial question this build does not answer.
 
-**Build uses:** the prototype's six labels, verbatim, in `src/data/tiers.ts`.
+Layout note: "Adapted from a meat/dairy original" is 35 characters in a `nowrap`
+badge. Verified at 393px and at elder scale (1.18x) across every region carrying
+the label — no horizontal overflow; dish titles wrap to two lines beside it.
 
 ## 2. Evidence tiers: the README lists 4, the prototype has 10
 
