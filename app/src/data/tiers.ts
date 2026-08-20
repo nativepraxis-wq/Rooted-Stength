@@ -47,15 +47,24 @@ export const EV_TIER: Record<string, Tier> = {
 };
 
 /*
-  How a dish stands in relation to its own history. These five-plus labels are
-  the editorial core of the product: a dish is never relabelled to suit a diet,
-  and diaspora food is never described as "veganised".
+  How a dish stands in relation to its own history. These labels are the
+  editorial core of the product: a dish is never relabelled to suit a diet, and
+  diaspora food is never described as "veganised".
+
+  Wording follows the handoff README rather than the prototype, by editorial
+  decision. Two of these say more than the prototype's did:
+  `adapt` now names what the dish was adapted FROM, and `recon` names the
+  political act rather than the culinary one.
+
+  `diasporic` keeps the prototype's wording because the README's list omits it
+  entirely — and the key is in live use, so it cannot simply be dropped.
+  See docs/DISCREPANCIES.md.
 */
 export const CLS_TIER: Record<string, Tier> = {
   vegan:     t('Traditionally vegan', 'green'),
-  forward:   t('Traditionally plant-forward', 'blue'),
-  adapt:     t('Adaptation', 'brown'),
-  recon:     t('Diasporic reconstruction', 'rose'),
+  forward:   t('Plant-forward tradition', 'blue'),
+  adapt:     t('Adapted from a meat/dairy original', 'brown'),
+  recon:     t('Postcolonial reclamation', 'rose'),
   diasporic: t('Diasporic innovation', 'indigo'),
   contemp:   t('Contemporary innovation', 'neutral'),
 };
