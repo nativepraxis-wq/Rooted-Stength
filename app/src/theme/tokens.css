@@ -1,0 +1,159 @@
+/*
+  Design tokens.
+
+  Light values are the prototype's, verbatim from the handoff token tables.
+  Dark values are a real second palette, NOT the prototype's
+  `filter: invert(1) hue-rotate(180deg)` shortcut — the handoff explicitly asks
+  for proper token pairs with independently verified contrast. Every dark value
+  here is checked by `npm run contrast` (scripts/contrast.mjs).
+*/
+
+:root {
+  /* core palette */
+  --sand: #F4EDDF;
+  --ink: #23201B;
+  --ink-body: #2A2620;
+  --ink-muted: #5C564A;
+  --ink-soft: #625B4C;
+  --ink-meta: #67604F;
+  --forest: #1E3A2B;
+  --forest-2: #14231A;
+  --leaf: #2F4A31;
+  --leaf-mid: #3C5A42;
+  --clay: #8F4230;
+  --clay-hover: #8F3E2C;
+  --earth: #7E5124;
+  --ochre: #C79A45;
+  --ochre-light: #D4AA5C;
+  --teal: #2E6B7A;
+  --plum: #7A3C4A;
+  --indigo: #2C3A63;
+
+  /* surfaces & borders */
+  --card: #FFFFFF;
+  --card-warm: #FFFDF7;
+  --surface-1: #F3EEE1;
+  --surface-2: #EFEAE0;
+  --surface-3: #EDE4D2;
+  --surface-cream: #FBF6EC;
+  --border: #E3D8C2;
+  --border-2: #D8CDB6;
+  --border-cream: #EADFCB;
+  --border-rose: #DCC9C9;
+  --safety-bg: #FDF6F2;
+
+  /* text that sits on a dark ground (hero headers, forest cards) */
+  --on-dark: #F4EDDF;
+  --on-dark-muted: rgba(244, 237, 223, 0.76);
+  --on-dark-soft: rgba(244, 237, 223, 0.62);
+  --on-dark-fill: rgba(244, 237, 223, 0.18);
+  --scrim: rgba(15, 13, 10, 0.62);
+  --scrim-strong: rgba(20, 17, 12, 0.5);
+
+  /* tab bar is translucent over content */
+  --tabbar-bg: rgba(255, 255, 255, 0.94);
+  /* Active tab ink. The prototype uses one colour for all five tabs. */
+  --forest-tab-active: #1E3A2B;
+  --tab-inactive: #6E6757;
+
+  /* shadows */
+  --shadow-card: 0 6px 20px -13px rgba(30, 58, 43, 0.5);
+  --shadow-card-light: 0 4px 14px -11px rgba(30, 58, 43, 0.45);
+  --shadow-today: 0 6px 20px -12px rgba(30, 58, 43, 0.3);
+  --shadow-fab: 0 10px 24px -6px rgba(168, 120, 58, 0.7);
+
+  /* spacing / radius */
+  --gutter: 18px;
+  --scroll-pad: 120px;
+  --r-badge: 12px;
+  --r-tile: 15px;
+  --r-band: 18px;
+  --r-card: 20px;
+  --r-header: 28px;
+  --r-app: 42px;
+
+  /* type scale — elder mode multiplies this */
+  --scale: 1;
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-serif: 'Spectral', Georgia, serif;
+
+  /* motion — reduced-motion sets these to 0s */
+  --dur-route: 0.35s;
+  --dur-sheet: 0.3s;
+}
+
+[data-theme='dark'] {
+  --sand: #14120E;
+  --ink: #F4EDDF;
+  --ink-body: #E9E1D1;
+  --ink-muted: #BEB4A1;
+  --ink-soft: #B7AD9A;
+  --ink-meta: #B0A694;
+  --forest: #1E3A2B;
+  --forest-2: #14231A;
+  --leaf: #8FBF8C;
+  --leaf-mid: #A3CC9F;
+  --clay: #E0876B;
+  --clay-hover: #EC9478;
+  --earth: #D2A263;
+  --ochre: #C79A45;
+  --ochre-light: #DDB971;
+  --teal: #7BBACB;
+  --plum: #D296A6;
+  --indigo: #A3B0E0;
+
+  --card: #201C16;
+  --card-warm: #241F18;
+  --surface-1: #1C1813;
+  --surface-2: #262019;
+  --surface-3: #2E2720;
+  --surface-cream: #221D16;
+  --border: #352E24;
+  --border-2: #423A2D;
+  --border-cream: #38301F;
+  --border-rose: #4A3436;
+  --safety-bg: #241A16;
+
+  --tabbar-bg: rgba(26, 23, 18, 0.94);
+  --forest-tab-active: #B9D6B2;
+  --tab-inactive: #948B79;
+  --shadow-card: 0 6px 20px -13px rgba(0, 0, 0, 0.8);
+  --shadow-card-light: 0 4px 14px -11px rgba(0, 0, 0, 0.7);
+  --shadow-today: 0 6px 20px -12px rgba(0, 0, 0, 0.6);
+}
+
+/*
+  High contrast. Pushes body text to the strongest ink available and makes every
+  border a real 1px line rather than a tint, so structure survives without color.
+*/
+[data-contrast='on'] {
+  --ink-body: #16130E;
+  --ink-muted: #33302A;
+  --ink-soft: #33302A;
+  --ink-meta: #3B372F;
+  --border: #8C8272;
+  --border-2: #6F6656;
+  --border-cream: #8C8272;
+  --border-rose: #8C6E6E;
+}
+
+[data-theme='dark'][data-contrast='on'] {
+  --ink-body: #FFFCF4;
+  --ink-muted: #E3DACA;
+  --ink-soft: #E3DACA;
+  --ink-meta: #DDD4C4;
+  --border: #7C7360;
+  --border-2: #948A75;
+  --border-cream: #7C7360;
+  --border-rose: #9C7C7C;
+}
+
+/* Dyslexia-friendly: wider tracking, looser leading, no serif display face. */
+[data-dyslexia='on'] {
+  --font-serif: 'Hanken Grotesk', system-ui, sans-serif;
+}
+
+/* Elder mode: everything scales up; hit areas grow with it. */
+[data-elder='on'] {
+  --scale: 1.18;
+}
