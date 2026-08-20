@@ -31,11 +31,36 @@ Two of these changes say more than the prototype's did. `adapt` now names what
 the dish was adapted *from*, which serves Content Rule 1 more directly than a
 bare "Adaptation". `recon` now names a political act rather than a culinary one.
 
-**`diasporic` keeps the prototype's wording.** The README lists only five
-classifications and omits this one entirely, but the key is in live use in the
-codex data (Chinese-Jamaican soy cooking), so it cannot be dropped. If the
-README's five are meant to be exhaustive, that dish needs re-classifying — an
-editorial question this build does not answer.
+**`diasporic` keeps the prototype's wording — and the set is six, not five.**
+
+The README lists only five classifications and omits this one. That is an
+omission in the README, not a conflict to be resolved by reclassifying the dish
+that uses it. **Settled: do not squeeze that dish into one of the five.**
+
+The key is in live use on one dish, in the Afro-Asia volume:
+
+> **Chinese-Jamaican soy cooking** · Jamaica
+> Cantonese and Hakka contract migrants brought soy sauce into Jamaican pots.
+> Documented 19th-century diaspora fusion — not ancient exchange.
+
+None of the README's five is true of it:
+
+| label | why it does not apply |
+|---|---|
+| Traditionally vegan | a technique entering a cuisine, not a dish that was always plant-based |
+| Plant-forward tradition | says nothing about plant-forwardness |
+| Adapted from a meat/dairy original | nothing was adapted from a meat original |
+| Postcolonial reclamation | **factually wrong.** Chinese indenture to Jamaica began in 1854; Jamaica became independent in 1962. This is colonial-period migration, and "reclamation" misdescribes indentured labourers' cooking |
+| Contemporary innovation | explicitly 19th-century. The volume's `contemp` entry is *Mushroom adobo*, which genuinely is modern |
+
+Forcing it into any of them would break two of the rules the product exists to
+uphold: never relabel a dish to suit a frame (Content Rule 1), and name
+colonialism where it happened (Content Rule 9). Calling colonial-era indenture
+cooking "postcolonial reclamation" is precisely the error Rule 9 warns against.
+
+"Diasporic innovation" describes it accurately. **The canonical vocabulary is
+six labels.** If the README is ever revised, it is the README that should gain
+the sixth — not this dish that should lose its accurate one.
 
 Layout note: "Adapted from a meat/dairy original" is 35 characters in a `nowrap`
 badge. Verified at 393px and at elder scale (1.18x) across every region carrying

@@ -56,9 +56,15 @@ export const EV_TIER: Record<string, Tier> = {
   `adapt` now names what the dish was adapted FROM, and `recon` names the
   political act rather than the culinary one.
 
-  `diasporic` keeps the prototype's wording because the README's list omits it
-  entirely — and the key is in live use, so it cannot simply be dropped.
-  See docs/DISCREPANCIES.md.
+  `diasporic` keeps the prototype's wording. The README's list of five omits it,
+  but that is an omission in the README — the canonical set is SIX.
+
+  Do not delete this key or reclassify the dish that uses it (Chinese-Jamaican
+  soy cooking, in the Afro-Asia volume). None of the other five is true of it:
+  it is 19th-century indenture-era diaspora fusion, so "postcolonial
+  reclamation" is factually wrong and "contemporary innovation" is wrong by a
+  century. Forcing it into either would breach Content Rule 1 and Rule 9.
+  Reasoning in full: docs/DISCREPANCIES.md, item 1.
 */
 export const CLS_TIER: Record<string, Tier> = {
   vegan:     t('Traditionally vegan', 'green'),
