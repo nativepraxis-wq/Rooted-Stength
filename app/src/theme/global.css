@@ -1,0 +1,75 @@
+@import './tokens.css';
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: #17140F;
+  font-family: var(--font-sans);
+  color: var(--ink-body);
+  font-size: calc(14px * var(--scale));
+}
+
+button, input, textarea, select { font-family: inherit; }
+a { color: var(--clay); text-decoration: none; }
+a:hover { color: var(--clay-hover); }
+
+/* Scrollbar hidden on the app's scroll region, as in the prototype. */
+.rs-scroll { overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.rs-scroll::-webkit-scrollbar { width: 0; height: 0; }
+
+/*
+  Every interactive control keeps a 44px hit area even when it is drawn smaller
+  (back buttons are 34px visually). The pseudo-element grows the target without
+  changing layout.
+*/
+.rs-hit { position: relative; }
+.rs-hit::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: max(100%, 44px); height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
+/* Visible focus for keyboard users on every control. */
+:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Screen-reader-only text for icon-only controls and tier announcements. */
+.rs-sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@keyframes rs-fade { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes rs-sheet { 0% { transform: translateY(100%); } 100% { transform: translateY(0); } }
+@keyframes rs-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes rs-ripple { 0% { transform: scale(0.7); opacity: 0.55; } 100% { transform: scale(2.2); opacity: 0; } }
+@keyframes rs-breathe { 0% { transform: scale(0.72); } 33% { transform: scale(1.12); } 100% { transform: scale(0.72); } }
+@keyframes rs-breathe-halo { 0% { transform: scale(0.78); opacity: 0.5; } 33% { transform: scale(1.3); opacity: 0.16; } 100% { transform: scale(0.78); opacity: 0.5; } }
+@keyframes rs-grow { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+
+/*
+  Reduced motion, both paths the handoff requires:
+  the OS setting, and the in-app toggle (data-reduce="on").
+*/
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+[data-reduce='on'], [data-reduce='on'] *, [data-reduce='on'] *::before, [data-reduce='on'] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Long-form copy reads better with pretty wrapping where supported. */
+.rs-prose { text-wrap: pretty; }
