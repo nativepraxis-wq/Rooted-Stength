@@ -18,10 +18,10 @@ const PAD = '64px 22px 36px';
 
 function Progress({ step }: { step: number }) {
   return (
-    <div style={{ flex: 1, display: 'flex', gap: 5 }} aria-hidden="true">
+    <div style={{ flex: 1, minWidth: 0, display: 'flex', gap: 5 }} aria-hidden="true">
       {[1, 2, 3, 4, 5].map((i) => (
         <div key={i} style={{
-          flex: 1, height: 4, borderRadius: 3,
+          flex: 1, minWidth: 0, height: 4, borderRadius: 3,
           background: i <= step ? 'var(--forest)' : 'var(--border)',
         }} />
       ))}
@@ -44,7 +44,7 @@ function StepHeader({ step, onBack, editing }: { step: number; onBack: () => voi
       ><span aria-hidden="true">&#8249;</span></button>
       {editing
         ? <div style={{
-            flex: 1, fontSize: 'calc(12px * var(--scale))', fontWeight: 800,
+            flex: 1, minWidth: 0, fontSize: 'calc(12px * var(--scale))', fontWeight: 800,
             letterSpacing: 1, textTransform: 'uppercase', color: 'var(--earth)',
           }}>{editing}</div>
         : <Progress step={step} />}
@@ -152,7 +152,7 @@ export function WelcomeScreen() {
       <div aria-hidden="true" style={{ position: 'absolute', top: 20, right: 20, width: 160, height: 160, borderRadius: '50%', border: '1px solid rgba(199,154,69,0.12)' }} />
       <div aria-hidden="true" style={{ position: 'absolute', bottom: -80, left: -40, width: 240, height: 240, borderRadius: '50%', border: '1px solid rgba(143,179,122,0.14)' }} />
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div aria-hidden="true" style={{
           width: 64, height: 64, borderRadius: '50%', background: 'rgba(199,154,69,0.18)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 26,

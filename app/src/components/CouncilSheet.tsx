@@ -147,7 +147,7 @@ export function CouncilSheet() {
           </button>
         </div>
 
-        <div ref={scrollRef} className="rs-scroll" style={{ flex: 1, minHeight: 0, paddingRight: 2 }}>
+        <div ref={scrollRef} className="rs-scroll" style={{ flex: 1, minWidth: 0, minHeight: 0, paddingRight: 2 }}>
           {state.councilThread.map((m: any, i: number) => (
             <div key={i} style={{ marginBottom: 12, display: 'flex', justifyContent: m.you ? 'flex-end' : 'flex-start' }}>
               <div style={{
@@ -177,7 +177,7 @@ export function CouncilSheet() {
             onChange={(e) => set({ councilDraft: e.target.value })}
             placeholder="Ask about food, training, herbs or the land…"
             style={{
-              flex: 1, minHeight: 44, border: '1px solid var(--border-2)', background: 'var(--card)',
+              flex: 1, minWidth: 0, minHeight: 44, border: '1px solid var(--border-2)', background: 'var(--card)',
               borderRadius: 14, padding: '12px 13px', fontSize: 'calc(13px * var(--scale))',
               color: 'var(--ink-body)',
             }}

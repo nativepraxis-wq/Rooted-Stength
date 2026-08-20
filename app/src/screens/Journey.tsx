@@ -53,7 +53,7 @@ export function JourneyScreen() {
             { n: String(j.sessionCount14), l: 'Sessions moved, last 14 days' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
@@ -85,7 +85,7 @@ export function JourneyScreen() {
             type="button"
             onClick={() => set({ noteOpen: true })}
             style={{
-              flex: 1, border: '1px solid var(--border-2)', background: 'var(--card)',
+              flex: 1, minWidth: 0, border: '1px solid var(--border-2)', background: 'var(--card)',
               color: 'var(--ink-muted)', borderRadius: 14, padding: '12px 10px', minHeight: 44,
               fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
             }}
@@ -94,7 +94,7 @@ export function JourneyScreen() {
             type="button"
             onClick={() => go('recipe')}
             style={{
-              flex: 1, border: '1px solid var(--border-2)', background: 'var(--card)',
+              flex: 1, minWidth: 0, border: '1px solid var(--border-2)', background: 'var(--card)',
               color: 'var(--ink-muted)', borderRadius: 14, padding: '12px 10px', minHeight: 44,
               fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
             }}
@@ -103,7 +103,7 @@ export function JourneyScreen() {
             type="button"
             onClick={() => go('history')}
             style={{
-              flex: 1, border: '1px solid var(--border-2)', background: 'var(--card)',
+              flex: 1, minWidth: 0, border: '1px solid var(--border-2)', background: 'var(--card)',
               color: 'var(--ink-muted)', borderRadius: 14, padding: '12px 10px', minHeight: 44,
               fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
             }}
@@ -207,7 +207,7 @@ export function ProgressScreen() {
             { n: String(j.sessionCount14), l: 'sessions moved' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
@@ -227,7 +227,7 @@ export function ProgressScreen() {
             { n: j.streakWater, l: j.streakWaterLabel },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'var(--surface-1)', border: '1px solid var(--border)',
+              flex: 1, minWidth: 0, background: 'var(--surface-1)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '11px 12px',
             }}>
               <div style={{
@@ -263,7 +263,7 @@ export function ProgressScreen() {
             display: 'flex', gap: 6, marginTop: 12, alignItems: 'flex-end', justifyContent: 'space-between',
           }}>
             {j.week.map((w) => (
-              <div key={w.d} style={{ flex: 1, textAlign: 'center' }}>
+              <div key={w.d} style={{ flex: 1, minWidth: 0, textAlign: 'center' }}>
                 <div style={{ height: 62, display: 'flex', alignItems: 'flex-end' }}>
                   <div style={{
                     width: '100%', height: w.barH, background: w.barBg, borderRadius: 5,
@@ -324,7 +324,7 @@ export function ProgressScreen() {
           }}>
             {j.trend.map((b) => (
               <div key={b.d} style={{
-                flex: 1, height: b.h, background: b.c, borderRadius: 3,
+                flex: 1, minWidth: 0, height: b.h, background: b.c, borderRadius: 3,
                 boxShadow: b.isToday ? '0 0 0 2px var(--ink)' : 'none',
               }} />
             ))}
@@ -362,11 +362,11 @@ export function ProgressScreen() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                 <span style={{
-                  flex: 1, fontSize: 'calc(13px * var(--scale))',
+                  flex: 1, minWidth: 0, fontSize: 'calc(13px * var(--scale))',
                   fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3,
                 }}>{p.name}</span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(12.5px * var(--scale))',
+                  fontSize: 'calc(12.5px * var(--scale))',
                   fontWeight: 800, color: p.c,
                 }}>{p.n}</span>
               </div>
@@ -435,7 +435,7 @@ export function HistoryScreen() {
                   paddingLeft: 10,
                 }}>
                   <h2 style={{
-                    flex: 1, fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
+                    flex: 1, minWidth: 0, fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
                     fontWeight: 600, color: 'var(--ink)', margin: 0,
                   }}>{day.name}</h2>
                 </div>

@@ -260,7 +260,7 @@ export function PantryScreen() {
                     }}>{e.why}</span>
                   </span>
                   <span style={{
-                    flex: 'none', fontSize: 'calc(11.5px * var(--scale))',
+                    fontSize: 'calc(11.5px * var(--scale))',
                     fontWeight: 800, color: 'var(--leaf)',
                   }}>Restock</span>
                 </button>
@@ -318,7 +318,7 @@ export function PantryScreen() {
                   </span>
                   {it.freshLabel && (
                     <span style={{
-                      flex: 'none', fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                       padding: '3px 8px', borderRadius: 12, whiteSpace: 'nowrap',
                       background: freshTone[it.freshTone].bg, color: freshTone[it.freshTone].fg,
                     }}>{it.freshLabel}</span>
@@ -438,7 +438,7 @@ export function GroceryScreen() {
                     </span>
                   </span>
                   <span style={{
-                    flex: 'none', fontSize: 'calc(12.5px * var(--scale))',
+                    fontSize: 'calc(12.5px * var(--scale))',
                     fontWeight: 800, color: 'var(--ink-meta)',
                   }}>{it.price}</span>
                 </button>
@@ -517,7 +517,7 @@ export function PlanGroceryScreen() {
                   </span>
                   {it.tag && (
                     <span style={{
-                      flex: 'none', fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                       padding: '3px 8px', borderRadius: 12, whiteSpace: 'nowrap',
                       background: 'var(--surface-2)', color: 'var(--ink-meta)',
                     }}>{it.tag}</span>

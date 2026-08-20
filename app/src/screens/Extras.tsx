@@ -27,7 +27,7 @@ export function PairingsScreen() {
       </DarkHeader>
 
       <Gutter style={{ paddingTop: 16 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
           {(uptakeFacts as any[]).map((f) => (
             <div key={f.l} style={{
               background: 'var(--surface-1)', border: '1px solid var(--border)',
@@ -60,7 +60,7 @@ export function PairingsScreen() {
                   fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                 }}>{p.combo}</span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(11.5px * var(--scale))',
+                  fontSize: 'calc(11.5px * var(--scale))',
                   fontWeight: 800, color: p.c,
                 }}>{p.gain}</span>
               </div>
@@ -90,7 +90,7 @@ export function PairingsScreen() {
                   fontSize: 'calc(13px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                 }}>{m.m}</span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(11px * var(--scale))',
+                  fontSize: 'calc(11px * var(--scale))',
                   fontWeight: 800, color: 'var(--ink-meta)',
                 }}>{m.t}</span>
               </div>
@@ -187,7 +187,7 @@ export function BudgetScreen() {
                     fontSize: 'calc(13.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                   }}>{c.cat}</span>
                   <span style={{
-                    flex: 'none', fontSize: 'calc(12.5px * var(--scale))', fontWeight: 800,
+                    fontSize: 'calc(12.5px * var(--scale))', fontWeight: 800,
                     color: over ? 'var(--clay)' : 'var(--ink-meta)',
                   }}>${catSpent} / ${c.budget}</span>
                 </div>
@@ -246,11 +246,11 @@ export function BudgetScreen() {
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
               <span style={{
-                flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
                 color: 'var(--ink)', lineHeight: 1.45,
               }}>{t.t}</span>
               <span style={{
-                flex: 'none', fontSize: 'calc(12px * var(--scale))',
+                fontSize: 'calc(12px * var(--scale))',
                 fontWeight: 800, color: 'var(--leaf)',
               }}>{t.save}</span>
             </div>
@@ -319,7 +319,7 @@ export function HydrationScreen() {
             type="button"
             onClick={() => set((s) => ({ hydrationCups: Math.min((s.hydrationCups ?? 0) + 1, 12) }))}
             style={{
-              flex: 1, border: 'none', background: 'var(--teal)', color: 'var(--on-dark)',
+              flex: 1, minWidth: 0, border: 'none', background: 'var(--teal)', color: 'var(--on-dark)',
               borderRadius: 14, padding: 14, minHeight: 44, cursor: 'pointer',
               fontSize: 'calc(14px * var(--scale))', fontWeight: 800,
             }}
@@ -443,7 +443,7 @@ export function FiltersScreen() {
                   }}>{f.tier}</span>
                 </span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(12px * var(--scale))',
+                  fontSize: 'calc(12px * var(--scale))',
                   fontWeight: 800, color: 'var(--ink-meta)',
                 }}>{f.cost}</span>
               </div>
@@ -486,7 +486,7 @@ export function FiltersScreen() {
                 }}>{s.type}</span>
               </span>
               <span style={{
-                flex: 'none', fontSize: 'calc(11.5px * var(--scale))',
+                fontSize: 'calc(11.5px * var(--scale))',
                 fontWeight: 700, color: 'var(--ink-meta)',
               }}>{s.dist}</span>
             </div>
@@ -583,13 +583,13 @@ export function FamilyScreen() {
               borderRadius: 'var(--r-tile)', padding: 0, display: 'flex', overflow: 'hidden',
             }}>
               <div aria-hidden="true" style={{ width: 11, flex: 'none', background: s.c }} />
-              <div style={{ flex: 1, padding: '13px 14px' }}>
+              <div style={{ flex: 1, minWidth: 0, padding: '13px 14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline' }}>
                   <span style={{
                     fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                   }}>{s.name}</span>
                   <span style={{
-                    flex: 'none', fontSize: 'calc(11.5px * var(--scale))',
+                    fontSize: 'calc(11.5px * var(--scale))',
                     fontWeight: 800, color: 'var(--leaf)',
                   }}>{s.p} · {s.kcal} kcal</span>
                 </div>

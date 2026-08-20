@@ -42,7 +42,7 @@ function H3({ children }: { children: ReactNode }) {
 /* Small dark stat tile used in the Move headers. */
 function Stat({ n, l }: { n: string; l: string }) {
   return (
-    <div style={{ flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px' }}>
+    <div style={{ flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px' }}>
       <div style={{
         fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
         fontWeight: 600, color: 'var(--ochre-light)',
@@ -95,7 +95,7 @@ export function MoveScreen() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{
-              flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+              flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
               fontWeight: 700, color: 'var(--ink)',
             }}>Built for {stats.goalLabel}</span>
             <button
@@ -180,7 +180,7 @@ export function MoveScreen() {
           <span aria-hidden="true" style={{ fontSize: 17, color: 'var(--ink-meta)' }}>&#8250;</span>
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginTop: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9, marginTop: 12 }}>
           {tiles.map((t) => (
             <button
               key={t.to}
@@ -284,7 +284,7 @@ export function FarmScreen() {
                 padding: '13px 14px', cursor: 'pointer', minHeight: 44,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                 <span style={{
                   fontSize: 'calc(14.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                 }}>{m.farm}</span>
@@ -416,7 +416,7 @@ export function ExerciseScreen() {
           Three real variants, including a seated one. The seated option is a
           first-class version of the movement, not a consolation.
         */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+        <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
           {variants.map((v) => (
             <Chip
               key={v.id}
@@ -452,7 +452,7 @@ export function ExerciseScreen() {
 
         <div style={{ display: 'flex', gap: 9, marginTop: 16 }}>
           <div style={{
-            flex: 1, background: 'var(--surface-1)', border: '1px solid var(--border)',
+            flex: 1, minWidth: 0, background: 'var(--surface-1)', border: '1px solid var(--border)',
             borderRadius: 'var(--r-tile)', padding: '11px 12px',
           }}>
             <div style={{
@@ -465,7 +465,7 @@ export function ExerciseScreen() {
             }}>Glutes, hamstrings, spinal erectors; grip &amp; core brace.</div>
           </div>
           <div style={{
-            flex: 1, background: 'var(--surface-1)', border: '1px solid var(--border)',
+            flex: 1, minWidth: 0, background: 'var(--surface-1)', border: '1px solid var(--border)',
             borderRadius: 'var(--r-tile)', padding: '11px 12px',
           }}>
             <div style={{
@@ -614,7 +614,7 @@ export function TrainPlanScreen() {
           }}
         >
           <span style={{
-            flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+            flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
             color: 'var(--ink-muted)', lineHeight: 1.45,
           }}>
             <b style={{ color: 'var(--ink)' }}>Warrior conditioning</b> — Zulu · Agojie · Capoeira
@@ -684,7 +684,7 @@ export function WarriorScreen() {
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
               <span style={{
-                flex: 1, fontSize: 'calc(13.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                 fontWeight: 700, color: 'var(--ink)',
               }}>{mv.name}</span>
               <span style={{
@@ -704,7 +704,7 @@ export function WarriorScreen() {
           }}
         >
           <span style={{
-            flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+            flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
             color: 'var(--ink-muted)', lineHeight: 1.45,
           }}>
             <b style={{ color: 'var(--ink)' }}>Add to this week</b> — slot these drills into your

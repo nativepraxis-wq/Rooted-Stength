@@ -26,7 +26,7 @@ function StripeCard({ stripe, eyebrow, title, sub, onClick, tag }: {
       }}
     >
       <div aria-hidden="true" style={{ width: 12, flex: 'none', background: stripe }} />
-      <div style={{ flex: 1, padding: '14px 15px' }}>
+      <div style={{ flex: 1, minWidth: 0, padding: '14px 15px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
           <div style={{
             fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.2,
@@ -150,7 +150,7 @@ export function TodayScreen() {
               fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: 'var(--clay)',
             }}>Progress &amp; history →</span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 9, marginTop: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 9, marginTop: 10 }}>
             {tiles.map((t) => (
               <div key={t.label} style={{
                 background: 'var(--surface-1)', border: '1px solid var(--border)',

@@ -13,7 +13,8 @@ const regionById = (id: string) => (codexRegions as Region[]).find((r) => r.id =
 function HeaderStat({ n, l }: { n: string; l: string }) {
   return (
     <div style={{
-      flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+      flex: 1, minWidth: 0,
+      background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
     }}>
       <div style={{
         fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
@@ -44,13 +45,13 @@ function VolumeCard({ swatch, name, ev, sub, ink, hook, counts, onClick }: {
       }}
     >
       <div aria-hidden="true" style={{ width: 11, flex: 'none', background: swatch }} />
-      <div style={{ flex: 1, padding: '15px 16px' }}>
+      <div style={{ flex: 1, minWidth: 0, padding: '15px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(18px * var(--scale))',
             fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2,
           }}>{name}</div>
-          <TierBadge kind="ev" tierKey={ev} style={{ flex: 'none' }} />
+          <TierBadge kind="ev" tierKey={ev} />
         </div>
         <div style={{
           fontSize: 'calc(11.5px * var(--scale))', color: ink, fontWeight: 700, marginTop: 3,
@@ -162,11 +163,11 @@ export function CodexScreen() {
                 borderTop: '2px solid var(--ink)', paddingTop: 9,
               }}>
                 <h2 style={{
-                  flex: 1, fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+                  flex: 1, minWidth: 0, fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
                   fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2, margin: 0,
                 }}>{fam.t}</h2>
                 <div style={{
-                  flex: 'none', fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
+                  fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
                   letterSpacing: 0.5, textTransform: 'uppercase', color: 'var(--ink-meta)',
                 }}>{fam.ids.length} volumes</div>
               </div>
@@ -204,7 +205,7 @@ export function CodexScreen() {
           }}
         >
           <div aria-hidden="true" style={{ width: 11, flex: 'none', background: stripes('#8A6A22', '#6B5015') }} />
-          <div style={{ flex: 1, padding: '15px 16px' }}>
+          <div style={{ flex: 1, minWidth: 0, padding: '15px 16px' }}>
             <div style={{
               fontSize: 'calc(10.5px * var(--scale))', letterSpacing: 1.2, textTransform: 'uppercase',
               fontWeight: 800, color: 'var(--earth)',
@@ -338,7 +339,7 @@ export function CodexRegionScreen() {
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
                   fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2,
                 }}>{d.n}</div>
-                <TierBadge kind="cls" tierKey={d.cls} style={{ flex: 'none' }} />
+                <TierBadge kind="cls" tierKey={d.cls} />
               </div>
               <div style={{
                 fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
@@ -546,7 +547,7 @@ export function PantryVolScreen() {
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
                   fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2,
                 }}>{e.n}</div>
-                <TierBadge kind="claim" tierKey={e.cls} style={{ flex: 'none' }} />
+                <TierBadge kind="claim" tierKey={e.cls} />
               </div>
               <div style={{
                 fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',

@@ -8,6 +8,15 @@ body {
   font-family: var(--font-sans);
   color: var(--ink-body);
   font-size: calc(14px * var(--scale));
+
+  /*
+    Reflow (WCAG 2.2 1.4.10). The app surface is a fixed-width frame with
+    overflow hidden, so a word wider than its container is not scrolled to —
+    it is lost. At 200% text a single word like "Foraged" outgrows a
+    two-column tile. This lets such a word break instead of overflowing.
+    Inherited, so it applies to every surface.
+  */
+  overflow-wrap: break-word;
 }
 
 button, input, textarea, select { font-family: inherit; }

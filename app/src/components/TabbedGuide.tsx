@@ -107,7 +107,7 @@ export function TabbedGuide({
                     fontSize: 'calc(14px * var(--scale))', fontWeight: 700,
                     color: clash ? 'var(--ink-muted)' : 'var(--ink)', lineHeight: 1.25,
                   }}>{it.name}</span>
-                  <TierBadge kind="ev" evLabel={it.ev} style={{ flex: 'none' }} />
+                  <TierBadge kind="ev" evLabel={it.ev} />
                 </div>
                 <p className="rs-prose" style={{
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',

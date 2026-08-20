@@ -37,7 +37,7 @@ export function SleepScreen() {
             { n: hm(target), l: 'target for your goal' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
@@ -60,7 +60,7 @@ export function SleepScreen() {
           }}>Last seven nights</div>
           <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end', height: 88 }}>
             {(sleepWeek as any[]).map((d, i) => (
-              <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+              <div key={i} style={{ flex: 1, minWidth: 0, textAlign: 'center' }}>
                 <div style={{ height: 70, display: 'flex', alignItems: 'flex-end' }}>
                   <div style={{
                     width: '100%', height: Math.round((d.h / 9) * 70),
@@ -198,10 +198,10 @@ export function PregnancyScreen() {
               width: 34, height: 34, borderRadius: '50%', fontSize: 17, cursor: 'pointer', flex: 'none',
             }}
           ><span aria-hidden="true">&#8249;</span></button>
-          <div style={{ flex: 1, display: 'flex', gap: 5 }} aria-hidden="true">
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', gap: 5 }} aria-hidden="true">
             {[1, 2, 3].map((n) => (
               <div key={n} style={{
-                flex: 1, height: 4, borderRadius: 3,
+                flex: 1, minWidth: 0, height: 4, borderRadius: 3,
                 background: step >= n ? 'var(--forest)' : 'var(--border)',
               }} />
             ))}
@@ -370,7 +370,7 @@ export function PregnancyScreen() {
                     color: 'var(--on-dark)', fontSize: 12, fontWeight: 800,
                   }}>{i + 1}</span>
                   <span className="rs-prose" style={{
-                    flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+                    flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
                     color: 'var(--ink-muted)', lineHeight: 1.5,
                   }}>{t}</span>
                 </div>

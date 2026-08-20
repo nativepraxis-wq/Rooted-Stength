@@ -43,7 +43,9 @@ function TabBar() {
             onClick={() => go(t.route)}
             aria-current={on ? 'page' : undefined}
             style={{
-              border: 'none', background: 'none', cursor: 'pointer', flex: 1,
+              /* minWidth: 0 - without it a flex item will not shrink below its
+                 label, so five tabs overflow the bar at large text scale. */
+              border: 'none', background: 'none', cursor: 'pointer', flex: 1, minWidth: 0,
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
               padding: 2, minHeight: 44,
             }}
@@ -51,6 +53,10 @@ function TabBar() {
             <Icon color={color} />
             <span style={{
               fontSize: 'calc(10px * var(--scale))', fontWeight: 700, color,
+              /* The label may wrap or ellipsise; the icon and the accessible
+                 name still identify the tab. */
+              maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis',
+              lineHeight: 1.2, textAlign: 'center',
             }}>{t.label}</span>
           </button>
         );

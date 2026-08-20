@@ -19,14 +19,14 @@ function SmoothieCard({ s }: { s: any }) {
       borderRadius: 'var(--r-tile)', padding: 0, display: 'flex', overflow: 'hidden',
     }}>
       <div aria-hidden="true" style={{ width: 11, flex: 'none', background: s.c }} />
-      <div style={{ flex: 1, padding: '13px 14px' }}>
+      <div style={{ flex: 1, minWidth: 0, padding: '13px 14px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(16.5px * var(--scale))',
             fontWeight: 600, color: s.flagged ? 'var(--ink-muted)' : 'var(--ink)', lineHeight: 1.2,
           }}>{s.name}</div>
           <span style={{
-            flex: 'none', fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+            fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
             padding: '3px 8px', borderRadius: 12, whiteSpace: 'nowrap',
             background: 'var(--surface-2)', color: 'var(--ink-meta)',
           }}>{s.tag}</span>
@@ -134,7 +134,7 @@ export function SmoothiesScreen() {
               borderRadius: 12, padding: '11px 13px',
             }}>
               <span style={{
-                flex: 1, fontSize: 'calc(13.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                 fontWeight: 600, color: 'var(--ink)',
               }}>{p.name}</span>
               <span style={{
@@ -248,11 +248,11 @@ export function SmoothieBuilderScreen() {
           }}
         >
           <span style={{
-            flex: 1, fontSize: 'calc(11.5px * var(--scale))',
+            flex: 1, minWidth: 0, fontSize: 'calc(11.5px * var(--scale))',
             color: 'var(--ink-muted)', lineHeight: 1.45,
           }}>{sbHiddenLine(state)}</span>
           <span style={{
-            flex: 'none', fontSize: 'calc(11.5px * var(--scale))',
+            fontSize: 'calc(11.5px * var(--scale))',
             fontWeight: 800, color: 'var(--earth)',
           }}>Edit</span>
         </button>
