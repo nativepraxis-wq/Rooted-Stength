@@ -84,7 +84,7 @@ export function ExploreScreen() {
           />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginTop: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9, marginTop: 12 }}>
           {SURFACES.map((s) => (
             <button
               key={s.to}
@@ -110,7 +110,7 @@ export function ExploreScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
         }}>Staple crops &amp; their histories</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
           {(crops as any[]).map((c) => (
             <button
               key={c.id}
@@ -362,7 +362,7 @@ export function ForageScreen() {
                     fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                   }}>{f.name}</span>
                   <span style={{
-                    flex: 'none', fontSize: 'calc(11px * var(--scale))',
+                    fontSize: 'calc(11px * var(--scale))',
                     fontWeight: 800, color: 'var(--ink-meta)',
                   }}>{f.season}</span>
                 </div>
@@ -411,7 +411,7 @@ export function CommunityScreen() {
                 borderRadius: 'var(--r-card)', padding: 0, display: 'flex', overflow: 'hidden',
               }}>
                 <div aria-hidden="true" style={{ width: 11, flex: 'none', background: e.c }} />
-                <div style={{ flex: 1, padding: '13px 14px' }}>
+                <div style={{ flex: 1, minWidth: 0, padding: '13px 14px' }}>
                   <div style={{
                     display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
                   }}>
@@ -420,7 +420,7 @@ export function CommunityScreen() {
                       fontWeight: 600, color: 'var(--ink)', lineHeight: 1.25,
                     }}>{e.title}</span>
                     <span style={{
-                      flex: 'none', fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                       padding: '3px 8px', borderRadius: 12,
                       background: 'var(--surface-2)', color: 'var(--ink-meta)',
                     }}>{e.kind}</span>
@@ -472,7 +472,7 @@ export function CommunityScreen() {
                 width: 10, height: 10, borderRadius: '50%', flex: 'none', background: c.c,
               }} />
               <span style={{
-                flex: 1, fontSize: 'calc(13.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                 fontWeight: 700, color: 'var(--ink)',
               }}>{c.title}</span>
               <span style={{
@@ -649,7 +649,7 @@ export function MineralsScreen() {
                     fontWeight: 700, color: m.c, marginTop: 1,
                   }}>{m.builds}</span>
                 </span>
-                <TierBadge kind="ev" evLabel={m.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={m.ev} />
               </div>
 
               <div style={{

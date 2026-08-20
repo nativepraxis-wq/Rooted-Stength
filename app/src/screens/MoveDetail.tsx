@@ -21,7 +21,7 @@ function H3({ children }: { children: ReactNode }) {
 function Tile({ n, l }: { n: string; l: string }) {
   return (
     <div style={{
-      flex: 1, background: 'var(--surface-1)', border: '1px solid var(--border)',
+      flex: 1, minWidth: 0, background: 'var(--surface-1)', border: '1px solid var(--border)',
       borderRadius: 'var(--r-tile)', padding: '11px 12px',
     }}>
       <div style={{
@@ -58,7 +58,7 @@ function MoveRow({ m }: { m: any }) {
             fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
           }}>{m.name}</span>
           <span style={{
-            flex: 'none', fontSize: 'calc(11px * var(--scale))', fontWeight: 800,
+            fontSize: 'calc(11px * var(--scale))', fontWeight: 800,
             color: 'var(--ink-meta)',
           }}>{m.dose}</span>
         </div>
@@ -240,7 +240,7 @@ export function ElderScreen() {
               borderTop: '1px solid var(--border)',
               fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
             }}>
-              <span style={{ flex: 1, fontWeight: 700, color: 'var(--ink)' }}>{d.v}</span>
+              <span style={{ flex: 1, minWidth: 0, fontWeight: 700, color: 'var(--ink)' }}>{d.v}</span>
               <span style={{ width: 84 }}>{d.min}</span>
               <span style={{ width: 84, fontWeight: 700, color: 'var(--leaf)' }}>{d.opt}</span>
             </div>
@@ -472,7 +472,7 @@ export function BreathScreen() {
             { n: '20', l: 'rounds' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
@@ -608,7 +608,7 @@ export function HikeScreen() {
             { n: '2:10', l: 'est. time' }, { n: 'Z2', l: 'conversational' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 8px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 8px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
@@ -621,7 +621,7 @@ export function HikeScreen() {
       </DarkHeader>
 
       <Gutter style={{ paddingTop: 16 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
           {HIKE_CONDITIONS.map((c) => (
             <div key={c.label} style={{
               display: 'flex', gap: 9, alignItems: 'center',
@@ -680,7 +680,7 @@ export function HikeScreen() {
                   color: '#FFFFFF', fontSize: 13, fontWeight: 800,
                 }}>{on ? '✓' : ''}</span>
                 <span style={{
-                  flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+                  flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
                   color: on ? 'var(--ink-meta)' : 'var(--ink)', lineHeight: 1.45,
                 }}>{s.item}</span>
               </button>

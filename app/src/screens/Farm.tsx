@@ -213,7 +213,7 @@ export function MicrogreensScreen() {
               fontWeight: 600, color: 'var(--ink)',
             }}>{sel.name} microgreens</span>
             <span style={{
-              flex: 'none', fontSize: 'calc(11px * var(--scale))',
+              fontSize: 'calc(11px * var(--scale))',
               fontWeight: 800, color: 'var(--ink-meta)',
             }}>{sel.days} to harvest</span>
           </div>
@@ -232,7 +232,7 @@ export function MicrogreensScreen() {
                   <span style={{
                     fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                   }}>{n.name}</span>
-                  <TierBadge kind="ev" evLabel={n.ev} style={{ flex: 'none' }} />
+                  <TierBadge kind="ev" evLabel={n.ev} />
                 </div>
                 <p className="rs-prose" style={{
                   fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
@@ -283,7 +283,7 @@ export function MicrogreensScreen() {
                   fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                 }}>{s.name}</span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(10.5px * var(--scale))',
+                  fontSize: 'calc(10.5px * var(--scale))',
                   fontWeight: 800, color: s.c,
                 }}>{s.need}</span>
               </div>
@@ -523,7 +523,7 @@ export function VarietyScreen() {
             { n: v.price, l: 'seed packet' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 10px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 10px',
             }}>
               <div style={{
                 fontSize: 'calc(12.5px * var(--scale))', fontWeight: 800, color: 'var(--ochre-light)',
@@ -552,7 +552,7 @@ export function VarietyScreen() {
                 <span style={{
                   fontSize: 'calc(13px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                 }}>{n.name}</span>
-                <TierBadge kind="ev" evLabel={n.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={n.ev} />
               </div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
@@ -584,7 +584,7 @@ export function VarietyScreen() {
                 color: '#F4EDDF', fontSize: 12, fontWeight: 800,
               }}>{i + 1}</span>
               <span className="rs-prose" style={{
-                flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
                 color: 'var(--ink-muted)', lineHeight: 1.5,
               }}>
                 <b style={{ color: 'var(--ink)' }}>{step}</b> — {detail as string}
@@ -663,7 +663,7 @@ export function GardenScreen() {
           <div
             role="img"
             aria-label={'A garden of ' + (gardenBase as any[]).length + ' plots, grown from the practices you have kept this season.'}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 9 }}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 9 }}
           >
             {(gardenBase as any[]).map((p, i) => (
               <div key={i} style={{
@@ -756,7 +756,7 @@ export function GardenScreen() {
           }}
         >
           <span style={{
-            flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+            flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
             color: 'var(--ink-muted)', lineHeight: 1.45,
           }}>
             <b style={{ color: 'var(--ink)' }}>The Village Grove</b> — shared trees grow when you

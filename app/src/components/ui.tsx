@@ -121,7 +121,7 @@ export function Band({ tone = 'cream', title, children, style }: {
 
 export function StatTiles({ stats }: { stats: { n: string; l: string }[] }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 9 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
       {stats.map((s) => (
         <div key={s.n + s.l} style={{
           background: 'var(--surface-1)', border: '1px solid var(--border)',
@@ -186,7 +186,13 @@ export function Chip({ selected, onClick, color = 'var(--clay)', children }: {
         color: selected ? 'var(--on-dark)' : 'var(--ink-muted)',
         borderRadius: 999, padding: '9px 14px', minHeight: 44,
         fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
-        whiteSpace: 'nowrap',
+        /*
+          Was `nowrap`. In a horizontally scrolling row there is room to spare,
+          so chips still sit on one line and nothing changes. In a wrapping row
+          at large text a single long chip would otherwise outgrow the frame and
+          be clipped — losing the label, which is the whole control.
+        */
+        whiteSpace: 'normal',
       }}
     >{children}</button>
   );
@@ -276,7 +282,7 @@ export function Toast() {
         animation: 'rs-fade 0.2s ease',
       }}
     >
-      <span style={{ flex: 1, fontSize: 'calc(12.5px * var(--scale))', fontWeight: 600 }}>
+      <span style={{ flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))', fontWeight: 600 }}>
         {state.logToast}
       </span>
       <button

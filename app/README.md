@@ -40,7 +40,8 @@ All eight build-order steps from the handoff. **All 86 routes.**
   `filter: invert(1)` shortcut, and is contrast-verified independently
 - **Accessibility** — all 11 toggles wired; reduced motion honours both the OS
   setting and the in-app switch; 44px hit targets; icon controls labelled; tier
-  meaning announced rather than implied by colour
+  meaning announced rather than implied by colour; reflow verified at 200% text
+  and at 320px width, with no clipping and no sideways scroll
 - **Tier badge system** — one component, three vocabularies, redundant glyph
   encoding when colour-blind-safe mode is on (it is on by default)
 - **Data layer** — the full content corpus, copy untouched
@@ -96,3 +97,22 @@ These are enforced in code, and breaking them is a correctness bug:
    forces a cut, flag it for editorial review instead of trimming.
 4. **A dish is never relabelled to suit a diet.** The classification tiers are
    distinct claims about history, not synonyms.
+
+## Reflow
+
+The handoff's one outstanding structural item; now closed. Every screen was
+checked at 200% text scale and at a 320px viewport — no sideways scroll, no
+clipped labels.
+
+The fixes were structural rather than per-screen:
+
+- grid tracks use `minmax(0, 1fr)` so a track can shrink below its content
+- flex items carrying text can shrink (`min-width: 0`, no `flex: none`)
+- a global `overflow-wrap: break-word` lets a word longer than its container
+  break instead of being clipped by the fixed-width frame
+- tier badges and chips wrap rather than truncate, because a shortened evidence
+  label would change what it claims
+
+One visible trade-off: the longest classification label wraps to two lines in a
+dish row at normal size. There is no room for it and the dish title on one line
+at 393px — before this change the title wrapped instead.

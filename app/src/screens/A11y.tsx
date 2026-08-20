@@ -75,10 +75,11 @@ export function A11yScreen() {
           a system-wide setting.
         </Band>
 
-        <Band tone="safety" title="What is still outstanding" style={{ marginTop: 12 }}>
-          Reflow at 200% zoom was never resolved in the design prototype and is the one known
-          structural gap carried into this build. Type scaling works, but very long layouts have not
-          been verified at 200% — treat that as unfinished rather than done.
+        <Band tone="cream" title="Reflow at 200%" style={{ marginTop: 12 }}>
+          Text scales without content being cut off. Every screen has been checked at 200% and at a
+          320px width: nothing scrolls sideways and no label is clipped. Long labels wrap onto a
+          second line rather than being truncated, because a shortened evidence label would change
+          what it claims.
         </Band>
       </Gutter>
     </Screen>

@@ -73,10 +73,10 @@ export function SourcesScreen() {
                 display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
               }}>
                 <span style={{
-                  flex: 1, fontSize: 'calc(13.5px * var(--scale))',
+                  flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                   fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35,
                 }}>{s.title}</span>
-                <TierBadge kind="ev" evLabel={s.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={s.ev} />
               </div>
               <div style={{
                 fontSize: 'calc(11.5px * var(--scale))', color: 'var(--earth)',
@@ -259,7 +259,7 @@ export function DataSovScreen() {
             { n: only ? '100%' : '92%', l: 'of your records never leave the phone' },
           ].map((s) => (
             <div key={s.l} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
@@ -306,7 +306,7 @@ export function DataSovScreen() {
                   }}>{p.where}</span>
                 </span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                  fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                   padding: '3px 8px', borderRadius: 12,
                   background: 'var(--surface-2)', color: 'var(--ink-meta)',
                 }}>{p.state}</span>
@@ -361,7 +361,7 @@ export function DataSovScreen() {
                       fontSize: 'calc(13px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
                     }}>{e.dest}</span>
                     <span style={{
-                      flex: 'none', fontSize: 'calc(10.5px * var(--scale))',
+                      fontSize: 'calc(10.5px * var(--scale))',
                       color: 'var(--ink-meta)', fontWeight: 700,
                     }}>{e.when}</span>
                   </span>
@@ -487,11 +487,11 @@ export function VaultScreen() {
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                 <span style={{
-                  flex: 1, fontSize: 'calc(13px * var(--scale))',
+                  flex: 1, minWidth: 0, fontSize: 'calc(13px * var(--scale))',
                   fontWeight: 700, color: 'var(--ink)',
                 }}>{l.name}</span>
                 <span style={{
-                  flex: 'none', fontSize: 'calc(13px * var(--scale))',
+                  fontSize: 'calc(13px * var(--scale))',
                   fontWeight: 800, color: 'var(--ink)',
                 }}>{l.value}</span>
               </div>
@@ -684,7 +684,7 @@ export function SovereigntyScreen() {
         <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
           {(sovStats as any[]).map((s) => (
             <div key={s.label} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(18px * var(--scale))',
@@ -762,7 +762,7 @@ export function AdminScreen() {
         <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
           {(adminStats as any[]).map((s) => (
             <div key={s.label} style={{
-              flex: 1, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 10px',
+              flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '10px 10px',
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(18px * var(--scale))',
@@ -791,10 +791,10 @@ export function AdminScreen() {
                   display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
                 }}>
                   <span style={{
-                    flex: 1, fontSize: 'calc(13.5px * var(--scale))',
+                    flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                     fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3,
                   }}>{q.title}</span>
-                  <TierBadge kind="ev" evLabel={q.ev} style={{ flex: 'none' }} />
+                  <TierBadge kind="ev" evLabel={q.ev} />
                 </div>
                 <div style={{
                   fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)', marginTop: 4,
@@ -862,11 +862,11 @@ export function AdminScreen() {
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
               <span style={{
-                flex: 1, fontSize: 'calc(12.5px * var(--scale))',
+                flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
                 color: 'var(--ink)', lineHeight: 1.45,
               }}>{b.name}</span>
               <span style={{
-                flex: 'none', fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
+                fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
                 padding: '3px 9px', borderRadius: 12,
                 background: b.status === 'pass' ? '#E4EDDD' : 'var(--safety-bg)',
                 color: b.status === 'pass' ? 'var(--leaf)' : 'var(--clay)',

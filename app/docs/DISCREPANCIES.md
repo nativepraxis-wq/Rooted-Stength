@@ -154,7 +154,7 @@ read "1 serving".
 
 ## Not a discrepancy, but carried forward
 
-The README's known gap — **reflow at 200% zoom was never resolved** — is real and
-still open. Type scaling works via the `--scale` token and elder mode exercises
-it, but long layouts have not been verified at 200%. This is stated on the
-in-app accessibility screen rather than quietly omitted.
+The README's known gap — **reflow at 200% zoom was never resolved** — has since
+been closed. Every screen was verified at 200% text scale and at a 320px
+viewport: no horizontal scrolling, no clipped content. See the Reflow section of
+the app README for what changed and the one visible trade-off it introduced.

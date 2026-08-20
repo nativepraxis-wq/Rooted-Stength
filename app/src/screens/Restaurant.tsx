@@ -306,7 +306,7 @@ export function SugarMealScreen() {
         </div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 12,
+          display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 8, marginTop: 12,
         }}>
           {[
             { n: '17g', l: 'fiber' }, { n: '31g', l: 'protein' },

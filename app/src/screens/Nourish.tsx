@@ -53,7 +53,7 @@ export function NourishScreen() {
           </p>
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginTop: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9, marginTop: 12 }}>
           {[
             { to: 'recipe', title: 'Recipe generator', sub: pools.fitCountLabel },
             { to: 'mealPlan', title: 'Meal plan', sub: '7 days' },
@@ -267,7 +267,7 @@ export function ReportScreen() {
       </DarkHeader>
 
       <Gutter style={{ paddingTop: 18 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 9 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 9 }}>
           {rep.macros.map((m) => (
             <div key={m.label} style={{
               background: 'var(--surface-1)', border: '1px solid var(--border)',
@@ -391,7 +391,7 @@ export function RecipeScreen() {
               }}
             >
               <div aria-hidden="true" style={{ width: 11, flex: 'none', background: p.c }} />
-              <div style={{ flex: 1, padding: '13px 14px' }}>
+              <div style={{ flex: 1, minWidth: 0, padding: '13px 14px' }}>
                 <div style={{
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(16.5px * var(--scale))',
                   fontWeight: 600, color: 'var(--ink)', lineHeight: 1.25,

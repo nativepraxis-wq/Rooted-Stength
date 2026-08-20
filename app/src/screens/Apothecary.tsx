@@ -114,7 +114,7 @@ export function ApothecaryScreen() {
                     fontWeight: 700, color: t.c, marginTop: 2,
                   }}>{t.supports}</span>
                 </span>
-                <TierBadge kind="ev" evLabel={t.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={t.ev} />
               </div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
@@ -253,7 +253,7 @@ export function TeaIntelScreen() {
                   fontSize: 'calc(14px * var(--scale))', fontWeight: 700,
                   color: t.flagged ? 'var(--ink-muted)' : 'var(--ink)', lineHeight: 1.25,
                 }}>{t.name}</span>
-                <TierBadge kind="ev" evLabel={t.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={t.ev} />
               </div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
@@ -363,7 +363,7 @@ export function MushroomsScreen() {
                     fontWeight: 700, color: m.c, marginTop: 2,
                   }}>{m.role}</span>
                 </span>
-                <TierBadge kind="ev" evLabel={m.ev} style={{ flex: 'none' }} />
+                <TierBadge kind="ev" evLabel={m.ev} />
               </div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
