@@ -97,9 +97,16 @@ export function CodexScreen() {
               fontSize: 'calc(11px * var(--scale))', letterSpacing: 1.5, textTransform: 'uppercase',
               color: 'var(--ochre)', fontWeight: 700,
             }}>Explore · codex</div>
-            <div style={{
+            {/*
+              An <h1>, not a div: this screen builds its own header rather than
+              using DarkHeader, and was the one route in the app with no h1 at
+              all. `margin: 0` is what keeps it looking identical - it is the
+              only property an h1 would otherwise change.
+            */}
+            <h1 style={{
               fontFamily: 'var(--font-serif)', fontSize: 'calc(23px * var(--scale))', fontWeight: 600,
-            }}>Foodways Codex</div>
+              margin: 0,
+            }}>Foodways Codex</h1>
           </div>
         </div>
         <p className="rs-prose" style={{

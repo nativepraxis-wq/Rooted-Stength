@@ -298,6 +298,32 @@ Verified both ways: with no goal set every surface says so, and with a goal
 recorded the original personalised copy returns unchanged.
 ---
 
+## 14. One screen had no `h1` — **fixed**
+
+Found while auditing every control and link in the app. Most screens take their
+header from `DarkHeader`, which renders the title as an `<h1>`. The Foodways
+Codex hub builds its own header instead and rendered "Foodways Codex" as a plain
+`<div>`, so that route had **no `h1` at all** — a screen reader jumping by
+heading found the volume names but never the name of the screen they belong to.
+
+Measured rather than inferred. Counting tags in the source suggested a handful of
+screens might be affected; rendering all 86 routes and counting `h1` elements in
+the DOM showed it was exactly one:
+
+```
+before   exactly one: 85 | none: 1 (codex) | more than one: 0
+after    exactly one: 86 | none: 0 | more than one: 0
+```
+
+**Build uses:** an `<h1>` in `CodexScreen`, carrying `margin: 0` — the only
+property an `h1` changes that a `div` does not. The re-rendered screenshot is
+**pixel-identical** to the one before the change, so this is semantics only.
+
+Worth knowing: the source-grep estimate was wrong in the direction that would
+have caused unnecessary edits to six screens that were already correct.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
