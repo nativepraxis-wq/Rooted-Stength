@@ -50,3 +50,58 @@ than an open-ended streak.
 
 `breath` honours reduced motion in both paths — with animation off it swaps
 "follow the circle" for the explicit count, so the practice stays usable.
+
+---
+
+## Nourish
+
+Twenty-two routes. The generative surfaces here compute from real state — the
+report totals whatever survived the detected-foods step, and the builder totals
+real protein against the ~30 g mark.
+
+### The plate-scan chain
+
+| Nourish | Scan | Detected |
+|---|---|---|
+| ![The Nourish hub, with excluded plates counted and listed](media/nourish/nourish.png) | ![The capture screen, and what happens to the photo](media/nourish/scan.png) | ![Detected foods, each dismissable or substitutable](media/nourish/detected.png) |
+
+| Hidden ingredients | Report |
+|---|---|
+| ![What a photo cannot see — oil, broth, salt](media/nourish/hidden.png) | ![The nutrient report, totalled from the components kept](media/nourish/report.png) |
+
+Drop a food at the Detected step and every macro, micro and sentence in the
+report changes with it.
+
+### Cooking
+
+| Generator | Recipe | Blood-sugar plate |
+|---|---|---|
+| ![The recipe generator, filtered honestly with hidden plates listed](media/nourish/recipe.png) | ![A plate, with what the dish actually is stated plainly](media/nourish/recipeDetail.png) | ![The blood-sugar-steady bowl, with the clinician boundary](media/nourish/sugarMeal.png) |
+
+### Planning and the pantry
+
+| Meal plan | Pantry | Grocery | From the plan |
+|---|---|---|---|
+| ![Seven days, meals swapped rather than removed](media/nourish/mealPlan.png) | ![The pantry, with stock drawn down by what has been cooked](media/nourish/pantry.png) | ![The shopping list by store, swaps labelled](media/nourish/grocery.png) | ![The plan's list, grouped by aisle](media/nourish/planGrocery.png) |
+
+### Getting things in
+
+| Barcode | Voice |
+|---|---|
+| ![Scanning a barcode, and what a barcode cannot tell you](media/nourish/barcode.png) | ![Adding by voice, with the transcript shown before it commits](media/nourish/voice.png) |
+
+### Blends, uptake and the household
+
+| Smoothies | Builder | Pairings |
+|---|---|---|
+| ![Blends built to carry real protein](media/nourish/smoothies.png) | ![The builder, totalling protein against the ~30 g mark](media/nourish/smoothieBuilder.png) | ![What the plate lets you absorb](media/nourish/pairings.png) |
+
+| Budget | The whole table |
+|---|---|
+| ![The weekly grocery budget by category](media/nourish/budget.png) | ![Feeding a household — one pot, different needs](media/nourish/family.png) |
+
+### The sill farm
+
+| Microgreens | Crop library | A crop |
+|---|---|---|
+| ![Trays, and the honest ceiling on the density claim](media/nourish/microgreens.png) | ![Seventeen crops, searchable, with sow advice for the current season](media/nourish/croplib.png) | ![A crop, with its full grow protocol](media/nourish/variety.png) |

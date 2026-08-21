@@ -326,7 +326,16 @@ export function SmoothieBuilderScreen() {
           color: verdict.met ? 'var(--leaf)' : 'var(--earth)', fontWeight: 700,
         }}>{verdict.line}</div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
+        {/*
+          paddingRight clears the Council FAB. It is fixed at right:18 with a
+          58px diameter and z-index 45, above this footer's 43 — so without the
+          reserved column it sits on top of "Blend & log" and swallows taps on
+          the right half of the screen's primary action.
+        */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10, marginTop: 10,
+          paddingRight: 68,
+        }}>
           <div>
             <span style={{
               fontSize: 'calc(22px * var(--scale))', fontWeight: 800, color: 'var(--ink)',
