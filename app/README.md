@@ -24,6 +24,13 @@ npm run contrast   # AA audit of both palettes
 npm run h1         # every route has exactly one <h1>
 ```
 
+`.claude/launch.json` lets the in-app browser preview start the dev server. It
+runs `npm run --prefix app dev` from the **repository root**, not from `app/`,
+because that is where the launcher's working directory sits — hence the
+`--prefix`. If the preview fails to start with a JSON parse error pointing at
+`package.json:1:0`, an empty `package.json` is shadowing it in whatever
+directory the launcher is running from; that file is the problem, not this one.
+
 ## Where things live
 
 | Path | What it is |
