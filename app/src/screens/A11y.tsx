@@ -39,7 +39,7 @@ export function A11yScreen() {
           fontSize: 'calc(13px * var(--scale))', lineHeight: 1.55,
           color: 'var(--on-dark-muted)', margin: 0,
         }}>
-          Eleven settings, all independent, all revocable. Colour-blind-safe encoding and offline
+          Eleven settings, all independent, all revocable. Color-blind-safe encoding and offline
           access are on when you arrive.
         </p>
         <div style={{

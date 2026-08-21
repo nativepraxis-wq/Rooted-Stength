@@ -172,3 +172,46 @@ off — "No safety filters on — every brew is shown" is shown, not implied.
 
 `order` does not silently hide what does not fit: it counts the dishes that do,
 flags the one that does not, and gives you the questions to ask.
+
+---
+
+## Journey
+
+Sixteen routes — the record, the settings, and the chapters the app handles with
+most care. `diabetes` is shared with Explore and is pictured there.
+
+### The record
+
+| Journey | Progress | History |
+|---|---|---|
+| ![The Journey hub](media/journey/journey.png) | ![What you actually did — streaks, the week, and protein against target](media/journey/progress.png) | ![Every entry, filterable, each one removable](media/journey/history.png) |
+
+Nothing on Progress is a decorative counter: 83 entries, 51 plates and 11
+sessions are the same numbers History filters by, and Today's "60g protein" is
+the two plates listed under it.
+
+### Your record, and who can see it
+
+| Vault | Sources | Profile |
+|---|---|---|
+| ![What is stored, and where it lives](media/journey/vault.png) | ![Where every claim came from](media/journey/sources.png) | ![Your profile](media/journey/profile.png) |
+
+| Data sovereignty | Privacy | Accessibility |
+|---|---|---|
+| ![Who owns the record — and the answer is not the app](media/journey/dataSov.png) | ![What is collected, stated plainly](media/journey/privacy.png) | ![Eleven independent settings, two on by default](media/journey/a11y.png) |
+
+Accessibility ships colour-blind-safe encoding and offline access **on**, and
+says so in the header rather than burying it in a toggle list.
+
+### Care, and the harder chapters
+
+| Food sovereignty | Sleep | Intimacy |
+|---|---|---|
+| ![What the food system did — naming the cause, not only the fix](media/journey/sovereignty.png) | ![Rest, and what it does to the rest of it](media/journey/sleep.png) | ![Vitality, handled without euphemism](media/journey/intimacy.png) |
+
+| Pregnancy & postpartum | Membership | Admin |
+|---|---|---|
+| ![Carrying and rebuilding — a flow that leans on your care team](media/journey/pregnancy.png) | ![What membership is, and is not](media/journey/membership.png) | ![The admin view](media/journey/admin.png) |
+
+The pregnancy flow leads with the boundary — "Nothing here replaces your
+midwife, OB or pelvic-floor therapist" — before it asks anything at all.
