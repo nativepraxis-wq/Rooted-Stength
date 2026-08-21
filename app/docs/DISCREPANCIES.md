@@ -366,6 +366,55 @@ any device renders.
 
 ---
 
+## 16. Codex dish illustrations, and what the description field could not be trusted for
+
+The Foodways Codex now carries an illustration on each of its **78** dish cards.
+
+**It is 78, not 132.** The earlier figure counted `n/p/cls` entries across the
+whole of `content.ts`; 54 of those are ingredient entries in `pantryVols`, the
+Pantry Codex, which is a different surface. Only `codexRegions` holds dishes.
+
+### Prompts could not be built from the data verbatim
+
+The `d` field is editorial prose written for a reader, not a shot list, and two
+kinds of sentence actively fought the prompt:
+
+- **Animal products.** Thieboudienne's description opens "The national
+  rice-and-fish dish." Passing that through would have asked for fish in the same
+  breath as forbidding it, on a plant-based app's screen.
+- **Provenance commentary.** Fatta's reads "A legume-and-root broth version is an
+  adaptation - it should not be presented as the historical dish." Instructing an
+  image model not to present something as historical is meaningless, and faintly
+  absurd given what the sentence is about.
+
+Both classes are filtered out, and dishes left with nothing visual were written
+by hand from the dish itself. Where a dish is classified `forward` or `adapt`,
+the image shows the **plant version**, because anything else would contradict the
+classification printed beside it.
+
+### The mapping is generated, not derived
+
+`src/data/dishImages.ts` is emitted by script and keyed on `regionId|name`, not
+on the name alone. **Dholl puri appears twice** - once in the Afro-Asia volume and
+once in indenture - and they are separate cards. Slugifying the name in
+TypeScript would have collapsed them into one image.
+
+A separate check re-parses `content.ts` from scratch and confirms all 78 dishes
+resolve to a file, with no orphan entries and no orphan images. It also guards
+against unescaping drift, which matters because the names carry accents and curly
+apostrophes.
+
+### Weight
+
+694 MB of raw output became **1.7 MB** at 520px webp - these are thumbnails at
+92px tall, not headers, so they are encoded narrower than the plate images.
+Total imagery across the app is now 115 files, 4.0 MB.
+
+The illustration note is stated **once per region**, under the "N dishes
+profiled" heading, rather than stamped on all 78 cards.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

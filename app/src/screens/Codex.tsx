@@ -1,5 +1,6 @@
 import { codexRegions, codexFamilies, pantryVols } from '../data/content';
 import { CLS_TIER, CLAIM_TIER } from '../data/tiers';
+import { dishImage } from '../data/dishImages';
 import { useStore } from '../state/store';
 import { TierBadge } from '../components/TierBadge';
 import { stripes } from '../components/Headers';
@@ -335,12 +336,36 @@ export function CodexRegionScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))', fontWeight: 600,
           color: 'var(--ink)', margin: '24px 0 12px',
         }}>{g.dishes.length} dishes profiled</h2>
+        {/*
+          Said once for the section rather than stamped on all 78 cards. These
+          are generated illustrations and the app does not pass them off as
+          photographs of the dish - see data/media.ts.
+        */}
+        <div style={{
+          fontSize: 'calc(11px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, margin: '-6px 0 10px',
+        }}>Dish images are illustrations, not photographs</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {g.dishes.map((d: any) => (
+          {g.dishes.map((d: any) => {
+            const img = dishImage(g.id, d.n);
+            return (
             <div key={d.n} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '13px 14px',
             }}>
+              {img && (
+                <img
+                  src={img}
+                  alt={d.n + ', illustration'}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    display: 'block', width: '100%', height: 92,
+                    objectFit: 'cover', borderRadius: 'var(--r-tile)',
+                    marginBottom: 10, background: 'var(--surface-2)',
+                  }}
+                />
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                 <div style={{
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
@@ -357,7 +382,8 @@ export function CodexRegionScreen() {
                 color: 'var(--ink-muted)', margin: '6px 0 0',
               }}>{d.d}</p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         <Band tone="cream" title={g.craftT} style={{ marginTop: 20 }}>{g.craftB}</Band>
