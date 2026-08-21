@@ -3,7 +3,7 @@ import { platePools, detectedRows, scanReport } from '../state/selectors';
 import {
   recipeModes, hiddenList, plateRecipes, plateDefs,
 } from '../data/content';
-import { DarkHeader, stripes } from '../components/Headers';
+import { DarkHeader, stripes, shade } from '../components/Headers';
 import {
   Screen, Gutter, Band, Chip, BackButton, PrimaryButton, SecondaryButton,
 } from '../components/ui';
@@ -458,7 +458,7 @@ export function RecipeDetailScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(def.c, def.c, 12) }}>
+      <header style={{ position: 'relative', height: 132, background: stripes(def.c, shade(def.c, 0.14), 12) }}>
         <div aria-hidden="true" style={{
           position: 'absolute', inset: 0,
           background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',

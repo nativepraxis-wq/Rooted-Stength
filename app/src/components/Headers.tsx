@@ -43,6 +43,17 @@ export function DarkHeader({ eyebrow, title, right, children, back, style }: {
 }
 
 /*
+  Darkens a hex colour by `amt` (0-1). Ported from the prototype, which used it
+  to derive a stripe partner for data that carries only one colour — a plate has
+  `c`, where a codex volume has `c1`/`c2`.
+*/
+export function shade(hex: string, amt: number) {
+  const n = parseInt(hex.slice(1), 16);
+  const p = (x: number) => Math.round(x * (1 - amt)).toString(16).padStart(2, '0');
+  return '#' + p((n >> 16) & 255) + p((n >> 8) & 255) + p(n & 255);
+}
+
+/*
   Builds the 135-degree stripe texture used for codex volume spines and region
   headers. All texture in this app is CSS — there is no imagery to fall back on,
   which is what keeps the offline bundle self-contained.
