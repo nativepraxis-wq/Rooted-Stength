@@ -211,13 +211,7 @@ onboarding — it changes only when the user presses "For your goal, start with
 …". Seed and goal disagreeing there is a state a real user can be in, so it is
 left alone.
 
-### Left for the owner to decide
-
-On the skip path the app addresses the user as though they had chosen a goal —
-"Your goal — Muscle growth" — when they explicitly declined to answer. The
-seeded `obGoal` is the prototype's demo default, and it feeds the Move hub, the
-tea suggestion and Today as well, so changing it is a product decision rather
-than a bug fix. Flagged rather than changed.
+### The wider problem behind it — **now fixed, see §13**
 
 ---
 
@@ -259,6 +253,49 @@ prototype's — was brought into line with it.
 
 Code comments keep British spelling; they are not user-visible.
 
+---
+
+## 13. The app claimed a goal the user never chose — **fixed**
+
+§10 fixed the contradiction on one screen. The cause was wider: the seeded
+`obGoal` is a demo default, and six surfaces described it as the user's own
+answer. Take "Skip for now — explore first" and the app tells you things you
+never told it:
+
+| screen | said |
+|---|---|
+| Nutrient frequencies | "**Your goal** — Muscle growth — tunes you to Building." |
+| Move hub | "**Built for** Muscle growth", plus a secondary focus you never picked |
+| Tea intelligence | "**For your goal**, start with Training recovery" |
+| Today | tonight's cup titled by that goal, "Brewed **by goal**" |
+| Journey hub | the goal echoed back as part of your profile |
+| Profile | "Goal: Muscle growth" — under a heading reading *Every answer* |
+
+The onboarding recap had it too: skip the goal question and the recap still
+reported a goal.
+
+### The fix
+
+State now records whether a goal was actually chosen. `obGoalSet` is `false` in
+the seed and set `true` in exactly one place — `pickPrimary` in ob2, the only
+code path where a person picks one. "Skip for now" does not go through it.
+
+The distinction that matters is between **computing** and **claiming**:
+
+- `obGoal` stays a computation default, so Move still has a session to offer,
+  the protein target still has a value, and nothing is empty or broken.
+- Nothing describes that default as the user's answer. Each surface now says
+  what it is doing and offers the goal question: "No goal set — starting from
+  Grounding. **Set a goal** to tune it."
+
+`freqBand` reverts to `'grounding'`, the neutral opening band. §10 set it to
+`'building'` to match the seeded goal, which was right while that goal was
+treated as real; with the goal correctly marked unchosen, the neutral band is
+the honest value. The invariant `freqBand === goalFreqMap[obGoal]` still holds
+from the moment ob2 records a choice.
+
+Verified both ways: with no goal set every surface says so, and with a goal
+recorded the original personalised copy returns unchanged.
 ---
 
 ## Not a discrepancy, but carried forward

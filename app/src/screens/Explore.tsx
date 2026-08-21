@@ -684,9 +684,10 @@ export function MineralsScreen() {
 /* ===================== frequencies ===================== */
 
 export function FrequenciesScreen() {
-  const { state, set, goBack } = useStore();
+  const { state, set, go, goBack } = useStore();
   const bands = freqBandDefs as any[];
-  const goalBand = (goalFreqMap as any)[state.obGoal] || 'grounding';
+  /* With no goal chosen, the neutral opening band — not the default goal's. */
+  const goalBand = state.obGoalSet ? ((goalFreqMap as any)[state.obGoal] || 'grounding') : 'grounding';
   const sel = bands.find((b) => b.id === (state.freqBand || goalBand)) ?? bands[0];
   const goalLabel = (obGoals as any[]).find((g) => g.id === state.obGoal)?.label || '';
 
@@ -706,8 +707,26 @@ export function FrequenciesScreen() {
           fontSize: 'calc(12px * var(--scale))', fontWeight: 700,
           color: 'var(--ink-meta)', marginBottom: 12,
         }}>
-          Your goal — {goalLabel} — tunes you to{' '}
-          <b style={{ color: 'var(--ink)' }}>{bands.find((b) => b.id === goalBand)?.name}</b>.
+          {state.obGoalSet ? (
+            <>
+              Your goal — {goalLabel} — tunes you to{' '}
+              <b style={{ color: 'var(--ink)' }}>{bands.find((b) => b.id === goalBand)?.name}</b>.
+            </>
+          ) : (
+            <>
+              No goal set — starting from{' '}
+              <b style={{ color: 'var(--ink)' }}>{bands.find((b) => b.id === goalBand)?.name}</b>.{' '}
+              <button
+                type="button"
+                onClick={() => { set({ profileReturn: 'frequencies' }); go('ob2'); }}
+                style={{
+                  border: 'none', background: 'none', padding: 0, cursor: 'pointer',
+                  font: 'inherit', color: 'var(--teal)', fontWeight: 800,
+                  textDecoration: 'underline', minHeight: 44,
+                }}
+              >Set a goal</button>{' '}to tune it.
+            </>
+          )}
         </div>
 
         <div className="rs-scroll" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>

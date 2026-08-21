@@ -54,6 +54,12 @@ export function useMoveStats() {
   return {
     moved,
     movedWeekLabel: moved + ' of the last 7 days moved',
+    /*
+      goalRoute and goalSessionLabel below fall back to a default so Move always
+      has something to offer. goalSet says whether that default is the user's
+      actual answer — only it may be described as "your goal".
+    */
+    goalSet: !!state.obGoalSet,
     goalLabel,
     goal2Label,
     /* Which session screen the current goal points at. */

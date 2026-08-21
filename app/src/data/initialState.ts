@@ -69,8 +69,16 @@ export const initialState: any = {
       return out;
     })(),
     obPronoun: 'she/her',
+    /*
+      obGoal / obGoal2 are COMPUTATION DEFAULTS, not the user's answer. They
+      decide which session Move offers and where the protein target starts, so
+      the app works before onboarding. Nothing may describe them as "your goal"
+      until ob2 records a real choice and sets obGoalSet — which "Skip for now
+      — explore first" deliberately does not do.
+    */
     obGoal: 'muscle',
     obGoal2: 'farm',
+    obGoalSet: false,
     obRestr: { soyfree: true, nutfree: true },
     obTrad: { caribbean: true, gullah: false, westafrican: true, creole: false, indigenous: false },
     consent: { health: true, photos: false, location: true, research: false },
@@ -128,14 +136,12 @@ export const initialState: any = {
     teaSafety: { pregnant: false, bp: false, thinners: false },
     savedBrews: { 'Blue vervain': true },
     /*
-      Must agree with goalFreqMap[obGoal] — obGoal is 'muscle', which tunes to
-      'building'. The prototype seeds 'grounding' here, a pairing its own
-      onboarding cannot produce (picking a goal writes
-      `freqBand: goalFreqMap[g.id]`). Reachable via "Skip for now", which jumps
-      to Today with the seed intact: the frequencies screen then read "your goal
-      — Muscle growth — tunes you to Building" with Grounding selected.
+      'grounding' is the neutral opening band, which is the correct value while
+      no goal has been chosen. Once ob2 records a choice it writes the band from
+      goalFreqMap, so from that point the invariant is
+      freqBand === goalFreqMap[obGoal].
     */
-    freqBand: 'building',
+    freqBand: 'grounding',
     warriorId: 'zulu',
     coconutUse: 'kitchen',
     honeyUse: 'fuel',

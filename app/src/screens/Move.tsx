@@ -97,7 +97,7 @@ export function MoveScreen() {
             <span style={{
               flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
               fontWeight: 700, color: 'var(--ink)',
-            }}>Built for {stats.goalLabel}</span>
+            }}>{stats.goalSet ? 'Built for ' + stats.goalLabel : 'No goal set — showing the default session'}</span>
             <button
               type="button"
               onClick={() => { set({ profileReturn: 'move' }); go('ob2'); }}
@@ -107,7 +107,7 @@ export function MoveScreen() {
               }}
             >Adjust</button>
           </div>
-          {stats.goal2Label && (
+          {stats.goalSet && stats.goal2Label && (
             <div style={{
               fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-muted)',
               marginTop: 2, lineHeight: 1.45,
@@ -124,7 +124,7 @@ export function MoveScreen() {
               borderRadius: 12, padding: '11px 12px', minHeight: 44,
               fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, color: 'var(--teal)',
             }}
-          >Start the matching session — {stats.goalSessionLabel} →</button>
+          >{stats.goalSet ? 'Start the matching session' : 'Start a session'} — {stats.goalSessionLabel} →</button>
           <div role="status" style={{
             fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
             fontWeight: 700, marginTop: 9,
