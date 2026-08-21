@@ -415,6 +415,50 @@ profiled" heading, rather than stamped on all 78 cards.
 
 ---
 
+## 17. The Pantry Codex is illustrated unevenly, on purpose
+
+41 of the Pantry Codex's **54** entries now carry an illustration. The other 13
+are deliberately bare, and that unevenness is the point: it is how the volume
+shows, at a glance, which of its entries are ingredients and which are cautions
+and concepts.
+
+Unlike the Foodways Codex, this volume is not a list of things. Three kinds of
+entry cannot honestly carry a picture:
+
+**Concepts and clinical guidance** - "Gluten-free framing", "Oral rehydration
+solution", "Blending vs. whole fruit", "Juice and satiety", "Microgreen vs.
+sprout", "Concentration vs. contribution", "Vitamin D2 from UV". There is simply
+no subject to photograph.
+
+**Hazard warnings** - "Shiitake dermatitis", "Golden oyster spore load", "Wild
+foraged mushrooms", "Sun tea", "Fungicide-treated seed". Here an image would
+work directly against the text it sits beside. A handsome photograph of wild
+mushrooms above the words "do not forage these" is worse than no photograph:
+it is an argument for the thing the card is warning against.
+
+**A declared gap** - "Diaspora mushroom foodways" carries the `gap` tier. The
+entry *is* the absence of documentation. Illustrating it would manufacture
+presence in the one place the app explicitly says it has none, which is the
+failure this product exists to avoid.
+
+`pantryImage()` returns `null` for all 13 and the card renders without an image.
+The null is a decision, recorded in the module, so that a later pass does not
+read it as a missing asset and "fix" it.
+
+### Two false positives from the safety filter
+
+"African rice (Oryza glaberrima), unmilled with a reddish-brown bran layer" and
+"Cucurbit microgreens" were both refused as `nsfw`. Both are plainly botanical.
+Rewording without the botanical binomials cleared them. Noted because it will
+happen again to anyone regenerating these.
+
+### Weight
+
+350 MB of raw output became **0.72 MB** at 520px webp. Total app imagery is now
+**156 files, 4.9 MB**.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
