@@ -1,6 +1,7 @@
 import { codexRegions, codexFamilies, pantryVols } from '../data/content';
 import { CLS_TIER, CLAIM_TIER } from '../data/tiers';
 import { dishImage } from '../data/dishImages';
+import { pantryImage } from '../data/pantryImages';
 import { useStore } from '../state/store';
 import { TierBadge } from '../components/TierBadge';
 import { stripes } from '../components/Headers';
@@ -570,11 +571,31 @@ export function PantryVolScreen() {
           color: 'var(--ink)', margin: '24px 0 12px',
         }}>{v.entries.length} entries</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {v.entries.map((e: any) => (
+          {v.entries.map((e: any) => {
+            /*
+              Deliberately null for 13 of the 54 entries - concepts, hazard
+              warnings and one declared gap. A card with no image here is the
+              design, not a missing asset. See data/pantryImages.ts.
+            */
+            const img = pantryImage(v.id, e.n);
+            return (
             <div key={e.n} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '13px 14px',
             }}>
+              {img && (
+                <img
+                  src={img}
+                  alt={e.n + ', illustration'}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    display: 'block', width: '100%', height: 92,
+                    objectFit: 'cover', borderRadius: 'var(--r-tile)',
+                    marginBottom: 10, background: 'var(--surface-2)',
+                  }}
+                />
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                 <div style={{
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
@@ -591,7 +612,8 @@ export function PantryVolScreen() {
                 color: 'var(--ink-muted)', margin: '6px 0 0',
               }}>{e.d}</p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         <Band tone="cream" title={v.craftT} style={{ marginTop: 20 }}>{v.craftB}</Band>
