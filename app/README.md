@@ -50,6 +50,7 @@ directory the launcher is running from; that file is the problem, not this one.
 | `src/components/` | Shell, tab bar, FAB, Council sheet, tier badge, UI primitives |
 | `src/screens/` | Implemented screens |
 | `docs/DISCREPANCIES.md` | Where the handoff contradicts itself, and what was decided |
+| `public/media/` | Generated illustrations. Not photographs - see DISCREPANCIES §15 |
 
 ## What is implemented
 

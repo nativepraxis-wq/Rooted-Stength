@@ -330,6 +330,42 @@ a second `h1` fails it too.
 
 ---
 
+## 15. Generated imagery, and the two lines drawn around it
+
+The app shipped with no images at all - the striped gradient headers were
+explicitly photo stand-ins. 37 images were generated to fill them: 28 plates, 4
+training families, 5 tradition foodways stills.
+
+**An image is a claim.** This product's whole position is that it does not state
+what it cannot support, and a picture asserts as much as a sentence. The models
+do get it wrong: the first pass rendered fregola in place of millet, pinto beans
+in place of cowpeas, and one model returned green garden peas for black-eyed
+peas outright. Prompts now name grain sizes explicitly, and every image carries a
+visible **Illustration** mark plus a fuller screen-reader sentence. They are
+offered as illustrations, never as photographs of the dish.
+
+**Nothing figurative for the five warrior traditions.** Zulu, Agojie, Maasai and
+the Kalenda and capoeira lineages are real, living peoples. A synthetic
+photograph of them would fabricate a depiction of identifiable groups and invite
+exactly the romanticised-warrior framing the Move hub already disclaims. Their
+images are foodways stills - grain, root, oil, matting, earth - and they sit
+inside the existing **Warrior fuel** band, where the foods are what the screen is
+already talking about. Placing one as a hero image for the tradition itself would
+not have been true; placing it under the fuel is.
+
+**Training imagery shows the tool, not the body.** A generated hip hinge can
+easily show a rounded spine, and this app prescribes movement to elders and
+postpartum users. A picture that teaches the wrong shape is worse than no
+picture, so the four training images carry the setting - spade, watering cans,
+chair, floor mat - and the written cues carry the form. The one figurative
+attempt also never came back from safety review.
+
+**Weight.** Raw output was 330 MB across 37 files, 4-10 MB each. Resized to 900px
+wide and re-encoded as webp they total **2.1 MB**, a 99% reduction, still 2x what
+any device renders.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

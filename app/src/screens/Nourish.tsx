@@ -1,9 +1,10 @@
+import { plateImage, ILLUSTRATION_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { platePools, detectedRows, scanReport } from '../state/selectors';
 import {
   recipeModes, hiddenList, plateRecipes, plateDefs,
 } from '../data/content';
-import { DarkHeader, stripes, shade } from '../components/Headers';
+import { DarkHeader, stripes, shade, PhotoHeader } from '../components/Headers';
 import {
   Screen, Gutter, Band, Chip, BackButton, PrimaryButton, SecondaryButton,
 } from '../components/ui';
@@ -458,15 +459,19 @@ export function RecipeDetailScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(def.c, shade(def.c, 0.14), 12) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient is kept as PhotoHeader's fallback, so a missing or
+        still-loading file leaves the header looking exactly as it did before
+        these images existed.
+      */}
+      <PhotoHeader
+        src={plateImage(def.id)}
+        alt={def.name}
+        note={ILLUSTRATION_NOTE}
+        c1={def.c}
+        c2={shade(def.c, 0.14)}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{

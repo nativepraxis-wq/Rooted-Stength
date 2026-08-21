@@ -47,6 +47,59 @@ export function DarkHeader({ eyebrow, title, right, children, back, style }: {
   to derive a stripe partner for data that carries only one colour — a plate has
   `c`, where a codex volume has `c1`/`c2`.
 */
+/*
+  A 132px header carrying a generated image, with the striped gradient kept
+  underneath as the fallback: if the file is missing or still loading, the screen
+  looks exactly as it did before images existed rather than flashing empty.
+
+  The dark scrim is not decoration - the back button and any title sit on top of
+  photographic content, and without it they are illegible over a light image.
+
+  `note` is the honest label. It renders as a small visible "Illustration" mark
+  plus the full sentence for screen readers, because an image in this app is a
+  claim and the app says what its claims rest on.
+*/
+export function PhotoHeader({ src, alt, note, c1, c2, back, children }: {
+  src: string; alt: string; note: string;
+  c1: string; c2: string; back: () => void; children?: ReactNode;
+}) {
+  return (
+    <header style={{
+      position: 'relative', height: 132, overflow: 'hidden',
+      background: stripes(c1, c2, 12),
+    }}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+        }}
+      />
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
+      }} />
+      <div style={{ position: 'absolute', top: 58, left: 18, right: 18 }}>
+        <BackButton onDark onClick={back} />
+      </div>
+      <div style={{
+        position: 'absolute', right: 12, bottom: 8,
+        fontSize: 'calc(9.5px * var(--scale))', letterSpacing: 1,
+        textTransform: 'uppercase', fontWeight: 700,
+        color: 'rgba(244,237,223,0.82)',
+        textShadow: '0 1px 3px rgba(15,13,10,0.8)',
+      }}>
+        <span aria-hidden="true">Illustration</span>
+        <span className="rs-sr">{note}</span>
+      </div>
+      {children}
+    </header>
+  );
+}
+
 export function shade(hex: string, amt: number) {
   const n = parseInt(hex.slice(1), 16);
   const p = (x: number) => Math.round(x * (1 - amt)).toString(16).padStart(2, '0');
