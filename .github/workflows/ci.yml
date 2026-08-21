@@ -1,6 +1,6 @@
 name: CI
 
-# Runs the three checks that were previously only ever run by hand.
+# Runs the four checks that were previously only ever run by hand.
 # Nothing merges to main on trust alone.
 on:
   push:
@@ -18,6 +18,12 @@ permissions:
 
 jobs:
   verify:
+    # NOTE: this string is the required status check in main's branch
+    # protection, which matches by name. Renaming it means the required check
+    # never reports and every PR blocks permanently - and with enforce_admins
+    # on, nobody can override it. Change the protection rule first, or leave
+    # this alone. The heading check was added without renaming for exactly
+    # this reason.
     name: Typecheck, contrast, build
     runs-on: ubuntu-latest
     defaults:
@@ -45,6 +51,15 @@ jobs:
       # changes, and this is what enforces it.
       - name: Contrast audit
         run: npm run contrast
+
+      # Every route must expose exactly one <h1>. Screens that build their own
+      # header instead of using DarkHeader can quietly render the title as a
+      # plain div - that is how the codex hub ended up with none (§14).
+      # scripts/h1-check.tsx renders all 86 routes through react-dom/server and
+      # exits non-zero on any route with zero or more than one. No browser
+      # needed, so it costs seconds rather than a Chromium download.
+      - name: Heading check
+        run: npm run h1
 
       - name: Build
         run: npm run build

@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
-    "contrast": "node scripts/contrast.mjs"
+    "contrast": "node scripts/contrast.mjs",
+    "h1": "vite build --ssr scripts/h1-check.tsx --outDir .h1check --logLevel error && node .h1check/h1-check.js"
   },
   "dependencies": {
     "react": "^18.3.1",

@@ -21,6 +21,7 @@ npm install
 npm run dev        # http://localhost:5178
 npm run typecheck
 npm run contrast   # AA audit of both palettes
+npm run h1         # every route has exactly one <h1>
 ```
 
 ## Where things live
@@ -93,7 +94,7 @@ no longer a "not built yet" screen in normal use; `NotBuiltYet` remains in
 Verified mechanically:
 
 ```bash
-npm run typecheck && npm run contrast
+npm run typecheck && npm run contrast && npm run h1
 ```
 
 ## Rules that are load-bearing, not stylistic

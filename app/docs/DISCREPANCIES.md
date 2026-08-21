@@ -322,6 +322,12 @@ property an `h1` changes that a `div` does not. The re-rendered screenshot is
 Worth knowing: the source-grep estimate was wrong in the direction that would
 have caused unnecessary edits to six screens that were already correct.
 
+**Now enforced.** `npm run h1` renders all 86 routes through `react-dom/server`
+and exits non-zero on any route with zero or more than one `h1`. It runs in CI
+alongside the contrast audit. Both failure directions were proven before it was
+wired up: reverting the codex `h1` to a `div` fails the route by name, and adding
+a second `h1` fails it too.
+
 ---
 
 ## Not a discrepancy, but carried forward

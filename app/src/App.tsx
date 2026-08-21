@@ -57,7 +57,8 @@ import {
   fall through to NotBuiltYet, which says plainly that the surface has not been
   implemented rather than showing an empty shell that looks finished.
 */
-const SCREENS: Partial<Record<string, () => JSX.Element>> = {
+/* Exported so scripts/h1-check.tsx can render every screen without a browser. */
+export const SCREENS: Partial<Record<string, () => JSX.Element>> = {
   welcome: WelcomeScreen,
   ob1: Ob1Screen,
   ob2: Ob2Screen,
