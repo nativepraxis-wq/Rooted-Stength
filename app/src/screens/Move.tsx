@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { traditionImage } from '../data/media';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
@@ -718,6 +719,27 @@ export function WarriorScreen() {
         </div>
 
         <Band tone="cream" title="Warrior fuel" style={{ marginTop: 14 }}>
+          {/*
+            The image lives here, in the fuel band, because the fuel is what it
+            actually shows. These traditions belong to living peoples, so nothing
+            figurative is generated for them - no faces, no costume, no weapons.
+            Placing a foodways still under "Warrior fuel" is true; using one as a
+            hero image for the tradition itself would not be.
+          */}
+          <img
+            src={traditionImage(sel.id)}
+            alt={'Foods of this tradition: ' + sel.fuel}
+            loading="lazy"
+            decoding="async"
+            style={{
+              display: 'block', width: '100%', height: 104,
+              objectFit: 'cover', borderRadius: 'var(--r-tile)', marginBottom: 8,
+            }}
+          />
+          <div style={{
+            fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+            fontWeight: 700, marginBottom: 10,
+          }}>Illustration of the foods, not a depiction of people</div>
           <div style={{ marginBottom: 10 }}>{sel.fuel}</div>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             <button
