@@ -225,8 +225,10 @@ export function TodayScreen() {
             <StripeCard
               stripe="var(--plum)"
               eyebrow="Tonight's cup"
-              title={(goalTeaLabel as any)[state.obGoal] || teaGroup.name}
-              sub={teaGroup.sub || 'Brewed by goal, with every safety flag shown rather than hidden.'}
+              title={(state.obGoalSet && (goalTeaLabel as any)[state.obGoal]) || teaGroup.name}
+              sub={teaGroup.sub || (state.obGoalSet
+                ? 'Brewed by goal, with every safety flag shown rather than hidden.'
+                : 'Every safety flag shown rather than hidden.')}
               onClick={() => go('teaIntel')}
             />
           )}

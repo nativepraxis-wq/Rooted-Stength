@@ -18,7 +18,7 @@ decorative counter.
 
 | Move | Farm-Strength | Exercise |
 |---|---|---|
-| ![The Move hub, led by the goal set in onboarding](media/move/move.png) | ![Farm-Strength: Push & Carry, with farm actions mapped to movement patterns](media/move/farm.png) | ![The shovel-lift hinge, with beginner, standard and seated variants](media/move/exercise.png) |
+| ![The Move hub — with no goal set it offers the default session and says so](media/move/move.png) | ![Farm-Strength: Push & Carry, with farm actions mapped to movement patterns](media/move/farm.png) | ![The shovel-lift hinge, with beginner, standard and seated variants](media/move/exercise.png) |
 
 `exercise` carries three variants, and the seated one is a first-class version of
 the movement rather than a consolation.
@@ -168,7 +168,7 @@ off — "No safety filters on — every brew is shown" is shown, not implied.
 
 | Nutrient frequencies | Restaurants | An order |
 |---|---|---|
-| ![Four bands, matched to how the day feels — tuned by your goal](media/explore/frequencies.png) | ![Places worth eating at](media/explore/restaurant.png) | ![A menu, filtered against your profile, with what to ask before ordering](media/explore/order.png) |
+| ![Four bands — tuned by your goal once one is set, neutral until then](media/explore/frequencies.png) | ![Places worth eating at](media/explore/restaurant.png) | ![A menu, filtered against your profile, with what to ask before ordering](media/explore/order.png) |
 
 `order` does not silently hide what does not fit: it counts the dishes that do,
 flags the one that does not, and gives you the questions to ask.

@@ -267,6 +267,8 @@ export function Ob2Screen() {
     obGoal: id,
     obGoal2: s.obGoal2 === id ? null : s.obGoal2,
     freqBand: (goalFreqMap as any)[id] || 'grounding',
+    /* This is the only place a goal becomes the user's own. */
+    obGoalSet: true,
   }));
 
   return (
@@ -282,18 +284,22 @@ export function Ob2Screen() {
         ))}
       </div>
 
-      <div style={{
-        display: 'flex', gap: 10, alignItems: 'center', marginTop: 14,
-        background: 'var(--surface-1)', border: '1px solid var(--border)',
-        borderRadius: 14, padding: '12px 13px',
-      }}>
-        <div aria-hidden="true" style={{
-          width: 10, height: 10, borderRadius: '50%', flex: 'none', background: band.c || 'var(--ochre)',
-        }} />
-        <div style={{ fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)', lineHeight: 1.45 }}>
-          Tunes your Nutrient Frequency to <b style={{ color: 'var(--ink)' }}>{band.name}</b> · {band.state}
+      {/* Only preview the band once a goal has actually been picked — otherwise
+          this announces a tuning derived from a default the user never chose. */}
+      {state.obGoalSet && (
+        <div style={{
+          display: 'flex', gap: 10, alignItems: 'center', marginTop: 14,
+          background: 'var(--surface-1)', border: '1px solid var(--border)',
+          borderRadius: 14, padding: '12px 13px',
+        }}>
+          <div aria-hidden="true" style={{
+            width: 10, height: 10, borderRadius: '50%', flex: 'none', background: band.c || 'var(--ochre)',
+          }} />
+          <div style={{ fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)', lineHeight: 1.45 }}>
+            Tunes your Nutrient Frequency to <b style={{ color: 'var(--ink)' }}>{band.name}</b> · {band.state}
+          </div>
         </div>
-      </div>
+      )}
 
       <div style={{ marginTop: 20 }}>
         <FieldLabel>
@@ -556,8 +562,12 @@ export function ObRecapScreen() {
     },
     {
       to: 'ob2', label: 'What you are building toward',
-      value: goalLabel(state.obGoal) + (state.obGoal2 ? ' · with ' + goalLabel(state.obGoal2) : ''),
-      effect: 'Sets your protein target and tunes your Nutrient Frequency to ' + band.name + '.',
+      value: state.obGoalSet
+        ? goalLabel(state.obGoal) + (state.obGoal2 ? ' · with ' + goalLabel(state.obGoal2) : '')
+        : 'No goal set',
+      effect: state.obGoalSet
+        ? 'Sets your protein target and tunes your Nutrient Frequency to ' + band.name + '.'
+        : 'Would set your protein target and tune your Nutrient Frequency.',
     },
     {
       to: 'ob3', label: 'How your table eats',

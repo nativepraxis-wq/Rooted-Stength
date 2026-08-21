@@ -192,16 +192,25 @@ export function TeaIntelScreen() {
       </DarkHeader>
 
       <Gutter style={{ paddingTop: 16 }}>
+        {/*
+          With no goal recorded there is nothing to tune to, so the button leads
+          to the goal question instead of silently applying a default's brew.
+        */}
         <button
           type="button"
-          onClick={() => set({ teaGoal: (goalTeaMap as any)[state.obGoal] || 'recovery' })}
+          onClick={() => {
+            if (state.obGoalSet) set({ teaGoal: (goalTeaMap as any)[state.obGoal] || 'recovery' });
+            else { set({ profileReturn: 'teaIntel' }); go('ob2'); }
+          }}
           style={{
             width: '100%', textAlign: 'left', cursor: 'pointer',
             background: 'var(--surface-1)', border: '1px solid var(--border)',
             borderRadius: 14, padding: '11px 13px', minHeight: 44,
             fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, color: 'var(--teal)',
           }}
-        >For your goal, start with {suggested} →</button>
+        >{state.obGoalSet
+            ? 'For your goal, start with ' + suggested + ' →'
+            : 'Set a goal and this tunes itself →'}</button>
 
         <div className="rs-scroll" style={{
           display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4, marginTop: 12,

@@ -74,7 +74,7 @@ export function JourneyScreen() {
           />
           <Row
             title="Your profile"
-            sub={goal + ' · ' + restrCount + ' restrictions · what it all changes →'}
+            sub={(state.obGoalSet ? goal : 'No goal set') + ' · ' + restrCount + ' restrictions · what it all changes →'}
             onClick={() => go('profile')}
           />
           <Row title="Sleep" sub="Stages, trends &amp; wind-down →" onClick={() => go('sleep')} />
@@ -515,8 +515,10 @@ export function ProfileScreen() {
     },
     {
       to: 'ob2', label: 'Goal',
-      value: goal + (goal2 ? ' · with ' + goal2 : ''),
-      effect: 'Sets your protein target, your Nutrient Frequency band, and which session Move leads with.',
+      value: state.obGoalSet ? goal + (goal2 ? ' · with ' + goal2 : '') : 'No goal set',
+      effect: state.obGoalSet
+        ? 'Sets your protein target, your Nutrient Frequency band, and which session Move leads with.'
+        : 'Would set your protein target, your Nutrient Frequency band, and which session Move leads with.',
     },
     {
       to: 'ob3', label: 'How your table eats',
