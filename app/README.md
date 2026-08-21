@@ -3,6 +3,17 @@
 React + Vite + TypeScript implementation of the design handoff in
 `../design_handoff_rooted_strength/`.
 
+| Today | Foodways Codex | Plate scan report |
+|---|---|---|
+| ![Today — the daily rhythm, with every figure computed from the log set](docs/media/today.png) | ![A codex region, showing the evidence badge and the striped volume spine](docs/media/codex-region.png) | ![The nutrient report, totalled from the components actually kept](docs/media/report.png) |
+
+<p align="center">
+  <img src="docs/media/welcome.png" alt="The welcome screen" width="300">
+</p>
+
+Captured from the running app at 393×852 — the resolution the design was drawn
+at. No mockups: these are headless-Chrome screenshots of the real build.
+
 ```bash
 npm install
 npm run dev        # http://localhost:5178
