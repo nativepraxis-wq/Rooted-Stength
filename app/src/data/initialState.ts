@@ -127,7 +127,15 @@ export const initialState: any = {
     teaGoal: 'energy',
     teaSafety: { pregnant: false, bp: false, thinners: false },
     savedBrews: { 'Blue vervain': true },
-    freqBand: 'grounding',
+    /*
+      Must agree with goalFreqMap[obGoal] — obGoal is 'muscle', which tunes to
+      'building'. The prototype seeds 'grounding' here, a pairing its own
+      onboarding cannot produce (picking a goal writes
+      `freqBand: goalFreqMap[g.id]`). Reachable via "Skip for now", which jumps
+      to Today with the seed intact: the frequencies screen then read "your goal
+      — Muscle growth — tunes you to Building" with Grounding selected.
+    */
+    freqBand: 'building',
     warriorId: 'zulu',
     coconutUse: 'kitchen',
     honeyUse: 'fuel',
