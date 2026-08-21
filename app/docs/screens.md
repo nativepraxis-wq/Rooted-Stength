@@ -105,3 +105,70 @@ report changes with it.
 | Microgreens | Crop library | A crop |
 |---|---|---|
 | ![Trays, and the honest ceiling on the density claim](media/nourish/microgreens.png) | ![Seventeen crops, searchable, with sow advice for the current season](media/nourish/croplib.png) | ![A crop, with its full grow protocol](media/nourish/variety.png) |
+
+---
+
+## Explore
+
+Twenty-seven routes — the largest cluster, and the one carrying most of the
+app's sourced content. Every claim on these screens wears its evidence tier, and
+the tier vocabulary differs by surface: dishes are classified, herbs and foods
+are graded.
+
+### The atlas and the two codices
+
+| Explore | Foodways Codex | A region |
+|---|---|---|
+| ![The Explore hub — nutrients as one circuit, soil to blood](media/explore/explore.png) | ![Ten regional volumes](media/explore/codex.png) | ![A volume, every dish labelled by what it always was](media/explore/codexRegion.png) |
+
+| Pantry Codex | A volume | The fusion check |
+|---|---|---|
+| ![Six ingredient volumes, 55 entries, six claim tiers](media/explore/pantryCodex.png) | ![A volume, each entry graded by what the evidence carries](media/explore/pantryVol.png) | ![The eight questions every fusion recipe answers before it publishes](media/explore/fusion.png) |
+
+The codex header states its own counts — six volumes, 55 entries, six claim
+tiers — and those are read from the data, not typed into the design.
+
+### Where food comes from
+
+| Crop origins | Near you | Foraged foods |
+|---|---|---|
+| ![A crop's origin, spread and the people who carried it](media/explore/crop.png) | ![Farms, markets, co-ops and kitchens — approximate location only](media/explore/map.png) | ![Weeds and sea vegetables, with the identification warning](media/explore/forage.png) |
+
+| Community | Seasonal calendar | Mineral & body atlas |
+|---|---|---|
+| ![Learning and gathering](media/explore/community.png) | ![Not four seasons everywhere — the year by bioregion](media/explore/seasonal.png) | ![Soil to bloodstream](media/explore/minerals.png) |
+
+`seasonal` leads with the bioregion rather than assuming four temperate seasons,
+and marks the current one — "Summer · now" in August.
+
+### The apothecary
+
+| Apothecary | Tea intelligence | Nervines |
+|---|---|---|
+| ![Herbal teas and tonics](media/explore/apothecary.png) | ![Which cup, when and why](media/explore/teaIntel.png) | ![Nervines and adaptogens](media/explore/nervines.png) |
+
+| Water medicine | Ferments | Mushrooms |
+|---|---|---|
+| ![Water as medicine](media/explore/waterMed.png) | ![Live cultures](media/explore/ferment.png) | ![Fungi, graded by evidence](media/explore/mushrooms.png) |
+
+Every brew carries its grade, and the safety filters state plainly when they are
+off — "No safety filters on — every brew is shown" is shown, not implied.
+
+### Foodways in depth
+
+| Mushroom recipes | Coconut | Honey |
+|---|---|---|
+| ![Cooking with mushrooms](media/explore/shroomRecipes.png) | ![Coconut foodways](media/explore/coconut.png) | ![Honey incorporated](media/explore/honey.png) |
+
+| Swaps | Ceremony | Blood sugar |
+|---|---|---|
+| ![Substitutions that hold up](media/explore/swaps.png) | ![Ceremonial and ritual foods](media/explore/ceremony.png) | ![Eating for blood sugar, with the clinician boundary](media/explore/diabetes.png) |
+
+### Eating out, and eating for state
+
+| Nutrient frequencies | Restaurants | An order |
+|---|---|---|
+| ![Four bands, matched to how the day feels — tuned by your goal](media/explore/frequencies.png) | ![Places worth eating at](media/explore/restaurant.png) | ![A menu, filtered against your profile, with what to ask before ordering](media/explore/order.png) |
+
+`order` does not silently hide what does not fit: it counts the dishes that do,
+flags the one that does not, and gives you the questions to ask.

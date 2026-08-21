@@ -187,12 +187,23 @@ export function Chip({ selected, onClick, color = 'var(--clay)', children }: {
         borderRadius: 999, padding: '9px 14px', minHeight: 44,
         fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
         /*
-          Was `nowrap`. In a horizontally scrolling row there is room to spare,
-          so chips still sit on one line and nothing changes. In a wrapping row
-          at large text a single long chip would otherwise outgrow the frame and
-          be clipped — losing the label, which is the whole control.
+          `whiteSpace: normal` (was `nowrap`) so that in a WRAPPING row at large
+          text a long chip wraps its label instead of outgrowing the frame and
+          being clipped — losing the label, which is the whole control.
+
+          But normal wrapping alone breaks the SCROLLING rows: flex items shrink
+          by default, so instead of the row scrolling, every chip squeezed until
+          its label wrapped — "Evening cool-down" came out as a circle with the
+          word hyphen-broken across three lines. A row only scrolls if its items
+          refuse to shrink, hence flexShrink: 0.
+
+          maxWidth then keeps the wrapping-row guarantee intact: a chip wider
+          than its container is capped and wraps inside itself rather than
+          overflowing, which flexShrink: 0 would otherwise allow.
         */
         whiteSpace: 'normal',
+        flexShrink: 0,
+        maxWidth: '100%',
       }}
     >{children}</button>
   );

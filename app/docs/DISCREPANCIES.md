@@ -177,6 +177,50 @@ read "1 serving".
 
 ---
 
+## 10. The seed state pairs a goal with a band its own onboarding cannot produce — **fixed**
+
+The prototype's seed carries `obGoal: 'muscle'` and `freqBand: 'grounding'`.
+Those two cannot coexist in any state the prototype itself can reach: choosing a
+goal in onboarding writes the band from the goal,
+
+```js
+freqBand: this.goalFreqMap[g.id] || 'grounding'
+```
+
+and `goalFreqMap.muscle` is `'building'`. `'grounding'` is only correct as the
+*pre*-onboarding default.
+
+**Why it is reachable.** The welcome screen offers **"Skip for now — explore
+first"**, which goes straight to Today without running the goal handler. A user
+who takes it keeps both seeded values, and the nutrient-frequencies screen then
+states:
+
+> Your goal — Muscle growth — tunes you to **Building**.
+
+with **Grounding** selected and Grounding's foods listed underneath. The screen
+announces a personalisation in one sentence and contradicts it in the next
+control down.
+
+**Build uses:** `freqBand: 'building'` in `src/data/initialState.ts`, with the
+reasoning at the key itself. The invariant is that the seed must satisfy
+`freqBand === goalFreqMap[obGoal]`.
+
+`teaGoal` looks like the same problem and is not: the seeded `'energy'` differs
+from `goalTeaMap.muscle` (`'recovery'`), but nothing derives `teaGoal` at
+onboarding — it changes only when the user presses "For your goal, start with
+…". Seed and goal disagreeing there is a state a real user can be in, so it is
+left alone.
+
+### Left for the owner to decide
+
+On the skip path the app addresses the user as though they had chosen a goal —
+"Your goal — Muscle growth" — when they explicitly declined to answer. The
+seeded `obGoal` is the prototype's demo default, and it feeds the Move hub, the
+tea suggestion and Today as well, so changing it is a product decision rather
+than a bug fix. Flagged rather than changed.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
