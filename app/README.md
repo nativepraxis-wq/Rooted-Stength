@@ -13,6 +13,8 @@ React + Vite + TypeScript implementation of the design handoff in
 
 Captured from the running app at 393×852 — the resolution the design was drawn
 at. No mockups: these are headless-Chrome screenshots of the real build.
+More in **[docs/screens.md](docs/screens.md)**, including all eleven Move
+screens.
 
 ```bash
 npm install
