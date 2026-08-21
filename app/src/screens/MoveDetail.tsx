@@ -441,18 +441,29 @@ export function BreathScreen() {
           instruction changes from "follow the circle" to the explicit count —
           the practice has to remain usable without the animation.
         */}
+        {/*
+          The disc scales with the type. It was a fixed 110px, which meant the
+          label outgrew it — rs-breathe shrinks the disc to 0.72 of its size, so
+          at 200% text a 160px label sat on a disc that never exceeded 123px.
+          The label is forest green, legible on ochre and invisible on the dark
+          ground behind it, so overflow did not just look wrong: it erased the
+          instruction. Base bumped to 128px for headroom at the small end of the
+          animation.
+        */}
         <div style={{
-          position: 'relative', height: 190,
+          position: 'relative', height: 'calc(190px * var(--scale))',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span aria-hidden="true" style={{
-            position: 'absolute', width: 150, height: 150, borderRadius: '50%',
-            background: 'rgba(199,154,69,0.22)',
+            position: 'absolute',
+            width: 'calc(174px * var(--scale))', height: 'calc(174px * var(--scale))',
+            borderRadius: '50%', background: 'rgba(199,154,69,0.22)',
             animation: reduced ? 'none' : 'rs-breathe-halo 12s ease-in-out infinite',
           }} />
           <span aria-hidden="true" style={{
-            position: 'absolute', width: 110, height: 110, borderRadius: '50%',
-            background: 'var(--ochre)', opacity: 0.85,
+            position: 'absolute',
+            width: 'calc(128px * var(--scale))', height: 'calc(128px * var(--scale))',
+            borderRadius: '50%', background: 'var(--ochre)', opacity: 0.85,
             animation: reduced ? 'none' : 'rs-breathe 12s ease-in-out infinite',
           }} />
           <div style={{ position: 'relative', textAlign: 'center', color: 'var(--forest)' }}>
