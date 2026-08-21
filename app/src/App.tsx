@@ -209,8 +209,23 @@ function Router() {
   const { state } = useStore();
   const known = (ROUTES as readonly string[]).includes(state.route);
   const Screen_ = (known && SCREENS[state.route]) || NotBuiltYet;
-  /* Keying on the route restarts the rs-fade enter animation on every change. */
-  return <Shell><div key={state.route}><Screen_ /></div></Shell>;
+  /*
+    Keying on the route restarts the rs-fade enter animation on every change.
+
+    height: 100% matters. The onboarding screens and the pregnancy flow use
+    `min-height: 100%` to push their footer button to the bottom of the frame.
+    A percentage resolves against the parent's HEIGHT, and min-height does not
+    count — so without a definite height here that rule silently did nothing and
+    those screens stopped 200px short. Content taller than the frame still
+    overflows normally and .rs-scroll scrolls it.
+  */
+  return (
+    <Shell>
+      <div key={state.route} style={{ height: '100%' }}>
+        <Screen_ />
+      </div>
+    </Shell>
+  );
 }
 
 export default function App() {
