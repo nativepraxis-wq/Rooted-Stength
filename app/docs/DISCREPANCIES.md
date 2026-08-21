@@ -221,6 +221,46 @@ than a bug fix. Flagged rather than changed.
 
 ---
 
+## 11. The pregnancy flow's footer button was never actually fixed — **fixed**
+
+PR #7 fixed percentage heights that resolved against nothing, and said the fix
+covered "every onboarding step, the recap, and the pregnancy flow — all of which
+use the same pattern." The first two were right. The pregnancy flow was not, and
+the claim went unverified because nobody looked at the screen.
+
+They do not use the same pattern. `ObScreen` renders its full-height flex column
+**directly** under the route wrapper, which has a real `height: 100%`, so its
+`minHeight: '100%'` resolves. `PregnancyScreen` wrapped the identical column in
+`<Screen>` — and `Screen` is a plain div with no height at all:
+
+```jsx
+<div style={{ animation: ..., paddingBottom: pad }}>
+```
+
+So the percentage fell back to `auto`, the column collapsed to its content, and
+all **four** `flex: 1` spacers — one per step of the flow — distributed nothing.
+Continue sat directly beneath the chips with most of the frame empty below it.
+
+**Build uses:** `PregnancyScreen` no longer wraps in `<Screen>`; it renders its
+column directly, mirroring `ObScreen`, with `Screen`'s bottom padding folded into
+its own so the button still clears the tab bar.
+
+The general lesson is the one from the breathwork disc: a percentage height needs
+an unbroken chain of resolved heights above it, and adding one wrapper anywhere
+in that chain silently breaks it with no error and no visual clue except the
+layout being wrong.
+
+## 12. Two spellings of the same feature on one screen — **fixed**
+
+The accessibility header read "**Colour**-blind-safe encoding …" six rows above a
+toggle labelled "**Color**-blind-safe charts". The toggle label is prototype
+content and byte-identical by rule, so the header — which is our prose, not the
+prototype's — was brought into line with it.
+
+Code comments keep British spelling; they are not user-visible.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

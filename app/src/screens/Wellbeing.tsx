@@ -182,11 +182,23 @@ export function PregnancyScreen() {
   const next = () => set({ pregStep: step + 1 });
 
   return (
-    <Screen>
-      <div style={{
-        animation: 'rs-fade var(--dur-route) ease', minHeight: '100%',
-        display: 'flex', flexDirection: 'column', padding: '64px 22px 36px',
-      }}>
+    /*
+      Deliberately NOT wrapped in <Screen>. This flow pushes its Continue button
+      to the bottom of the frame with a `flex: 1` spacer, which needs the column
+      to actually BE full height. `minHeight: '100%'` only resolves against a
+      parent that has a real height — and <Screen> has none, so the percentage
+      fell back to auto, the column collapsed to its content, and all four
+      spacers did nothing. Rendering directly under the route wrapper (which
+      does have height: 100%) is what ObScreen already does for onboarding.
+
+      Screen's paddingBottom is folded into the padding below so the button
+      still clears the tab bar.
+    */
+    <div style={{
+      animation: 'rs-fade var(--dur-route) ease', minHeight: '100%',
+      display: 'flex', flexDirection: 'column',
+      padding: '64px 22px calc(36px + var(--scroll-pad))',
+    }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
           <button
             type="button"
@@ -390,8 +402,7 @@ export function PregnancyScreen() {
             }}>Back to your journal</button>
           </>
         )}
-      </div>
-    </Screen>
+    </div>
   );
 }
 
