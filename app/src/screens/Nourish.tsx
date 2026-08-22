@@ -1,4 +1,4 @@
-import { plateImage, ILLUSTRATION_NOTE, hubImage, HUB_NOTE } from '../data/media';
+import { plateImage, ILLUSTRATION_NOTE, hubImage, HUB_NOTE, subImage, SCAN_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { platePools, detectedRows, scanReport } from '../state/selectors';
 import {
@@ -133,6 +133,25 @@ export function ScanScreen() {
   return (
     <Screen>
       <DarkHeader eyebrow="Nourish · scan" title="Photograph a meal" back={goBack} />
+      {/*
+        Deliberately not a plated dish. This flow photographs the user's own
+        meal and reports on it, so a finished plate here could be read as their
+        scan result. The note says "not your photo" for the same reason.
+      */}
+      <img
+        src={subImage('scan')}
+        alt={'Photographing a meal, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SCAN_NOTE}</div>
       <Gutter style={{ paddingTop: 18 }}>
         {/* No imagery in this app by design — the viewfinder is CSS texture. */}
         <div aria-hidden="true" style={{
@@ -181,6 +200,25 @@ export function DetectedScreen() {
           Correct anything that is wrong. Nothing is counted until you say it belongs on the plate.
         </p>
       </DarkHeader>
+      {/*
+        Deliberately not a plated dish. This flow photographs the user's own
+        meal and reports on it, so a finished plate here could be read as their
+        scan result. The note says "not your photo" for the same reason.
+      */}
+      <img
+        src={subImage('detected')}
+        alt={'Sorting components to identify them, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SCAN_NOTE}</div>
 
       <Gutter style={{ paddingTop: 18 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -248,6 +286,25 @@ export function HiddenScreen() {
           A photo cannot see oil, broth or salt. Whatever you add here is added to the totals too.
         </p>
       </DarkHeader>
+      {/*
+        Deliberately not a plated dish. This flow photographs the user's own
+        meal and reports on it, so a finished plate here could be read as their
+        scan result. The note says "not your photo" for the same reason.
+      */}
+      <img
+        src={subImage('hidden')}
+        alt={'Oil and seasoning going into the pan, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SCAN_NOTE}</div>
 
       <Gutter style={{ paddingTop: 18 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 9 }}>
@@ -285,6 +342,25 @@ export function ReportScreen() {
           Totalled from the {rep.parts.length} component{rep.parts.length === 1 ? '' : 's'} you kept.
         </p>
       </DarkHeader>
+      {/*
+        Deliberately not a plated dish. This flow photographs the user's own
+        meal and reports on it, so a finished plate here could be read as their
+        scan result. The note says "not your photo" for the same reason.
+      */}
+      <img
+        src={subImage('report')}
+        alt={'A kitchen mid-cook, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SCAN_NOTE}</div>
 
       <Gutter style={{ paddingTop: 18 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 9 }}>
@@ -376,6 +452,20 @@ export function RecipeScreen() {
   return (
     <Screen>
       <DarkHeader eyebrow="Nourish · generator" title="What are you cooking for?" back={goBack} />
+      <img
+        src={subImage('generator')}
+        alt={'Deciding what to cook, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 18 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>

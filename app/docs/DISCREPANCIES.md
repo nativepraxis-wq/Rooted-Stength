@@ -997,8 +997,10 @@ Move surfaces - African American people, styled up, in the app's own palette.
 
 ### Hubs only, and the scan flow is why
 
-The sub-screens under these tabs are deliberately left alone: Progress, History,
-the profile recap, the recipe generator, and the whole scan flow. They show the
+The sub-screens were initially left alone: Progress, History, the profile recap,
+the recipe generator, and the whole scan flow. **The owner subsequently asked for
+them - see section 30**, where the risk below is handled by subject choice rather
+than by omission. They show the
 **user's own record**, and a generated photograph there competes with their data
 instead of supporting it.
 
@@ -1013,6 +1015,48 @@ Each hub image carries the same note as elsewhere: *"Illustration, generated - n
 a photograph."*
 
 App imagery is now **230 files, 11 MB**.
+
+---
+
+## 30. Sub-screen imagery, and keeping it out of the user's own plate
+
+The eight Journey and Nourish sub-screens now carry imagery too. Section 29 left
+them bare over a specific hazard; the owner asked for them, so the hazard is
+handled in **what the pictures are of** rather than by refusing.
+
+### Nothing in the scan flow is a plated dish
+
+That flow photographs the user's own meal and then reports on it. A finished
+plate sitting anywhere inside it could be read as **their scan result** - a claim
+about their food nobody made. So:
+
+| screen | its own copy | the image |
+|---|---|---|
+| Photograph a meal | - | the **act** of photographing; food soft in the lower frame |
+| What we think we see | "Nothing is counted until you say it belongs on the plate" | hands sorting **separate** components on a board |
+| What else went in? | "A photo cannot see oil, broth or salt" | oil being poured into a pan |
+| What this plate carries | "Totalled from the 8 components you kept" | a working kitchen mid-cook, components at different stages |
+
+The middle two ended up carrying their screen's argument better than planned. The
+copy says a photograph cannot see oil, and the picture is oil going into a pan.
+The copy says nothing counts until you say it belongs on the plate, and the
+picture shows components deliberately not on one.
+
+### A different note for those four
+
+The scan-flow screens carry **`SCAN_NOTE`** - *"Illustration, generated - not your
+photo."* - rather than the usual "not a photograph". On those four screens the
+confusion worth foreclosing is not whether the image is a photograph. It is
+whether it is **the user's** photograph.
+
+### The Journey three
+
+Progress is somebody lacing training shoes - the ordinary repetition of showing
+up. History is hands turning a well-used journal beside two filled ones. Profile
+is a man weighing a decision, which is what "What it all changes" asks of you.
+None depicts data.
+
+App imagery is now **238 files, 11 MB**.
 
 ---
 

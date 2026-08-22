@@ -1,4 +1,4 @@
-import { hubImage, HUB_NOTE } from '../data/media';
+import { hubImage, HUB_NOTE, subImage } from '../data/media';
 import { useStore } from '../state/store';
 import { useJournal } from '../state/journal';
 import { journal, obGoals, obRestrList, obTradList, consentList } from '../data/content';
@@ -238,6 +238,20 @@ export function ProgressScreen() {
           ))}
         </div>
       </DarkHeader>
+      <img
+        src={subImage('progress')}
+        alt={'Lacing up to train, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', gap: 9 }}>
@@ -426,6 +440,20 @@ export function HistoryScreen() {
           color: 'var(--on-dark-muted)',
         }}>{j.histCountLabel}</div>
       </DarkHeader>
+      <img
+        src={subImage('history')}
+        alt={'A record kept over time, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div className="rs-scroll" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
@@ -572,6 +600,20 @@ export function ProfileScreen() {
           Every answer, and the part of the app it actually drives. Tap any row to change it.
         </p>
       </DarkHeader>
+      <img
+        src={subImage('profile')}
+        alt={'Weighing what to change, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
