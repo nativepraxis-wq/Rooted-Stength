@@ -1,4 +1,5 @@
 import { plateImage, ILLUSTRATION_NOTE, hubImage, HUB_NOTE, subImage, SCAN_NOTE } from '../data/media';
+import { recipeDepth } from '../data/recipeDepth';
 import { useStore } from '../state/store';
 import { platePools, detectedRows, scanReport } from '../state/selectors';
 import {
@@ -551,6 +552,7 @@ export function RecipeDetailScreen() {
   const { state, goBack, pushLog } = useStore();
   const def = (plateDefs as any[]).find((p) => p.id === state.plateId) ?? (plateDefs as any[])[0];
   const r = (plateRecipes as any)[state.plateId] ?? (plateRecipes as any)[def.id];
+  const depth = recipeDepth[state.plateId] ?? recipeDepth[def.id];
 
   if (!r) {
     return (
@@ -621,6 +623,17 @@ export function RecipeDetailScreen() {
 
         <Band tone="cream" title="Ingredients" style={{ marginTop: 16 }}>{r.ing}</Band>
 
+        {/*
+          Added depth, from data/recipeDepth.ts. Nothing in content.ts was
+          edited to make room for it - README rule 3 keeps that copy verbatim,
+          so this is new data in a new file rendered alongside.
+        */}
+        {depth && (
+          <Band tone="cream" title="Before you start" style={{ marginTop: 16 }}>
+            {depth.ahead}
+          </Band>
+        )}
+
         <h2 style={{
           fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '20px 0 10px',
@@ -633,6 +646,27 @@ export function RecipeDetailScreen() {
             }}>{s}</li>
           ))}
         </ol>
+
+        {depth && (
+          <>
+            <h2 style={{
+              fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
+              fontWeight: 600, color: 'var(--ink)', margin: '20px 0 10px',
+            }}>How you know it is right</h2>
+            <ul style={{ margin: 0, paddingLeft: 18 }}>
+              {depth.cues.map((c: string) => (
+                <li key={c} className="rs-prose" style={{
+                  fontSize: 'calc(13px * var(--scale))', lineHeight: 1.6,
+                  color: 'var(--ink-muted)', marginBottom: 8,
+                }}>{c}</li>
+              ))}
+            </ul>
+
+            <Band tone="cream" title="Keeping it" style={{ marginTop: 16 }}>
+              {depth.keeps}
+            </Band>
+          </>
+        )}
 
         <h2 style={{
           fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',

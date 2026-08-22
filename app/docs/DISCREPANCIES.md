@@ -1101,6 +1101,55 @@ App imagery is now **244 files, 11 MB**.
 
 ---
 
+## 32. Deepening the 28 recipes without editing a word of them
+
+All 28 plate recipes now carry three added sections - **Before you start**, **How
+you know it is right**, and **Keeping it**.
+
+### It is a new file, and content.ts is untouched
+
+README rule 3: *"Copy is not edited. content.ts is verbatim. Several passages are
+worded precisely to avoid claiming more than the evidence supports."*
+
+Deepening therefore had to mean **adding**, never rewriting. The new material
+lives in `src/data/recipeDepth.ts`, and `git diff` confirms `content.ts` has not
+changed by a single character. Every existing eyebrow, ingredient line, step,
+swap and attribution is exactly as it was.
+
+### What was added, and what deliberately was not
+
+Each entry adds craft that follows from what the recipe already asserts: prep
+that the ingredient list implies (soaking, pressing, pickling, batch-cooking a
+slow grain), doneness cues the steps leave unsaid, and storage.
+
+Two things were **not** added, and the omissions matter more than the additions:
+
+- **No second set of nutrition numbers.** The kcal, iron and fibre figures are
+  claims, and inventing more of them would be exactly the failure this app
+  exists to avoid. Verified: the depth file contains no `kcal`, `g` or `mg`
+  figures at all.
+- **No new provenance.** History stays where it belongs, in each recipe's own
+  `attrib` line, which is already worded carefully - jollof's says the dish is
+  *"a labeled vegan, millet-based adaptation - not the original dish."* Nothing
+  added here touches that.
+
+### Nothing restated
+
+Several recipes already carry their pivotal technique inside the steps: *"so it
+never splits in the pot"*, *"the air is what makes akara light"*, *"file off the
+heat, never boiled"*. Those are not repeated in the cues. The added lines cover
+what the steps leave out.
+
+### Verified
+
+28 recipes, 28 depth entries, no missing and no orphans. Section order renders as
+Ingredients, Before you start, Method, How you know it is right, Keeping it,
+Swaps, What this dish actually is - with all four original sections intact.
+Checked on two different plates to confirm the depth is per-recipe and jollof's
+lines do not leak onto akara.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
