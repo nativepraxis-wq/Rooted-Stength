@@ -29,13 +29,19 @@ export type GuideGroup = {
 };
 
 export function TabbedGuide({
-  eyebrow, title, lede, groups, stateKey, footer, image,
+  eyebrow, title, lede, groups, stateKey, footer, image, groupImage,
 }: {
   eyebrow: string;
   title: string;
   lede: string;
   /* Optional guide illustration, rendered under the header. */
   image?: string;
+  /*
+    Optional per-group image. When given it replaces `image` for whichever
+    group is open, so the header tracks the tab instead of sitting still
+    across four different subjects.
+  */
+  groupImage?: (id: string) => string;
   groups: GuideGroup[];
   /** The state field holding the selected tab id. */
   stateKey: string;
@@ -60,10 +66,12 @@ export function TabbedGuide({
         }}>{lede}</p>
       </DarkHeader>
 
-      {image && (
+      {(groupImage || image) && (
         <>
           <img
-            src={image}
+            /* Per-group when the caller supplies it, so the header follows the tab. */
+            key={groupImage ? sel.id : 'static'}
+            src={groupImage ? groupImage(sel.id) : image}
             alt=""
             aria-hidden="true"
             loading="lazy"
@@ -147,19 +155,41 @@ export function TabbedGuide({
                     marginTop: 9, paddingTop: 9,
                     borderTop: '1px solid var(--border)',
                   }}>
-                    <div style={{
-                      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
-                      letterSpacing: 1, textTransform: 'uppercase',
-                      color: 'var(--ink-meta)', marginBottom: 4,
-                    }}>How</div>
-                    <p className="rs-prose" style={{
-                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
-                      lineHeight: 1.5, margin: 0,
-                    }}>{apothecaryDepth[it.name].how}</p>
+                    {/*
+                      `how` is now optional. Clinical, cultural and rationale
+                      items carry `context` instead - see apothecaryDepth.ts for
+                      why they get depth without getting instructions.
+                    */}
+                    {apothecaryDepth[it.name].how && (
+                      <>
+                        <div style={{
+                          fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                          letterSpacing: 1, textTransform: 'uppercase',
+                          color: 'var(--ink-meta)', marginBottom: 4,
+                        }}>How</div>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                          lineHeight: 1.5, margin: 0,
+                        }}>{apothecaryDepth[it.name].how}</p>
+                      </>
+                    )}
+                    {apothecaryDepth[it.name].context && (
+                      <div style={{ marginTop: apothecaryDepth[it.name].how ? 9 : 0 }}>
+                        <div style={{
+                          fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                          letterSpacing: 1, textTransform: 'uppercase',
+                          color: 'var(--ink-meta)', marginBottom: 4,
+                        }}>What this is</div>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                          lineHeight: 1.5, margin: 0,
+                        }}>{apothecaryDepth[it.name].context}</p>
+                      </div>
+                    )}
                     {apothecaryDepth[it.name].watch && (
                       <p className="rs-prose" style={{
                         fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
-                        lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600,
+                        lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600,
                       }}>{apothecaryDepth[it.name].watch}</p>
                     )}
                   </div>

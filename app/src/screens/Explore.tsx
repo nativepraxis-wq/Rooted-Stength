@@ -1,7 +1,8 @@
 import {
-  placeImage, cropImage, CROP_NOTE, forageImage, ATLAS_PREP_NOTE,
+  placeImage, cropImage, CROP_NOTE, forageImage, ATLAS_PREP_NOTE, freqImage,
 } from '../data/media';
 import { forageDepth } from '../data/forageDepth';
+import { freqDepth } from '../data/bandDepth';
 import { useStore } from '../state/store';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
@@ -1006,6 +1007,24 @@ export function FrequenciesScreen() {
         </p>
       </DarkHeader>
 
+      {/* One image per band, keyed to the open one. */}
+      <img
+        key={sel.id}
+        src={freqImage(sel.id)}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{ATLAS_PREP_NOTE}</div>
+
       <Gutter style={{ paddingTop: 16 }}>
         <div role="status" style={{
           fontSize: 'calc(12px * var(--scale))', fontWeight: 700,
@@ -1072,6 +1091,28 @@ export function FrequenciesScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '5px 0 0',
               }}>{f.why}</p>
+              {/*
+                A food only does the thing the band claims if it is prepared in a
+                way that lets it - the iron needs the vitamin C, the magnesium
+                needs the phytate dealt with. See data/bandDepth.ts.
+              */}
+              {freqDepth[f.name] && (
+                <div style={{
+                  marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border)',
+                }}>
+                  <DLabel>How to prepare it</DLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{freqDepth[f.name].eat}</p>
+                  {freqDepth[f.name].note && (
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600,
+                    }}>{freqDepth[f.name].note}</p>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>

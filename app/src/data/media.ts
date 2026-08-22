@@ -367,6 +367,41 @@ export function forageImage(name: string): string {
   return base('forage-' + (FORAGE_SLUG[name] ?? 'dandelion'));
 }
 
+
+/*
+  Per-GROUP imagery for the tabbed guides and the two banded screens.
+
+  These screens already had one header image each, which stayed put while the
+  reader moved between four quite different tabs - the calming tea and the
+  morning-fire tea shared a picture. Keying the image to the active group means
+  the header actually tracks what is being read.
+
+  Ids are the group ids in content.ts, so there is no name-to-slug map to drift.
+
+  SUPPLEMENT SWAPS carries one extra rule: no pills, no capsules, no supplement
+  tubs and no branded packaging in any of the four. The screen's whole argument
+  is tub versus bulk bin, and illustrating it with the tub would undercut the
+  page. Creatine is the one item where the page says the supplement genuinely
+  wins - and even there the image is honey water and coffee, because the
+  alternative was drawing the product the rest of the screen argues against.
+
+  LIVING WITH DIABETES deliberately gets no group images. That screen's copy
+  keeps pointing at the reader's clinician, and illustrating "Herbs & kitchen
+  allies" or "Remission" would put a picture where the text is careful to leave
+  a question. Its single header image stays.
+*/
+export function swapGroupImage(id: string): string {
+  return base('swapg-' + id);
+}
+
+export function freqImage(id: string): string {
+  return base('freq-' + id);
+}
+
+export function teaGoalImage(id: string): string {
+  return base('teag-' + id);
+}
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 

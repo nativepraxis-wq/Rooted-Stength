@@ -33,12 +33,49 @@
   Cultural practices - libation, the grater as family memory, serving others
   first - are described as what the practice IS, never as instructions for
   performing someone's tradition.
+
+  ────────────────────────────────────────────────────────────────────────
+  LATER: `context`, AND WHY THOSE ITEMS ARE NO LONGER BLANK
+
+  The three groups above kept no `how`, and still have none. But for a while
+  they rendered as nothing at all, which was the wrong conclusion from a right
+  premise. The premise was that a method note must not become a prescription or
+  a script for someone else's tradition. "Therefore say nothing" does not
+  follow, and on the diabetes screen it was actively unhelpful: an item reading
+  "Meds need adjusting fast" with no explanation is an instruction without a
+  reason, which is the least persuasive thing a safety note can be.
+
+  So those items now carry `context` instead - what the mechanism IS, what the
+  practice IS, what the evidence does and does not show. For the clinical ones
+  it explains why the decision belongs to a prescriber rather than making it,
+  which argues FOR the appointment instead of standing in for it. Still no
+  doses, still no instructions, still no numbers on this screen.
+  ────────────────────────────────────────────────────────────────────────
   ────────────────────────────────────────────────────────────────────────
 */
 
 export type ApothecaryDepth = {
-  /** The process itself. */
-  how: string;
+  /**
+   * The process itself. Optional, because a number of these items are not things
+   * you make - see `context`.
+   */
+  how?: string;
+  /**
+   * Depth for items that have no process to write.
+   *
+   * The header above names three groups that deliberately got no `how`: clinical
+   * guidance, cultural practice, and pure rationale. Leaving them with nothing at
+   * all was the wrong conclusion from a right premise. The premise was that a
+   * method note must not quietly become a prescription, or a script for
+   * performing someone else's tradition. `context` honours that and still says
+   * something worth reading.
+   *
+   * So: what the practice IS, what the mechanism IS, what the evidence does and
+   * does not show. Never an instruction and never a dose - and for the clinical
+   * items it explains why the question belongs to a clinician instead of
+   * answering it.
+   */
+  context?: string;
   /** The failure or safety signal, where a real one exists. */
   watch?: string;
 };
@@ -323,6 +360,145 @@ export const apothecaryDepth: Record<string, ApothecaryDepth> = {
   'Okra and soluble fiber': {
     how: 'Sear it whole and dry in a hot pan before liquid goes near it, which keeps the texture while leaving the soluble fibre intact.',
   },
+  /* ═══════════ SUPPLEMENT SWAPS ═══════════ */
+
+  'Lentil & pea microgreens over grains': {
+    how: 'Soak the seed overnight, spread it thickly on shallow trays of damp compost, and keep it covered and dark for the first three or four days so it roots hard before it reaches for light. Uncover, give it bright indirect light, and water from below to keep the leaves dry - wet leaves in a warm tray is how you get mould rather than greens. Cut above the soil line with scissors at eight to eleven days, when the first true leaves are showing. Scatter them over the grain off the heat, never into the pot: they are a fresh garnish and heat collapses both the texture and the point of them.',
+    watch: 'Trays are warm, damp and dense - exactly what mould likes. Airflow and bottom-watering are what prevent it, and a fuzzy grey bloom at the soil line means start again rather than rinse and hope.',
+  },
+  'Creatine \u2014 the one worth buying': {
+    how: 'Buy creatine monohydrate, plain and unflavoured, and ignore the rest. It is the form the research was done on, it is the cheapest by a wide margin, and the more elaborate variants - hydrochloride, buffered, liquid - are more expensive without better evidence behind them. Look for a third-party purity certification on the tub, because this is an unregulated category and that mark is doing real work.',
+    context: 'This is the one item on the whole screen where the supplement genuinely beats the food, and the page says so rather than pretending otherwise. Creatine is concentrated in meat, plant-based intakes are low, and it is among the most-studied sports supplements there is. No dose is given here - that is a conversation for a clinician or a coach who knows you.',
+  },
+  'Honey water intra-workout': {
+    how: 'Dissolve the honey in a little warm water first and then top it up cold, because honey will sit in a stubborn lump at the bottom of a cold bottle and never disperse. A pinch of salt and a squeeze of citrus turns it from sweet water into something that replaces what a heavy sweat actually takes out - the sodium matters as much as the sugar on a long hot session. Sip it across the session rather than drinking it in one go.',
+  },
+  'B12 & vitamin D \u2014 supplement, don\u2019t improvise': {
+    context: 'No `how` here, deliberately, because the item\u2019s own point is that this is not a thing to work out for yourself. B12 is made by bacteria rather than by plants, and the plant foods often claimed to supply it - spirulina, unfortified nutritional yeast, fermented foods - largely carry analogues that occupy the receptor without doing the job, which can look like sufficiency on a cheap test while a deficiency progresses. Vitamin D is made in skin from sunlight, and how much you make depends on latitude, season, age and melanin: darker skin needs substantially more sun exposure for the same synthesis, which is exactly why this cannot be estimated from a card. Both are testable. Test, then talk to a clinician about what the number means.',
+  },
+  'Sea moss + moringa': {
+    how: 'Rinse the sea moss until the water runs clear and the low-tide smell goes, soak it until it swells pale and translucent, then blend with fresh water into a gel that sets in the fridge without heat. Shade-dry the moringa rather than sun-drying it - direct sun takes the colour and a good part of the vitamin content with it - and grind only once it shatters. Stir both in off the heat at the end. Boiling moringa makes it bitter and cooking the gel just thins it back to liquid.',
+    context: 'Sea moss carries iodine, and how much varies by orders of magnitude between harvests. That is why the Mineral atlas refuses to put a number on it, and it is why daily use is a clinician conversation rather than a habit to drift into. Too much iodine harms the thyroid as surely as too little.',
+  },
+
+  /* ═══════════ HONEY ═══════════ */
+
+  'Raw honey for throat & cough': {
+    how: 'Take it neat off the spoon, or stir it into water that is warm rather than boiling - it is the coating of the throat that does the work, so anything that dilutes it thin or washes it straight down is working against you. A squeeze of lemon is traditional and does no harm.',
+    context: 'This is one of the better-evidenced entries in the whole Apothecary. Honey performs well for acute night-time cough in children over one, comparing favourably with several over-the-counter cough preparations, and it is cheap and pleasant. The demulcent effect - a physical coating - is most of the mechanism, which is why the delivery above matters more than the variety of honey.',
+    watch: 'Never give honey to an infant under twelve months, in any form, cooked or raw. Infant botulism is rare, serious, and entirely avoidable by waiting. This is the single most important line on this screen.',
+  },
+  'Wound-care lineage': {
+    context: 'The use of honey on wounds is long and genuinely documented, and it did not stay folk practice: medical-grade honey is a licensed product, gamma-irradiated to kill spores and standardised for antibacterial activity, and it is used in dressings under clinical supervision today. The mechanism is real - high sugar draws water out of bacteria, gluconic acid keeps the pH low, and an enzyme in the honey slowly generates hydrogen peroxide.',
+    watch: 'None of that transfers to the jar in your cupboard. Table honey is not sterile, is not standardised, and can carry the same spores that make it unsafe for infants - which is exactly the problem in an open wound. Wound care is a clinical matter.',
+  },
+  'Local honey & the seasons': {
+    context: 'Worth being straight about: the popular idea that local honey desensitises you to seasonal allergies is not well supported. Hay fever is mostly driven by light, wind-borne pollen from grasses and trees, while honey carries the heavy, sticky, insect-borne pollen bees actually visit - largely not the pollen making you sneeze - and the trials that have looked for the effect have not found a convincing one. What local honey genuinely gives you is a real record of a particular place and season, and a beekeeper you can ask questions of. That is worth buying it for.',
+  },
+  'Tanzania & Zanzibar apiculture': {
+    context: 'East African beekeeping has largely worked with the bees rather than around them: log and bark hives hung high in trees, colonies of African honeybee subspecies that are more defensive and far more inclined to abscond than the European stock most Western equipment was designed for. Miombo woodland honey is a significant forest product and a real argument for keeping the woodland standing, since the hives depend on the trees. Much of the harvesting is done at night, when the colony is settled.',
+  },
+  'Black beekeeping in the Americas': {
+    context: 'Beekeeping travelled with people who already knew it, and honey hunting and keeping were established across West and Central Africa long before the Atlantic crossing. In the Americas that knowledge went into plantation apiaries and, later, into independent Black farms where bees were both an income and a way to hold ground. There is a live present tense to this: Black-led beekeeping cooperatives and urban apiaries are a visible part of the current food-sovereignty movement.',
+  },
+  'Honey as offering': {
+    context: 'Honey appears as an offering across a wide range of traditions, including several in the West African and diaspora religious world, where it is associated with sweetness, with particular deities, and with the asking of favour. What is offered, by whom, and on whose authority are matters internal to those traditions. This app names that the practice exists and does not print instructions for performing it.',
+  },
+  'Strict vegan: swap it': {
+    how: 'Date syrup is the closest match for depth and minerals; maple is thinner and cleaner; agave is the most neutral and the sweetest by volume, so use less of it. In baking, expect differences rather than a straight substitution - honey is hygroscopic and holds moisture, so bakes made with it stay soft longer, and it browns faster because of its fructose. Drop the oven about fifteen degrees and check early when swapping in the other direction. In a dressing or a drink, any of them stands in without adjustment.',
+  },
+  'Bee-inclusive plant-based': {
+    context: 'A real and widely held position rather than a compromise: eating plants for health, climate and animal-welfare reasons while including honey from small-scale keepers, on the argument that the relationship is closer to husbandry than to extraction and that pollinator-keeping sustains the plants the rest of the diet depends on. Strict veganism disagrees, on the grounds that the bees are still being kept and their stores still taken. The page carries both because both are honestly held.',
+  },
+  'Buy Black & local': {
+    how: 'Ask three questions at the market and you will learn most of what matters: where the hives actually are, what the bees were foraging in that batch, and whether it has been heated or filtered. Raw, minimally filtered honey clouds and crystallises over time - that is a sign of the real thing rather than a fault, and gentle warmth in a water bath brings it back. Buying direct from the keeper is also the only reliable defence against a category with a long and well-documented history of adulteration with cheap syrups.',
+  },
+
+  /* ═══════════ FOOD AS CEREMONY ═══════════ */
+
+  'Sunday abundance': {
+    how: 'The practical spine of it is one big pot and a hot oven doing several jobs at once: beans that will be lunch three times, a tray of roots, a pot of greens, rice that reheats. Cook the things that improve on standing rather than the things that do not - stews, braises and beans are better on Monday, dressed greens and fried food are not. Portion it while it is still warm and it becomes next week\u2019s default instead of next week\u2019s leftovers.',
+    context: 'The abundance is doing social work as much as nutritional work. A table with more on it than the household needs is what makes an unannounced visitor ordinary rather than awkward, and that is the point of the practice.',
+  },
+  'A lighter day after': {
+    how: 'Not a fast and not a punishment - a smaller plate built from what is already cooked. Broth from the bones of the meal, greens, a little of the grain, plenty of water. The pattern is a natural swing rather than a correction, and treating it as making up for yesterday is how a rhythm turns into a cycle of restriction.',
+  },
+  'Fasting with elders\u2019 caution': {
+    context: 'Fasting appears across most of the traditions this app draws on, and it is normal, communal and old. It is also the practice on this page with the most people who should not simply adopt it: anyone on blood-sugar medication, where fasting can drop glucose dangerously; anyone on medication that has to be taken with food; people who are pregnant or nursing; people with a history of disordered eating; and frail elders, for whom a missed day of protein is harder to recover than it is at thirty. The elders\u2019 caution in the title is the traditional version of exactly this knowledge.',
+    watch: 'If you take medication for blood sugar or blood pressure, do not fast without speaking to your clinician first. This is the interaction most likely to cause immediate harm.',
+  },
+
+  /* ═══════════ COCONUT ═══════════ */
+
+  'Fat that carries vitamins': {
+    context: 'Vitamins A, D, E and K are fat-soluble, which means they need fat present in the same meal to be absorbed at all - and the carotenoids in greens and orange roots behave the same way. This is why greens cooked down in coconut milk deliver more of what is in them than the same greens boiled and drained, and it is the quiet reason so many traditional greens dishes are built on a fat rather than on water. The pairing is not a flourish; it is the mechanism.',
+  },
+  'Libations & offerings': {
+    context: 'Pouring a portion of a drink onto the ground before anyone drinks is a practice found widely across West and Central African traditions and throughout the diaspora, and it is generally understood as acknowledging ancestors and those who are not at the table. Coconut water appears in this role in several Caribbean and West African contexts. What is poured, when, by whom and with what words are matters internal to particular traditions and particular families, and this app describes that the practice exists rather than telling anyone how to perform it.',
+  },
+  'The grater as family memory': {
+    context: 'Before a tin of coconut milk existed, extracting it was a household job of real duration: the nut cracked, the flesh grated by hand against a serrated blade or a bench-mounted grater that you sat astride, then the gratings squeezed with hot water through cloth to get the first pressing, and squeezed again for the thinner second. That labour is why the tool survives in kitchens that no longer strictly need it, and why the sound of it is a memory marker for a great many people. The first and second pressings are still different ingredients, which is why old recipes distinguish them.',
+  },
+  'Provision-ground economy': {
+    context: 'Across the plantation Caribbean, enslaved people were commonly allotted marginal land - the provision grounds - and expected to feed themselves from it. What grew there was substantially African and Indigenous rather than European: yam, plantain, callaloo, pigeon pea, coconut. The surplus was sold at Sunday markets, and the money and the networks that came out of those markets are a documented root of Black economic life in the region. It is a genuinely double-edged history, an imposition that became a foundation, and much of what this app calls the diaspora plate comes directly from it.',
+  },
+
+  /* ═══════════ WATER - SACRED ═══════════ */
+
+  'Libation': {
+    context: 'The same practice named under coconut, and one of the most widely attested rituals across African and diaspora traditions: a measure of water or drink returned to the ground for the ancestors before the living drink. It opens gatherings, funerals and ceremonies, and in many settings the naming of the dead aloud is part of it. Who pours, in what order, and what is said belongs to the tradition and the family. Described here, not instructed.',
+  },
+  'River & ocean ceremony': {
+    context: 'Rivers and the sea hold specific religious meaning across a range of West African and diaspora traditions - as deities, as boundaries, and in the Atlantic case as a passage and a grave. Offerings and ceremonies at water are correspondingly common and correspondingly serious. These are living religious practices with their own authorities, initiations and rules, and they are not a wellness technique to adopt. This app records that they exist.',
+  },
+  'Blessing the day\u2019s water': {
+    context: 'Speaking over water before drinking it appears in many traditions, religious and domestic, and its meaning is entirely dependent on which one you are standing in. The most that can honestly be said here is that treating the first drink of the day as a marked moment rather than an automatic one is a widespread human practice. No claim is made that it alters the water.',
+  },
+
+  /* ═══════════ FERMENTATION - WHY ═══════════ */
+
+  'Live cultures for the gut': {
+    context: 'A live ferment delivers organisms, mostly lactic acid bacteria, and the honest state of the evidence is that this is promising and not settled. Established: fermentation changes food in ways that are measurable, and some specific strains have specific documented effects. Not established: that eating a jar of kraut colonises your gut, or that any particular ferment produces a particular health outcome. Most of these organisms are transient rather than permanent residents. Fermented foods are good food with a plausible and actively researched benefit, and that is the claim this page makes.',
+  },
+  'Nutrients unlocked': {
+    context: 'This one is better established than the gut story and does more work. Fermentation cuts phytate, which binds zinc, iron, magnesium and calcium in grains and legumes and prevents you absorbing them - the same mechanism the Mineral atlas describes under zinc. It also produces B vitamins including folate, breaks down some of the oligosaccharides responsible for the gas beans are famous for, and pre-digests protein into forms the gut takes up more readily. This is why leavened bread beats unleavened, and why a fermented porridge is not the same food as an unfermented one.',
+  },
+  'Preserving the harvest': {
+    context: 'The original reason, and still the sturdiest. Lactic bacteria convert sugars to acid, the pH falls below where spoilage organisms and pathogens can operate, and the food holds for months without refrigeration or fuel. That is what made a summer glut survive a winter, and it is why nearly every food culture on earth arrived at some version of it independently. Flavour and nutrition are real benefits, but they are downstream of a preservation technology that predates any understanding of why it worked.',
+  },
+
+  /* ═══════════ DIABETES - context only ═══════════ */
+  /*
+    No `how` anywhere in this group, and that is the same line PR #37 drew. What
+    changes is that "no instruction" no longer has to mean "nothing at all":
+    these explain the mechanism and why the decision is a clinician's, which
+    pushes toward the visit rather than substituting for it.
+  */
+
+  'Low-fat whole-plant diets': {
+    context: 'The interest here comes from intervention trials in which whole-food plant-based patterns, low in added fat, improved insulin sensitivity and in some participants reduced or removed the need for medication. The proposed mechanism is a reduction in fat stored inside muscle and liver cells, where it appears to interfere with insulin signalling. Real findings, in structured and supported settings, and generally in people with type 2 rather than type 1. What they cannot tell you is what your medication should be tomorrow.',
+  },
+  'Weight is a lever, not the whole story': {
+    context: 'Weight loss is strongly associated with type 2 remission, and the association is dose-related - but plenty of people improve their glucose control markedly without much weight change, and plenty lose weight without remission. Sleep, muscle mass, stress, medication and how long the diabetes has been established all move the outcome independently. Treating the scale as the only instrument tends to hide the levers that are actually moving.',
+  },
+  'Bitter melon (cerasee)': {
+    context: 'Bitter melon has been studied for blood-sugar effects and there is a plausible case that it lowers glucose. On this page that is a caution rather than a recommendation, because a food that lowers blood sugar taken alongside medication that also lowers blood sugar can stack, and the failure mode is hypoglycaemia rather than a disappointing result. The foraged-foods screen carries the same plant with its own warning against use in pregnancy.',
+    watch: 'If you take any blood-sugar medication, this belongs in a conversation with your clinician before it belongs in your cup.',
+  },
+  'Fenugreek & cinnamon': {
+    context: 'Both have been studied for glucose and both have mixed, modest and inconsistent results - cinnamon in particular has trials pointing in several directions, and much of the effect that does appear is small next to medication or diet. The same stacking caution applies as for bitter melon. Worth adding to a plate for flavour; not worth treating as a lever you can pull.',
+    watch: 'Cassia cinnamon, the common supermarket kind, contains coumarin, which is hard on the liver in quantity over time. Ceylon cinnamon carries far less. Sprinkling is fine; daily heaped spoonfuls are not.',
+  },
+  'Meds need adjusting fast': {
+    context: 'The reason this is urgent rather than eventual: insulin and the sulfonylurea class lower blood sugar by a fixed amount regardless of what you ate. Change the diet substantially and the same dose can suddenly be too much, and the result is hypoglycaemia - which arrives in hours or days, not months. This is the mechanism behind the instruction, and it is precisely why the adjustment is a prescriber\u2019s decision and not one this app will offer a number for.',
+  },
+  'Test more, not less, at first': {
+    context: 'A period of dietary change is exactly when your readings stop being predictable, which makes it the worst possible time to test less. More frequent testing during a change is what turns a dangerous surprise into a data point you and your clinician can act on. How often, and what to do with what you see, is theirs to say.',
+  },
+  'Bring the food log to the visit': {
+    context: 'A clinician looking at a fortnight of readings alongside what was actually eaten can see cause and effect that neither of you can see from the readings alone. Without the food alongside it, an appointment is largely guesswork about why a number moved. The log is what makes the visit useful - which is the whole reason this item is here rather than a set of targets.',
+  },
+
 };
 
 export const APO_DEPTH_COUNT = Object.keys(apothecaryDepth).length;
