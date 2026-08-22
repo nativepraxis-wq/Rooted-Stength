@@ -552,11 +552,11 @@ replace what was a purely decorative colour dot in the list row.
 
 `cropPhotos` and `photos` in `content.ts` hold **46 CloudFront URLs** from a
 generation run on 2026-07-30. Neither export is imported by any screen, so
-nothing hotlinks to an external CDN today. They are left in place because
-`content.ts` is prototype-verbatim, but they are a liability: wiring them up
-would reintroduce an external dependency that can rot, and the `coop`, `ital` and
-`abuela` entries among them are exactly the storefront images this section argues
-against.
+nothing hotlinks to an external CDN today.
+
+> **Update.** These were initially left in place on the grounds that `content.ts`
+> is prototype-verbatim. That was the wrong call - the verbatim rule protects
+> *copy*, and these are dead infrastructure. They are removed in section 22.
 
 ### Three images regenerated to remove text
 
@@ -648,6 +648,44 @@ botanical or grocery subjects.
 
 Total app imagery is **210 files, 8.9 MB**, and **there are now no striped photo
 stand-ins left anywhere in the app** - verified by grep, not by assumption.
+
+---
+
+## 22. The 46 dead CloudFront URLs are gone
+
+`cropPhotos` (14 URLs) and `photos` (32 URLs) have been removed from
+`content.ts`. **52 lines deleted, nothing added.**
+
+### Why remove rather than leave
+
+Section 19 left them alone because `content.ts` is prototype-verbatim. On
+reflection that rule protects the **copy** - the dish descriptions, the tier
+notes, the contested-history paragraphs, all the text the app must not
+paraphrase. A map of image URLs is not copy, it is dead infrastructure, and
+keeping it carried three specific risks:
+
+1. **It invites re-wiring.** The exports look usable. A future pass could
+   connect them in good faith and reintroduce a hard dependency on an external
+   CDN that can 404, rate-limit or disappear, in an app whose imagery is
+   otherwise entirely local.
+2. **Three of them are storefronts.** The `coop`, `ital` and `abuela` entries are
+   facade images for businesses the app lists as findable premises with real
+   distances - exactly what sections 19 and 21 argue the app must not assert.
+3. **They are already superseded.** Every surface those URLs covered now has a
+   reviewed local image under `public/media`.
+
+### How it was verified
+
+Confirmed unused before touching anything: neither name appears in any import
+list anywhere in `src`. The one `photos` match elsewhere is an unrelated consent
+flag. Removal is bounded by brace matching rather than line numbers, and asserts
+46 URLs present before and 0 after.
+
+The diff is **pure deletion** - 46 URL lines plus the two declarations and their
+braces. No copy was removed, and no line was added.
+
+`content.ts` goes from 2,293 to 2,241 lines. All four gates green, and the app
+renders unchanged.
 
 ---
 

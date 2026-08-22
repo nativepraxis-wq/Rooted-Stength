@@ -1098,58 +1098,6 @@ export const micros = [
     { label: 'Vitamin C', pct: 71, note: 'aids iron uptake', col: '#2F4A31' }
   ];
 
-export const cropPhotos = {
-    cowpea: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110614_24c64a1b-4abb-4dc0-ae21-d38252ecbf90.png',
-    coconut: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110616_e1131b6a-9e59-4fd5-9ab2-305d0ce2003a.png',
-    fonio: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110618_da50b342-f81f-4c45-9e75-950639a0b642.png',
-    callaloo: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110620_48bcba52-6ba0-45ce-84af-1bc87268f21f.png',
-    moringa: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110624_0a370c6b-973c-48a0-93ca-3481c988bd56.png',
-    seamoss: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110626_4e7c1a4b-4c2e-41a4-a0e8-65ad3db21848.png',
-    sorghum: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110627_6f356ed2-e98e-4521-8f38-10af925f285a.png',
-    okra: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110632_9c9f5cb1-b62f-4b06-a67d-84a65158620b.png',
-    oyster: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110633_8f405fde-3070-49aa-b901-9788270823ca.png',
-    peagreens: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110638_65602ee5-ce22-4b02-8316-9e3e724dcc10.png',
-    sweetpotato: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110639_c6a80c5a-923c-44a4-803c-2d3e70df1a12.png',
-    plantain: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110645_36d1f58e-6c66-4103-9039-a5cf216c69f8.png',
-    baobab: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110646_ffdd967f-a302-4545-a04b-b236f43d6c4b.png',
-    teff: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110647_4db04714-b854-42ba-8992-cc631a65fa05.png'
-  };
-
-export const photos = {
-    jollof: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110528_676b0b0b-19ba-4289-a031-e68334d44295.png',
-    redred: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110531_58e0340a-49ac-41da-8c78-f253c1591f9c.png',
-    rundown: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110533_0d60f13c-5523-479a-a22f-b7fc252cd954.png',
-    hoppin: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110534_be7b5cdf-ab3d-4068-a856-0ff48ea5d21f.png',
-    groundnut: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110539_fdb1840c-6f3b-43a6-bf83-a6ce66696fbb.png',
-    tofu: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110540_0c7613a6-607a-4e82-85bb-785a2ec657f3.png',
-    creole: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110545_2149addd-28fd-4c73-8dec-6b154442bf82.png',
-    posole: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110546_98d750e6-7e5a-44a2-979e-ea89d27daddc.png',
-    porridge: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110551_4b812257-fa8e-4140-9b4b-92c547cf8e75.png',
-    moringa: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110553_d1b1a1a4-d040-4756-95ff-6fd4dc556752.png',
-    trailwrap: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110557_9090ed01-12f0-4988-830e-840e8d11e885.png',
-    akara: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110558_915732bb-592e-4ee1-9b23-d880e85e96d0.png',
-    sugarbowl: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110559_f3074167-62f1-4f2f-afdc-dad35ac9cc44.png',
-    ital: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110603_ef07240d-d712-43fb-9444-7a392d89aa65.png',
-    coop: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110604_b28731ca-8a88-48bc-b1cb-a3694220bc6b.png',
-    abuela: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110605_72e0925f-d965-4827-916b-095524ced270.png',
-    fonioporridge: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110551_4b812257-fa8e-4140-9b4b-92c547cf8e75.png',
-    sorghumbowl: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110540_0c7613a6-607a-4e82-85bb-785a2ec657f3.png',
-    sorghumbowlsf: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110540_0c7613a6-607a-4e82-85bb-785a2ec657f3.png',
-    bepcallaloo: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110533_0d60f13c-5523-479a-a22f-b7fc252cd954.png',
-    scramble: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110551_4b812257-fa8e-4140-9b4b-92c547cf8e75.png',
-    okrastew: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110545_2149addd-28fd-4c73-8dec-6b154442bf82.png',
-    seamoss: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110533_0d60f13c-5523-479a-a22f-b7fc252cd954.png',
-    tofugreens: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110540_0c7613a6-607a-4e82-85bb-785a2ec657f3.png',
-    butterbeangreens: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110540_0c7613a6-607a-4e82-85bb-785a2ec657f3.png',
-    milletbars: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110528_676b0b0b-19ba-4289-a031-e68334d44295.png',
-    cassava: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110545_2149addd-28fd-4c73-8dec-6b154442bf82.png',
-    cornmeal: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110551_4b812257-fa8e-4140-9b4b-92c547cf8e75.png',
-    familyplate: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110534_be7b5cdf-ab3d-4068-a856-0ff48ea5d21f.png',
-    lightsoup: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110553_d1b1a1a4-d040-4756-95ff-6fd4dc556752.png',
-    groundnutsf: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110539_fdb1840c-6f3b-43a6-bf83-a6ce66696fbb.png',
-    trailbowl: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GGdzHmjVyKCr5hJQsxWfiZu4PG/hf_20260730_110557_9090ed01-12f0-4988-830e-840e8d11e885.png'
-  };
-
 export const plateDefs = [
     { id: 'jollof', name: 'Jollof-spiced millet, black-eyed peas & oyster mushrooms', trad: ['westafrican'], modes: ['muscle','recovery','farm'], has: [], p: '29g', time: '28 min', cost: '$2.10', c: '#8F4230' },
     { id: 'redred', name: 'Red red — black-eyed pea stew with fried plantain', trad: ['westafrican'], modes: ['muscle','budget','farm'], has: [], p: '36g', time: '35 min', cost: '$1.60', c: '#8F3E2C' },
