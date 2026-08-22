@@ -150,3 +150,39 @@ export const CROP_NOTE =
 
 export const PLACE_NOTE =
   'Illustration of the kind of place, generated - it does not depict these premises.';
+
+/*
+  Farm-Fitness Library movement photographs.
+
+  These depict Black and Afro-Indigenous people performing each movement, which
+  is a deliberate reversal of the earlier decision to keep training imagery
+  non-figurative. That decision was about form, not about depicting people: a
+  generated hip hinge can easily show a rounded spine, and this app prescribes
+  movement to elders and postpartum users.
+
+  So every one of these was inspected before it shipped, specifically for a
+  rounded lumbar spine under load. The compost-turning hinge and the shovel lift
+  were checked at zoom; the harvest squat was regenerated twice - once because
+  the body was hidden behind a basket so the squat was not visible at all, and
+  again because the squat was asymmetric with a raised rear heel, which does not
+  match the "quads, glutes, ankles" the card claims it trains.
+
+  The card carries a note saying the written cues govern form, because a
+  generated image must not be the authority on how to move under load.
+*/
+const FARM_MOVE_SLUGS: Record<string, string> = {
+  'Shovel lift': 'shovel-lift',
+  'Loaded shovel press': 'loaded-shovel-press',
+  'Water carry': 'water-carry',
+  'Wheelbarrow push': 'wheelbarrow-push',
+  'Compost turning': 'compost-turning',
+  'Harvest squat': 'harvest-squat',
+};
+
+export function farmMoveImage(farmName: string): string | null {
+  const slug = FARM_MOVE_SLUGS[farmName];
+  return slug ? base('farmmove-' + slug) : null;
+}
+
+export const FARM_MOVE_NOTE =
+  'Illustrations of each movement. The written cues govern form, not the picture.';

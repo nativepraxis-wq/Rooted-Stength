@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { traditionImage } from '../data/media';
+import { traditionImage, farmMoveImage, FARM_MOVE_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
@@ -304,7 +304,18 @@ export function FarmScreen() {
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-          {(movements as any[]).map((m) => (
+          {/*
+            Said once for the list. These images show people under load, so the
+            note points at the written cues rather than letting a generated
+            picture be the authority on form. See data/media.ts.
+          */}
+          <div style={{
+            fontSize: 'calc(11px * var(--scale))', color: 'var(--ink-meta)',
+            fontWeight: 700, marginBottom: 10,
+          }}>{FARM_MOVE_NOTE}</div>
+          {(movements as any[]).map((m) => {
+            const img = farmMoveImage(m.farm);
+            return (
             <button
               key={m.farm}
               type="button"
@@ -315,6 +326,19 @@ export function FarmScreen() {
                 padding: '13px 14px', cursor: 'pointer', minHeight: 44,
               }}
             >
+              {img && (
+                <img
+                  src={img}
+                  alt={m.farm + ' \u2014 ' + m.pattern + ', illustration'}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    display: 'block', width: '100%', height: 168,
+                    objectFit: 'cover', borderRadius: 'var(--r-tile)',
+                    marginBottom: 10, background: 'var(--surface-2)',
+                  }}
+                />
+              )}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                 <span style={{
                   fontSize: 'calc(14.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
@@ -334,7 +358,8 @@ export function FarmScreen() {
                 fontWeight: 600, marginTop: 6,
               }}>Beginner · Advanced · Seated option</div>
             </button>
-          ))}
+            );
+          })}
         </div>
 
         <Band tone="cream" title="The rotational core of farm work" style={{ marginTop: 16 }}>
