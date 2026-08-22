@@ -459,6 +459,65 @@ happen again to anyone regenerating these.
 
 ---
 
+## 18. The verification pass, and what it found
+
+All **147** food images - 28 plates, 78 codex dishes, 41 pantry specimens - have
+now been reviewed one by one against the claim their card makes. Sections 15 to
+17 each shipped with the caveat that this had not been done; it has.
+
+Method: labelled contact sheets, 12 images to a sheet, each cell captioned with
+the dish or entry name and its place or botanical binomial, so the image is
+judged against the text the app actually prints beside it.
+
+**143 of 147 were correct.** Every failure was one systematic error, and the
+errors clustered in a way worth recording.
+
+| image | claimed | actually showed |
+|---|---|---|
+| `plate-jollof` | millet | fregola-sized pellets |
+| `plate-sorghumbowl` | sorghum | uniform white pearl couscous |
+| `plate-sorghumbowlsf` | sorghum | uniform white pearl couscous |
+| `dish-pelau` | rice and pigeon peas | granular, read as ground meat |
+
+### The pattern
+
+The model renders **small African grains as pearl couscous** whenever they are
+cooked and plated. The same grains as raw specimens were near-flawless: the
+fonio and teff pantry stills show correctly minuscule grain, and the whole
+sorghum specimen is properly tan with a visible germ. Naming the botanical
+binomial and describing grain scale in millimetres is what made the difference,
+and the regenerated plates borrow that technique.
+
+The codex dishes also outperformed the recipe plates. Real named dishes -
+Waakye, Koshari, Beyaynetu, Koki, Seven curry - give the model strong priors.
+The invented recipe combinations do not, and that is where the grain errors are.
+
+### Fixes
+
+All four were regenerated with explicit grain-scale language and negative
+constraints, and replaced in place under the same filenames.
+
+- **Sorghum**: genuinely fixed. Uniform white spheres became tan grains with
+  visible darker germ marks.
+- **Pelau**: fixed. Distinct long rice grains, pigeon peas and pumpkin, no
+  ground-meat read.
+- **Jollof**: improved but **not perfect**. The grain is finer and more granular
+  than the fregola it replaced, but still slightly coarser than true pearl
+  millet. Recorded honestly rather than claimed as fixed.
+
+### Two things the review noticed but did not change
+
+- `pantry-hibiscus` and `pantry-turmeric` contain small herbarium-style label
+  cards with text, despite "no text" in the prompt. They read as specimen tags
+  rather than errors.
+- The codex thumbnails crop 16:9 sources to roughly 3.4:1, which is aggressive
+  for dishes photographed in a bowl.
+
+The **Illustration** marks stay regardless. A verified illustration is still an
+illustration, not a photograph of the dish.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
