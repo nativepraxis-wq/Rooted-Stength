@@ -834,6 +834,56 @@ farm session screen is correct.
 
 ---
 
+## 26. Figurative movement photography in the Farm-Fitness Library
+
+The six movements in the Farm-Fitness Library - shovel lift, loaded shovel press,
+water carry, wheelbarrow push, compost turning, harvest squat - now carry
+photographs of **Black and Afro-Indigenous people performing them**, at the
+owner's direction.
+
+This reverses section 15's decision to keep training imagery non-figurative. That
+reversal is right, and the original reasoning is worth restating precisely: the
+objection was never to depicting people. It was that a generated hip hinge can
+show a rounded lumbar spine, and this app prescribes movement to elders and
+postpartum users. Representation and form-safety are not in tension - they just
+both have to be handled.
+
+### So every image was inspected for form before it shipped
+
+- **Shovel lift** - checked at zoom. Spine long and flat through the hinge, hips
+  back, chest open. Correct.
+- **Loaded shovel press** - ribs down, no exaggerated lumbar arch.
+- **Water carry** - upright torso, shoulders neutral. A textbook loaded carry.
+- **Wheelbarrow push** - flat back, lean from the hips, arms straight.
+- **Compost turning** - checked at zoom, being the riskiest (loaded rotation).
+  Back long and flat, staggered stance, hips and shoulders turning together.
+- **Harvest squat** - **regenerated twice.** The first attempt hid the body behind
+  a basket so no squat was visible at all - it did not depict the movement it
+  labelled. The second was an asymmetric squat with a raised rear heel, which does
+  not match the "quads, glutes, ankles" the card says it trains. The third is a
+  symmetric deep squat, both heels flat, spine neutral.
+
+### The picture is not the authority
+
+The list carries a note - *"Illustrations of each movement. The written cues
+govern form, not the picture."* A generated image must not be what a user copies
+when loading their spine, however carefully it was checked.
+
+### Framing
+
+Card images render at 168px rather than the 116px used elsewhere. At 116 the
+overhead press was cropped through the hands, which defeats the point of that
+movement. Figures need more vertical room than plates and specimens do.
+
+### Scope
+
+This covers the **Farm-Fitness Library** specifically. The other session types -
+mobility, elder, seated, ancestral, hike, breath - still use the four
+non-figurative `move-*` context images from section 15, and would each need the
+same treatment and the same form review.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
