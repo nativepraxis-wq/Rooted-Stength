@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { APOTHECARY_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { DarkHeader } from './Headers';
 import { TierBadge } from './TierBadge';
@@ -27,11 +28,13 @@ export type GuideGroup = {
 };
 
 export function TabbedGuide({
-  eyebrow, title, lede, groups, stateKey, footer,
+  eyebrow, title, lede, groups, stateKey, footer, image,
 }: {
   eyebrow: string;
   title: string;
   lede: string;
+  /* Optional guide illustration, rendered under the header. */
+  image?: string;
   groups: GuideGroup[];
   /** The state field holding the selected tab id. */
   stateKey: string;
@@ -55,6 +58,26 @@ export function TabbedGuide({
           color: 'var(--on-dark-muted)', margin: 0,
         }}>{lede}</p>
       </DarkHeader>
+
+      {image && (
+        <>
+          <img
+            src={image}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            style={{
+              display: 'block', width: '100%', height: 156,
+              objectFit: 'cover', background: 'var(--surface-2)',
+            }}
+          />
+          <div style={{
+            fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+            fontWeight: 700, padding: '6px 18px 0',
+          }}>{APOTHECARY_NOTE}</div>
+        </>
+      )}
 
       <Gutter style={{ paddingTop: 16 }}>
         <div className="rs-scroll" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>

@@ -1,3 +1,4 @@
+import { apoImage, APOTHECARY_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import {
   teas, teaGoalDefs, teaRules, teaFlagWord, goalTeaMap, goalTeaLabel,
@@ -66,6 +67,21 @@ export function ApothecaryScreen() {
           healers — calm the stress response and speed recovery. Match the herb to how you feel.
         </p>
       </DarkHeader>
+      <img
+        src={apoImage('hub')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{APOTHECARY_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -190,6 +206,21 @@ export function TeaIntelScreen() {
           Brewed by what the day asked of you — not by what looks good in a jar.
         </p>
       </DarkHeader>
+      <img
+        src={apoImage('tea')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{APOTHECARY_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/*
@@ -341,6 +372,21 @@ export function MushroomsScreen() {
           by what the label promises.
         </p>
       </DarkHeader>
+      <img
+        src={apoImage('mushrooms')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{APOTHECARY_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/*
@@ -405,6 +451,7 @@ export function MushroomsScreen() {
 export function NervinesScreen() {
   return (
     <TabbedGuide
+      image={apoImage('nervines')}
       eyebrow="Apothecary · nervines"
       title="Nervines &amp; adaptogens"
       lede="Calm, build, release. Herbs that work on the stress response — and the honest limits of what each one is known to do."
@@ -418,6 +465,7 @@ export function NervinesScreen() {
 export function WaterMedScreen() {
   return (
     <TabbedGuide
+      image={apoImage('water')}
       eyebrow="Apothecary · water"
       title="Water as medicine"
       lede="The cheapest intervention there is, and the one most often skipped. Rhythm, minerals and the water that carries meaning."
@@ -436,6 +484,7 @@ export function WaterMedScreen() {
 export function FermentScreen() {
   return (
     <TabbedGuide
+      image={apoImage('ferment')}
       eyebrow="Apothecary · fermentation"
       title="Live cultures"
       lede="Preservation, flavour and a daily dose of something alive — the technique the diaspora already owns."
@@ -454,6 +503,7 @@ export function FermentScreen() {
 export function SwapsScreen() {
   return (
     <TabbedGuide
+      image={apoImage('swaps')}
       eyebrow="Explore · supplements"
       title="Supplement swaps"
       lede="What the tub is selling, and what a bulk-bin staple does instead. Where a supplement genuinely earns its place, it says so."
@@ -472,6 +522,7 @@ export function SwapsScreen() {
 export function DiabetesScreen() {
   return (
     <TabbedGuide
+      image={apoImage('diabetes')}
       eyebrow="Explore · blood sugar"
       title="Living with diabetes"
       lede="Whole-food eating changes glycemic control measurably. It also changes what your medication is doing — which is why this screen keeps pointing at your clinician."
@@ -490,6 +541,7 @@ export function DiabetesScreen() {
 export function CeremonyScreen() {
   return (
     <TabbedGuide
+      image={apoImage('ceremony')}
       eyebrow="Explore · the table"
       title="Food as ceremony"
       lede="Before, during and after the meal — the practices that turn eating from fuel into relationship."
@@ -508,6 +560,7 @@ export function CeremonyScreen() {
 export function CoconutScreen() {
   return (
     <TabbedGuide
+      image={apoImage('coconut')}
       eyebrow="Explore · cultural foodways"
       title="Coconut foodways"
       lede="One palm, whole pantry — milk, water, oil, flesh and story across the diaspora."
@@ -527,6 +580,7 @@ export function CoconutScreen() {
 export function HoneyScreen() {
   return (
     <TabbedGuide
+      image={apoImage('honey')}
       eyebrow="Explore · honey"
       title="Honey, incorporated"
       lede="Fuel, traditional medicine, beekeeping economies — and the vegan question the app does not pretend to settle for you."
@@ -539,6 +593,7 @@ export function HoneyScreen() {
 export function ShroomRecipesScreen() {
   return (
     <TabbedGuide
+      image={apoImage('shroomrec')}
       eyebrow="Explore · cooking fungi"
       title="Cook with mushrooms"
       lede="Stews, grills, broths and everyday protein — cultivated fungi doing the work a pot used to ask of meat."

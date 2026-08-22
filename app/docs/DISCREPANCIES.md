@@ -1241,6 +1241,45 @@ knowing if the seed is ever swapped for a real user.
 
 ---
 
+## 35. Apothecary imagery, and the two that needed deciding
+
+All twelve Apothecary guides carry an image. Nine share the `TabbedGuide`
+component, which took one optional `image` prop rather than nine edited bodies.
+
+This is the herbal section, so two of the twelve were decisions rather than
+prompts.
+
+### Supplement swaps shows food, not pills
+
+The screen argues *"what the tub is selling, and what a bulk-bin staple does
+instead."* The image is whole foods laid out - pumpkin seeds, hibiscus, brazil
+nuts, sea moss, greens, dried mushrooms, lentils - with **no pills, capsules or
+supplement packaging anywhere in frame**. A picture of capsules would have argued
+the opposite of the text above it.
+
+### Living with diabetes shows a life, not a remedy
+
+The screen's own copy is the reason: *"Whole-food eating changes glycemic control
+measurably. It also changes what your medication is doing - which is why this
+screen keeps pointing at your clinician."*
+
+So the image is a man at his own table over collards, beans and rice,
+mid-conversation. **No pills, no glucose meter, no clinical equipment, and no
+herbal remedy.** This app must not imply that a herb treats a diagnosed
+condition, and on the one screen that explicitly defers to a clinician an image
+suggesting otherwise would contradict it directly.
+
+### Nothing depicts an effect
+
+None of the twelve is a before-and-after, and none shows a remedy producing a
+result. The evidence tiers and caution flags on these screens do that work in
+words, and a photograph must not outrun them. The note under every image says so:
+*"Illustration, generated - not a photograph, and not evidence of an effect."*
+
+App imagery is now **256 files, 12 MB**.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
