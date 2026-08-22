@@ -292,3 +292,16 @@ export function subImage(id: string): string {
 
 export const SCAN_NOTE =
   'Illustration, generated - not your photo.';
+
+/*
+  Kitchen screens - meal plan, pantry, grocery list and the pantry input flows.
+
+  Each shows the ACTIVITY rather than an inventory. The pantry screen tracks the
+  user's real stock and draws it down as plates are logged, so an idealised
+  full-shelf photograph could be read as theirs. The image is someone mid-restock
+  with gaps on the shelf and jars still in a crate - a pantry being kept, not a
+  pantry being claimed.
+*/
+export function kitchenImage(id: string): string {
+  return base('kit-' + id);
+}
