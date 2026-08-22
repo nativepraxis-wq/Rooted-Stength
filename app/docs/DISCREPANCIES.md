@@ -877,10 +877,51 @@ movement. Figures need more vertical room than plates and specimens do.
 
 ### Scope
 
-This covers the **Farm-Fitness Library** specifically. The other session types -
-mobility, elder, seated, ancestral, hike, breath - still use the four
-non-figurative `move-*` context images from section 15, and would each need the
-same treatment and the same form review.
+This covers the **Farm-Fitness Library** specifically. The other six session
+types are done in section 27.
+
+---
+
+## 27. Session photography for the remaining six Move sessions
+
+Mobility, elder, seated, ancestral, hike and breath now carry photographs of
+**African American people**, styled up: fine knits, tailored trousers, silk
+headwraps, good outerwear, all in the app's own clay, ochre, forest and cream
+palette. Age, gender, body and personal style vary deliberately across the six -
+late twenties through early seventies, four women and two men, twists, locs,
+silver natural hair, a headwrap - rather than one archetype repeated.
+
+### Form review changed one of them
+
+**`mobility` was regenerated.** The first attempt was a deep backbend with the
+head dropped back. Not dangerous, but the session is labelled *"12 min,
+joint-friendly"* and that pose oversells the intensity to somebody with the joint
+problems the session exists for. It is now a supine figure-four with head and
+shoulders resting down - unmistakably gentle, which is what the label promises.
+
+**`elder` and `seated` are the safety-critical two** and both passed. Elder shows
+a sit-to-stand with one hand resting on the chair arm, upright and stable rather
+than frail. Seated shows an upright chair-supported row, feet flat, spine neutral,
+which matches that screen's own copy: *"a full circuit that never asks you onto
+the floor."*
+
+### Ancestral stays contemporary on purpose
+
+`ancestral` shows a present-day person moving barefoot in contemporary dress. It
+is deliberately not a costumed reenactment, and the screen itself is the reason:
+directly beneath the image it lists *"Warrior lineages drawn on - Zulu, Maasai,
+Dahomey, Capoeira, Taino, Garifuna."* The rule from the tradition imagery holds
+unchanged - do not fabricate documentary depictions of a living tradition's
+practitioners. A modern person training is a different claim from a staged
+lineage photograph.
+
+### Placement
+
+Each image sits **below** its `DarkHeader` rather than replacing it, because the
+eyebrow, title and lede are printed on that gradient. Each carries the same note
+as the Farm-Fitness Library: *"The written cues govern form, not the picture."*
+
+6 images, 0.24 MB. App imagery is now **222 files, 9.7 MB**.
 
 ---
 
