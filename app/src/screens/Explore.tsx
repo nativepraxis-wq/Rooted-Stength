@@ -1,3 +1,4 @@
+import { placeImage } from '../data/media';
 import { useStore } from '../state/store';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
@@ -281,10 +282,25 @@ export function MapScreen() {
                 borderRadius: 'var(--r-tile)', padding: '13px 14px', cursor: 'pointer', minHeight: 44,
               }}
             >
-              <span aria-hidden="true" style={{
-                width: 10, height: 10, borderRadius: '50%', flex: 'none',
-                background: p.c, marginTop: 5,
-              }} />
+              {/*
+                Replaces a purely decorative colour dot. These illustrate the
+                KIND of place - crates of produce, a pot on a stove, raised
+                beds - and deliberately carry no signage, no shopfront and no
+                building exterior. The app lists these as findable businesses
+                with a distance and a map pin, so a synthetic storefront would
+                assert that a particular building exists. See data/media.ts.
+              */}
+              <img
+                src={placeImage(p.name)}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  width: 46, height: 46, flex: 'none', borderRadius: 10,
+                  objectFit: 'cover', background: p.c, marginTop: 2,
+                }}
+              />
               <span style={{ flex: 1 }}>
                 <span style={{
                   display: 'block', fontSize: 'calc(13.5px * var(--scale))',

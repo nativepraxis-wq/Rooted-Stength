@@ -55,3 +55,38 @@ export const ILLUSTRATION_NOTE =
 
 export const TRADITION_NOTE =
   'Illustration of the foodways of this tradition, generated - it does not depict people.';
+
+/* Ids come from greenDefs; all 17 have a tray still. */
+export function greenImage(id: string): string {
+  return base('green-' + id);
+}
+
+/*
+  Place imagery.
+
+  The six places are named businesses carrying a distance and a map pin, and the
+  Explore screen states that ownership tags "come from the business". The app is
+  therefore telling the user these are real and findable. There are no addresses,
+  URLs or phone numbers behind them, which says placeholder.
+
+  Either way a photoreal storefront is the wrong image. If the businesses are
+  invented, a facade makes them look findable and someone may go looking. If any
+  are real, a synthetic facade misrepresents premises the owners did not agree to.
+
+  So these illustrate the KIND of place - crates of produce, a pot on a stove,
+  raised beds, kelp drying - with no signage, no shopfront, no building exterior
+  and no people. They say what sort of place this is without asserting that a
+  particular building stands anywhere.
+*/
+const PLACE_SLUGS: Record<string, string> = {
+  'Yam & Yarrow Co-op Market': 'yam-yarrow-co-op-market',
+  'Ital Roots Kitchen': 'ital-roots-kitchen',
+  'Abuela Verde': 'abuela-verde',
+  'Three Sisters Farm Stand': 'three-sisters-farm-stand',
+  'Kelp & Coir Sea-Veg Supply': 'kelp-coir-sea-veg-supply',
+  'Sankofa Community Garden': 'sankofa-community-garden',
+};
+
+export function placeImage(name: string): string {
+  return base('place-' + (PLACE_SLUGS[name] || 'sankofa-community-garden'));
+}
