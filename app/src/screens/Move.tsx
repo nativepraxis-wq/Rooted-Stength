@@ -152,7 +152,7 @@ export function MoveScreen() {
         {/* Today's session */}
         <button
           type="button"
-          onClick={() => go('farm')}
+          onClick={() => go(stats.goalRoute as any)}
           style={{
             width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', marginTop: 12,
             background: 'linear-gradient(150deg, var(--forest), var(--forest-2))',
@@ -162,18 +162,31 @@ export function MoveScreen() {
           <div style={{
             fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.6,
             textTransform: 'uppercase', color: 'var(--ochre-light)',
-          }}>Today&rsquo;s session · 42 min</div>
+          }}>Today&rsquo;s session{stats.goalSessionMeta
+            ? ' · ' + stats.goalSessionMeta.split(' · ')[0]
+            : ''}</div>
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
             fontWeight: 600, marginTop: 4,
-          }}>Farm-Strength: Push &amp; Carry</div>
-          <div style={{
-            fontSize: 'calc(12.5px * var(--scale))', color: 'var(--on-dark-muted)', marginTop: 5,
-          }}>6 movements · progressive overload via distance</div>
+          }}>{stats.goalSessionLabel}</div>
+          {/*
+            Rendered only where that screen has a session behind it. trainPlan
+            and pregnancy have none, so this disappears rather than inventing a
+            duration for them.
+          */}
+          {stats.goalSessionMeta && (
+            <div style={{
+              fontSize: 'calc(12.5px * var(--scale))', color: 'var(--on-dark-muted)',
+              marginTop: 5,
+            }}>{stats.goalSessionMeta}</div>
+          )}
         </button>
 
         <div style={{ marginTop: 9 }}>
-          <SessionButton name="Farm-Strength: Push & Carry" meta="42 min · loaded carry" />
+          <SessionButton
+            name={stats.goalSessionLabel}
+            meta={stats.goalSessionMeta || stats.goalSessionLabel}
+          />
         </div>
 
         <button

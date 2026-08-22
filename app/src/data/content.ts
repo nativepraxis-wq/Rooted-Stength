@@ -1316,6 +1316,25 @@ export const goalTeaLabel = { muscle: 'Training recovery', strength: 'Training r
 
 export const goalScreenLabel = { muscle: 'Farm-Strength: Push & Carry', strength: 'Farm-Strength: Push & Carry', farm: 'Farm-Strength: Push & Carry', hike: 'Ridge hiking plan', mobility: 'Breathwork & mobility reset', elder: 'Elder functional strength', recomp: 'Periodized weekly plan', postpartum: 'Postpartum rebuilding flow', return: 'Elder & return-to-movement', vitality: 'Ancestral movement' };
 
+/*
+  What each session screen actually offers, keyed by route.
+
+  Every value here is copied verbatim from the SessionButton already on that
+  screen - nothing is invented. `trainPlan` and `pregnancy` are absent on purpose:
+  they are plan and guidance screens with no single session behind them, so there
+  is no duration to state and callers must render without one rather than make a
+  number up.
+*/
+export const sessionMeta: Record<string, string> = {
+    farm: '42 min · loaded carry',
+    mobility: '12 min · joint-friendly',
+    breath: '14 min · long exhale',
+    elder: '24 min · fall-safe',
+    ancestral: '28 min · barefoot',
+    hike: '5.2 mi · 1,180 ft climb',
+  };
+
+
 export const recipeModes = [
     { id: 'muscle', label: 'High-protein muscle' },
     { id: 'recovery', label: 'Recovery meal' },

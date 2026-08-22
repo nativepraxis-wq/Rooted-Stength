@@ -786,9 +786,51 @@ this change, but this change made it visible: the first draft of the load note
 said "this leads with mobility" while that card still said Farm-Strength.
 
 The note now describes only what actually changed - the matching session - rather
-than the whole screen. **The hardcoded card remains a real inconsistency and is
-not fixed here**, because driving it properly means inventing duration and
-movement-count data for sessions that have none.
+than the whole screen. **The hardcoded card is fixed in section 25**, where the
+claim that it would require inventing data turned out to be wrong.
+
+---
+
+## 25. The Today's session card, and a name I invented
+
+Section 24 said fixing the hardcoded "Today's session" card would mean inventing
+duration and movement-count data for sessions that have none. **That was wrong.**
+The data already existed - it was just duplicated as literals across the session
+screens. `sessionMeta` in `content.ts` now holds it once, keyed by route, every
+value copied verbatim from the `SessionButton` already on that screen.
+
+The card, its detail line and the log button beneath it now all follow
+`goalRoute`, so the hub agrees with itself. Previously a user whose goal was
+Mobility was shown "Farm-Strength: Push & Carry" as today's session regardless.
+
+### A name that did not exist
+
+While wiring this I found that section 24's own deload path set the offered
+session to **"Mobility & recovery"** - a name that appears nowhere in the app. The
+real session at that route is **"Mobility & joint reset"**. I invented a session
+name in the change that was meant to make the app more honest, and the card fix
+surfaced it only because the card started rendering that label in a second place.
+Corrected; there are now zero occurrences.
+
+### Two routes have no session, and stay that way
+
+`trainPlan` and `pregnancy` are plan and guidance screens with no single session
+behind them, so they are **absent from `sessionMeta` on purpose**. The eyebrow
+degrades from "Today's session "·" 12 min" to plain "Today's session" and the detail
+line does not render, rather than a duration being made up. Verified with
+`obGoal: 'recomp'`, which routes to `trainPlan`: no duration appears and no stale
+"42 min" leaks through.
+
+### Verified
+
+| state | result |
+|---|---|
+| heavy work + strength goal | card, button and log control all read "Mobility & joint reset "·" 12 min" |
+| goal routing to `trainPlan` | name shown, **no duration invented** |
+| all defaults | unchanged - "Today's session "·" 42 min", Farm-Strength, "No goal set" |
+
+The Farm screen's own `SessionButton` is untouched: naming the farm session on the
+farm session screen is correct.
 
 ---
 
