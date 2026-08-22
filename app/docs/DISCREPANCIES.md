@@ -981,6 +981,41 @@ App imagery is now **227 files, 10 MB**, 17 of them depicting people.
 
 ---
 
+## 29. Hub imagery for Today, Journey and Nourish
+
+The three tab hubs carry a photograph each, continuing the direction set for the
+Move surfaces - African American people, styled up, in the app's own palette.
+
+- **Today** - a woman at the kitchen counter in early morning light, water and tea
+  to hand, microgreens on the counter. An unhurried start rather than a
+  performance.
+- **Journey** - a man in his sixties writing in a cloth-bound journal beside a
+  seedling. The record kept over time, which is what the Growth Journal is.
+- **Nourish** - three generations passing greens, grain, beans and plantain
+  across a shared table, faces partly out of frame. It sits directly under the
+  screen's own line: *"Feed a body that can carry, create and serve."*
+
+### Hubs only, and the scan flow is why
+
+The sub-screens under these tabs are deliberately left alone: Progress, History,
+the profile recap, the recipe generator, and the whole scan flow. They show the
+**user's own record**, and a generated photograph there competes with their data
+instead of supporting it.
+
+The scan flow is the sharpest case and the reason the rule is worth stating. It
+walks the user through photographing their own meal and then reports on what that
+plate carries. A generated plate sitting inside that flow could be read as **their
+scan result** - a claim about their food that nobody made. Verified by
+screenshotting the scan screen alongside the three hubs: it still shows only the
+empty capture frame.
+
+Each hub image carries the same note as elsewhere: *"Illustration, generated - not
+a photograph."*
+
+App imagery is now **230 files, 11 MB**.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

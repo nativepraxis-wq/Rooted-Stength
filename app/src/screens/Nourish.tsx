@@ -1,4 +1,4 @@
-import { plateImage, ILLUSTRATION_NOTE } from '../data/media';
+import { plateImage, ILLUSTRATION_NOTE, hubImage, HUB_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { platePools, detectedRows, scanReport } from '../state/selectors';
 import {
@@ -25,6 +25,25 @@ export function NourishScreen() {
           Feed a body that can carry, create and serve — not a number to shrink.
         </p>
       </DarkHeader>
+      {/*
+        Hub image only. The sub-screens under this tab show the user's own
+        record, and a stock photograph there would compete with their data -
+        on the scan flow it could even be mistaken for their own meal photo.
+      */}
+      <img
+        src={hubImage('nourish')}
+        alt={'A shared plate at the table, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 172,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 18 }}>
         {/* Scan my plate CTA */}
