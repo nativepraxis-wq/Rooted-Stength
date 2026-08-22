@@ -217,3 +217,34 @@ export function sessionImage(id: string): string {
 
 export const SESSION_NOTE =
   'Illustration of this session. The written cues govern form, not the picture.';
+
+/*
+  Warrior tradition practitioner photographs.
+
+  These depict people, which reverses the rule the tradition foodways stills were
+  built on. The owner directed the change; the reasoning that made the original
+  rule right is preserved in HOW these are made, not by refusing.
+
+  Every one shows a CONTEMPORARY PRACTITIONER PERFORMING THE DRILL THE APP
+  ACTUALLY PRESCRIBES - the endurance run, the obstacle climb and sandbag carry,
+  the ginga, the tall-spine vertical jump, the stick figure-eight flow. The screen
+  itself says these traditions are "adapted for modern training", so a modern
+  person training is what the screen is actually about.
+
+  What they deliberately are NOT: staged historical reenactments. No shields, no
+  spears, no shuka, no beadwork, no invented regalia or insignia. Fabricating
+  ethnographic documentation of Zulu regiments, the Agojie or Maasai ceremony was
+  the original objection and it still stands - a synthetic photograph of a real
+  people's ceremony is a claim nobody can back.
+
+  Two are living practices shown as they are actually practised today: capoeira
+  in white abada trousers in a modern roda, and kalenda with a training stick to
+  a drummer in a yard. That is documentation of a present-day practice, not an
+  invented past.
+*/
+export function warriorImage(id: string): string {
+  return base('warrior-' + id);
+}
+
+export const WARRIOR_NOTE =
+  'Contemporary practitioners training these traditions today - not a historical depiction.';
