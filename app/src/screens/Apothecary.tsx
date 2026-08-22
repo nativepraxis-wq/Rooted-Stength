@@ -1,4 +1,7 @@
-import { apoImage, APOTHECARY_NOTE } from '../data/media';
+import {
+  apoImage, APOTHECARY_NOTE, shroomImage, ATLAS_PREP_NOTE,
+} from '../data/media';
+import { mushroomDepth } from '../data/mushroomDepth';
 import { useStore } from '../state/store';
 import {
   teas, teaGoalDefs, teaRules, teaFlagWord, goalTeaMap, goalTeaLabel,
@@ -358,6 +361,17 @@ export function TeaIntelScreen() {
 
 /* ===================== mushrooms ===================== */
 
+/* Small uppercase run-in label for the depth blocks below. */
+function MLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
 export function MushroomsScreen() {
   const { go, goBack } = useStore();
 
@@ -399,12 +413,33 @@ export function MushroomsScreen() {
           person, with a local expert — everything below assumes cultivated or bought fungi.
         </Band>
 
+        <div style={{
+          fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, marginTop: 10,
+        }}>{ATLAS_PREP_NOTE}</div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 14 }}>
           {(mushrooms as any[]).map((m) => (
             <div key={m.name} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',
             }}>
+              {/*
+                Content Rule 5 shapes these: every one is a kitchen process on
+                already-cultivated fungi, never a specimen. See data/media.ts.
+              */}
+              <img
+                src={shroomImage(m.name)}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  display: 'block', width: '100%', height: 150,
+                  objectFit: 'cover', background: 'var(--surface-2)',
+                }}
+              />
+              <div style={{ padding: '13px 14px' }}>
               <div style={{
                 display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
               }}>
@@ -424,6 +459,60 @@ export function MushroomsScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '6px 0 0',
               }}>{m.use}</p>
+
+              {/* Depth, from data/mushroomDepth.ts. No identification content. */}
+              {mushroomDepth[m.name] && (() => {
+                const d = mushroomDepth[m.name];
+                return (
+                  <div style={{
+                    marginTop: 10, paddingTop: 10,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <MLabel>In the kitchen</MLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{d.kitchen}</p>
+
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>What is in it</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{d.compound}</p>
+                    </div>
+
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>Buying &amp; keeping</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{d.buying}</p>
+                    </div>
+
+                    {/*
+                      The most important field on this screen. The closing band says
+                      the extract trials do not describe a culinary serving; this is
+                      where that gets said per mushroom instead of once at the bottom.
+                    */}
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>What it does not show</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{d.limit}</p>
+                    </div>
+
+                    {d.watch && (
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        fontWeight: 700, lineHeight: 1.45, margin: '9px 0 0',
+                      }}>{d.watch}</p>
+                    )}
+                  </div>
+                );
+              })()}
+              </div>
             </div>
           ))}
         </div>
