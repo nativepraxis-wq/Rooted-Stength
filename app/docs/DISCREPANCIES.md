@@ -1196,6 +1196,51 @@ their original `mix` text intact.
 
 ---
 
+## 34. The intake form's first question could not be answered
+
+"Your name" on ob1 was a `<div>` containing the literal string `Amara`. Not an
+input. You could not type your name into the intake form.
+
+This is the same failure as the days dropdown in section 23 - a control that
+looks like a form field, is not one, and displays an answer nobody gave - but it
+reached further, because the name was hardcoded as a JSX literal in **four**
+separate places:
+
+| file | what it printed |
+|---|---|
+| `Onboarding.tsx` | the ob1 field itself, a div |
+| `Onboarding.tsx` | the onboarding recap row |
+| `Journey.tsx` | the Journey profile recap row |
+| `Today.tsx` | `Good morning,<br />Amara` |
+
+Every user of this app was greeted by somebody else's name every morning, with no
+way to change it.
+
+### The fix
+
+`obName` is state now. The ob1 field is a real `<input>` with a linked `<label>`,
+`autocomplete="given-name"` and a 44px target, and all four sites read from state.
+
+'Amara' remains in `initialState` as **seeded demo data** - the same status as the
+fourteen days of logs and the plate streak that ship with it. The distinction that
+matters is that it is now a value the user can change rather than a literal
+baked into four screens.
+
+Anything rendering it handles the empty string: the greeting degrades to plain
+"Good morning" with no dangling comma, and both recap rows read "No name set",
+matching how the goal recap already reports an unanswered question.
+
+### Left alone deliberately
+
+`familyDefs` contains a household member with `id: 'amara'`. That is a separate
+persona in the family feature, not the user's own name, and it stays.
+
+One seeded council message opens "Morning, Amara." It is historical demo content
+in `initialState`, not a live greeting, so it does not follow the name. Worth
+knowing if the seed is ever swapped for a real user.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

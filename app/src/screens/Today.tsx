@@ -116,7 +116,9 @@ export function TodayScreen() {
             <h1 style={{
               fontFamily: 'var(--font-serif)', fontSize: 'calc(29px * var(--scale))',
               fontWeight: 600, lineHeight: 1.1, margin: '6px 0 0',
-            }}>Good morning,<br />Amara</h1>
+            }}>Good morning{state.obName ? ',' : ''}{state.obName
+              ? <><br />{state.obName}</>
+              : ''}</h1>
           </div>
           <button
             type="button"
