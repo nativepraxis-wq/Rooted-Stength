@@ -1,5 +1,7 @@
 import { useStore } from './store';
-import { goalScreenMap, goalScreenLabel, obGoals, obDayDefs } from '../data/content';
+import {
+  goalScreenMap, goalScreenLabel, obGoals, obDayDefs, sessionMeta,
+} from '../data/content';
 
 /*
   Shared behaviour for the Move surfaces.
@@ -143,8 +145,16 @@ export function useMoveStats() {
       ? 'mobility'
       : ((goalScreenMap as any)[state.obGoal] || 'farm'),
     goalSessionLabel: deloadSuggested
-      ? 'Mobility & recovery'
+      ? 'Mobility & joint reset'
       : ((goalScreenLabel as any)[state.obGoal] || 'Farm-Strength: Push & Carry'),
+
+    /*
+      The offered session's own meta line, or '' where that screen has no single
+      session - trainPlan and pregnancy. Callers must omit rather than invent.
+    */
+    goalSessionMeta: (sessionMeta as any)[
+      deloadSuggested ? 'mobility' : ((goalScreenMap as any)[state.obGoal] || 'farm')
+    ] || '',
 
     /*
       Elder strength measures against a stated minimum — two sessions a week —
