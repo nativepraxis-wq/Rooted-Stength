@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { useStore } from '../state/store';
 import {
-  obGoals, obRestrList, obTradList, consentList, goalFreqMap, freqBandDefs, teaGoalDefs,
+  obGoals, obDayDefs, obRestrList, obTradList, consentList, goalFreqMap, freqBandDefs,
+  teaGoalDefs,
 } from '../data/content';
 
 /*
@@ -209,6 +211,12 @@ const PRONOUNS = ['she/her', 'he/him', 'they/them', 'prefer not to say'];
 
 export function Ob1Screen() {
   const { state, set, go } = useStore();
+  const [daysOpen, setDaysOpen] = useState(false);
+  /* The only place obDays becomes the user's own. */
+  const pickDays = (id: string) => set({ obDays: id, obDaysSet: true });
+  const daysLabel = state.obDaysSet
+    ? ((obDayDefs as any[]).find((d) => d.id === state.obDays)?.label ?? 'Not set')
+    : 'Not set';
   return (
     <ObScreen>
       <StepHeader step={1} onBack={() => go('welcome')} />
@@ -235,14 +243,68 @@ export function Ob1Screen() {
         </Why>
       </div>
 
+      {/*
+        This was a static div: it printed "Farm & garden work, 3 days/week" with
+        a chevron beside it, but carried no handler, no options and no state. So
+        it both failed to open and asserted an answer nobody had given - the
+        second being the worse of the two in an app that will not present a
+        default as a choice. It is a real disclosure listbox now, and it reads
+        "Not set" until the user picks.
+      */}
       <FieldLabel>Your days involve</FieldLabel>
-      <div style={{
-        background: 'var(--card)', border: '1px solid var(--border-2)', borderRadius: 14,
-        padding: '14px 16px', fontSize: 'calc(14px * var(--scale))', color: 'var(--ink)',
-        marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
-        <span style={{ fontWeight: 600 }}>Farm &amp; garden work, 3 days/week</span>
-        <span aria-hidden="true" style={{ color: 'var(--ink-meta)' }}>▾</span>
+      <div onKeyDown={(e) => { if (e.key === 'Escape') setDaysOpen(false); }}>
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={daysOpen}
+          aria-controls="ob-days-list"
+          onClick={() => setDaysOpen((o) => !o)}
+          style={{
+            background: 'var(--card)', border: '1px solid var(--border-2)', borderRadius: 14,
+            padding: '14px 16px', fontSize: 'calc(14px * var(--scale))',
+            width: '100%', minHeight: 44, cursor: 'pointer', textAlign: 'left',
+            marginBottom: 8, display: 'flex', justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span style={{
+            fontWeight: 600,
+            color: state.obDaysSet ? 'var(--ink)' : 'var(--ink-meta)',
+          }}>{daysLabel}</span>
+          <span aria-hidden="true" style={{
+            color: 'var(--ink-meta)', flex: 'none', marginLeft: 10,
+            transform: daysOpen ? 'rotate(180deg)' : 'none',
+          }}>▾</span>
+        </button>
+
+        {daysOpen && (
+          <div
+            id="ob-days-list"
+            role="listbox"
+            aria-label="Your days involve"
+            style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}
+          >
+            {(obDayDefs as any[]).map((d) => {
+              const on = state.obDaysSet && state.obDays === d.id;
+              return (
+                <button
+                  key={d.id}
+                  type="button"
+                  role="option"
+                  aria-selected={on}
+                  onClick={() => { pickDays(d.id); setDaysOpen(false); }}
+                  style={{
+                    background: on ? 'var(--surface-2)' : 'var(--card)',
+                    border: '1px solid ' + (on ? 'var(--ink-meta)' : 'var(--border)'),
+                    borderRadius: 12, padding: '12px 14px', minHeight: 44,
+                    fontSize: 'calc(13.5px * var(--scale))', color: 'var(--ink)',
+                    fontWeight: on ? 700 : 600, textAlign: 'left', cursor: 'pointer',
+                  }}
+                >{d.label}</button>
+              );
+            })}
+          </div>
+        )}
       </div>
       <Why>
         Why we ask: physical labor counts as training — plans adjust so you&rsquo;re not overworked

@@ -79,6 +79,14 @@ export const initialState: any = {
     obGoal: 'muscle',
     obGoal2: 'farm',
     obGoalSet: false,
+    /*
+      Same discipline as obGoal above: obDays has no default answer at all.
+      The ob1 control used to display "Farm & garden work, 3 days/week" as
+      though it had been chosen, while being inert and storing nothing.
+      Nothing may describe this as the user's answer until obDaysSet is true.
+    */
+    obDays: null as string | null,
+    obDaysSet: false,
     obRestr: { soyfree: true, nutfree: true },
     obTrad: { caribbean: true, gullah: false, westafrican: true, creole: false, indigenous: false },
     consent: { health: true, photos: false, location: true, research: false },

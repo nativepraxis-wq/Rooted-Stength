@@ -2051,6 +2051,22 @@ export const obGoals = [
     { id: 'return', label: 'Recovery from inactivity' }, { id: 'vitality', label: 'General vitality' }
   ];
 
+
+/*
+  What the user's days physically involve. The sample value the inert control
+  used to display - "Farm & garden work, 3 days/week" - is kept here as one
+  option rather than shown as an answer nobody gave.
+*/
+export const obDayDefs = [
+    { id: 'farm3', label: 'Farm & garden work, 3 days/week' },
+    { id: 'farm5', label: 'Farm & garden work, 5+ days/week' },
+    { id: 'trades', label: 'Trades or manual work, most days' },
+    { id: 'onfeet', label: 'On your feet all day \u2014 care, kitchen, retail' },
+    { id: 'desk', label: 'Desk work, mostly seated' },
+    { id: 'mixed', label: 'A mix, and it changes week to week' },
+    { id: 'none', label: 'Not working right now' },
+  ];
+
 export const goalFreqMap = { muscle: 'building', strength: 'building', farm: 'grounding', hike: 'uplifting', mobility: 'calming', elder: 'building', recomp: 'building', postpartum: 'building', return: 'grounding', vitality: 'uplifting' };
 
 export const obRestrList = [
