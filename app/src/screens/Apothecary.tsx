@@ -1,7 +1,9 @@
 import {
   apoImage, APOTHECARY_NOTE, shroomImage, ATLAS_PREP_NOTE,
+  swapGroupImage, teaGoalImage,
 } from '../data/media';
 import { mushroomDepth } from '../data/mushroomDepth';
+import { teaDepth } from '../data/bandDepth';
 import { useStore } from '../state/store';
 import {
   teas, teaGoalDefs, teaRules, teaFlagWord, goalTeaMap, goalTeaLabel,
@@ -209,8 +211,13 @@ export function TeaIntelScreen() {
           Brewed by what the day asked of you — not by what looks good in a jar.
         </p>
       </DarkHeader>
+      {/*
+        Keyed to the open goal rather than static - the evening cup and the
+        morning-fire cup were sharing one picture.
+      */}
       <img
-        src={apoImage('tea')}
+        key={sel.id}
+        src={teaGoalImage(sel.id)}
         alt=""
         aria-hidden="true"
         loading="lazy"
@@ -306,6 +313,32 @@ export function TeaIntelScreen() {
                 fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
                 fontWeight: 700, marginTop: 6,
               }}>Brew: {t.brew}</div>
+              {/*
+                What that one-line instruction is actually doing. Steep-covered
+                and simmer are not interchangeable, and the difference is not
+                fussiness - see data/bandDepth.ts.
+              */}
+              {teaDepth[t.name] && (
+                <div style={{
+                  marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border)',
+                }}>
+                  <div style={{
+                    fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                    letterSpacing: 1, textTransform: 'uppercase',
+                    color: 'var(--ink-meta)', marginBottom: 3,
+                  }}>Why brewed that way</div>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{teaDepth[t.name].brewWhy}</p>
+                  {teaDepth[t.name].note && (
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600,
+                    }}>{teaDepth[t.name].note}</p>
+                  )}
+                </div>
+              )}
               {t.caution && (
                 <div style={{
                   fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
@@ -593,6 +626,7 @@ export function SwapsScreen() {
   return (
     <TabbedGuide
       image={apoImage('swaps')}
+      groupImage={swapGroupImage}
       eyebrow="Explore · supplements"
       title="Supplement swaps"
       lede="What the tub is selling, and what a bulk-bin staple does instead. Where a supplement genuinely earns its place, it says so."
