@@ -305,3 +305,32 @@ export const SCAN_NOTE =
 export function kitchenImage(id: string): string {
   return base('kit-' + id);
 }
+
+/*
+  Apothecary guide imagery.
+
+  This is the herbal section, so two of the twelve needed deciding rather than
+  just prompting.
+
+  `swaps` is "Supplement swaps". It shows whole foods laid out - pumpkin seeds,
+  hibiscus, brazil nuts, sea moss, greens, dried mushrooms, lentils - and no
+  pills, capsules or supplement packaging anywhere in frame. The screen argues
+  for food as the source, and a picture of capsules would argue the opposite.
+
+  `diabetes` is "Living with diabetes". It shows a man at his own table over
+  collards, beans and rice, mid-conversation. No pills, no glucose meter, no
+  clinical equipment, and crucially no herbal remedy: this app must not imply
+  that a herb treats a diagnosed condition. It is a picture of somebody living
+  well, not of a condition being managed.
+
+  The rest are the plant, the preparation or the practice. None of them is a
+  before-and-after, and none shows a remedy producing a result - the evidence
+  tiers and caution flags on these screens do that work in words, and a
+  photograph must not outrun them.
+*/
+export function apoImage(id: string): string {
+  return base('apo-' + id);
+}
+
+export const APOTHECARY_NOTE =
+  'Illustration, generated - not a photograph, and not evidence of an effect.';
