@@ -1,4 +1,7 @@
-import { placeImage, cropImage, CROP_NOTE } from '../data/media';
+import {
+  placeImage, cropImage, CROP_NOTE, forageImage, ATLAS_PREP_NOTE,
+} from '../data/media';
+import { forageDepth } from '../data/forageDepth';
 import { useStore } from '../state/store';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
@@ -364,13 +367,37 @@ export function ForageScreen() {
           sprayed ground or land you do not have permission to harvest.
         </Band>
 
+        {/*
+          Said once, near the images, rather than under each of fifteen cards.
+        */}
+        <div style={{
+          fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, marginTop: 10,
+        }}>{ATLAS_PREP_NOTE}</div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 14 }}>
           {(forageItems as any[]).map((f) => (
             <div key={f.name} style={{
-              display: 'flex', gap: 11, alignItems: 'flex-start',
               background: 'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',
             }}>
+              {/*
+                The PREPARATION, never the plant in the ground - see the note in
+                data/media.ts. Nothing here can be used to key a species, which is
+                the whole reason the band above this list exists.
+              */}
+              <img
+                src={forageImage(f.name)}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  display: 'block', width: '100%', height: 150,
+                  objectFit: 'cover', background: 'var(--surface-2)',
+                }}
+              />
+              <div style={{ display: 'flex', gap: 11, alignItems: 'flex-start', padding: '13px 14px' }}>
               <span aria-hidden="true" style={{
                 width: 10, height: 10, borderRadius: '50%', flex: 'none',
                 background: f.c, marginTop: 5,
@@ -395,6 +422,61 @@ export function ForageScreen() {
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                   lineHeight: 1.5, margin: '6px 0 0',
                 }}>{f.use}</p>
+
+                {/*
+                  `warn` was already in content.ts on nettle, cerasee and chaya and
+                  was never rendered - three safety lines sitting in the data and
+                  invisible on the screen. Chaya's in particular is not advice, it
+                  is the condition under which the plant is food at all.
+                */}
+                {f.warn && (
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                    fontWeight: 700, lineHeight: 1.45, margin: '7px 0 0',
+                  }}>{f.warn}</p>
+                )}
+
+                {/* Depth, from data/forageDepth.ts. Preparation - never an ID key. */}
+                {forageDepth[f.name] && (() => {
+                  const d = forageDepth[f.name];
+                  return (
+                    <div style={{
+                      marginTop: 10, paddingTop: 10,
+                      borderTop: '1px solid var(--border)',
+                    }}>
+                      <DLabel>How it is prepared</DLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                        lineHeight: 1.55, margin: 0,
+                      }}>{d.prep}</p>
+
+                      <div style={{ marginTop: 9 }}>
+                        <DLabel>Cutting so it comes back</DLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                          lineHeight: 1.5, margin: 0,
+                        }}>{d.harvest}</p>
+                      </div>
+
+                      <div style={{ marginTop: 9 }}>
+                        <DLabel>What it gets confused with</DLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                          lineHeight: 1.5, margin: 0, fontWeight: 600,
+                        }}>{d.confuse}</p>
+                      </div>
+
+                      <div style={{ marginTop: 9 }}>
+                        <DLabel>Keeping it</DLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                          lineHeight: 1.5, margin: 0,
+                        }}>{d.keeps}</p>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
               </div>
             </div>
           ))}

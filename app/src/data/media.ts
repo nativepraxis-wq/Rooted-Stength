@@ -334,3 +334,66 @@ export function apoImage(id: string): string {
 
 export const APOTHECARY_NOTE =
   'Illustration, generated - not a photograph, and not evidence of an effect.';
+
+/*
+  Mushroom mastery and Foraged foods.
+
+  These two sets are governed by rules the rest of the media is not, and the
+  rules changed what got drawn rather than just what got captioned.
+
+  MUSHROOMS - Content Rule 5. The screen's own band says a wild mushroom is
+  never identified from a photo, "not from this app, not from any app". A set of
+  six species portraits would be exactly that, whatever the caption said. So
+  every mushroom image here is a KITCHEN PROCESS on already-cultivated fungi:
+  torn oysters searing in cast iron, shiitake drying gills-up, reishi simmering,
+  a decoction going through a sieve. None of them shows a mushroom growing, and
+  none is framed as a specimen.
+
+  FORAGE - the same reasoning, and the screen's first band says it outright:
+  "Never eat a wild plant identified from an app, a photo or a single book."
+  So these are preparations too - roots roasting, nettle wilting, sorrel
+  steeping, sea moss gelling, chaya at a hard boil in an open steel pot. A user
+  cannot key a plant from any of them, which is the point.
+
+  Both sets carry ATLAS_PREP_NOTE rather than the usual illustration line,
+  because "not a photograph" is not the confusion worth foreclosing here. "Not
+  something to identify a plant from" is.
+*/
+export function shroomImage(name: string): string {
+  return base('shroom-' + (SHROOM_SLUG[name] ?? 'oyster'));
+}
+
+export function forageImage(name: string): string {
+  return base('forage-' + (FORAGE_SLUG[name] ?? 'dandelion'));
+}
+
+export const ATLAS_PREP_NOTE =
+  'Illustration of the preparation, generated - never a guide to identifying a plant.';
+
+/* Keyed on the exact `name` strings in content.ts, which are not slugs. */
+const SHROOM_SLUG: Record<string, string> = {
+  Oyster: 'oyster',
+  Shiitake: 'shiitake',
+  "Lion's Mane": 'lionsmane',
+  Reishi: 'reishi',
+  Cordyceps: 'cordyceps',
+  'Turkey Tail': 'turkeytail',
+};
+
+const FORAGE_SLUG: Record<string, string> = {
+  Dandelion: 'dandelion',
+  'Stinging nettle': 'nettle',
+  'Purslane \u00b7 verdolaga': 'purslane',
+  Lambsquarters: 'lambsquarters',
+  'Dulse & kelp': 'dulse',
+  'Sea moss': 'seamoss',
+  'Sorrel \u00b7 roselle': 'sorrel',
+  'Cerasee vine': 'cerasee',
+  'Moringa leaf': 'moringa',
+  'Baobab leaf': 'baobab',
+  Bitterleaf: 'bitterleaf',
+  'Wild amaranth \u00b7 efo': 'amaranth',
+  'Pumpkin leaves & tendrils': 'pumpkin',
+  'Chaya \u00b7 tree spinach': 'chaya',
+  'Chipil\u00edn': 'chipilin',
+};
