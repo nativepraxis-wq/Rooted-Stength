@@ -1,7 +1,8 @@
+import { restaurantImage, mealImage, PLACE_NOTE, ILLUSTRATION_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { orderView } from '../state/kitchen';
 import { restaurants, places } from '../data/content';
-import { DarkHeader, stripes } from '../components/Headers';
+import { DarkHeader, stripes, PhotoHeader } from '../components/Headers';
 import { TierBadge } from '../components/TierBadge';
 import {
   Screen, Gutter, Band, BackButton, PrimaryButton,
@@ -106,15 +107,18 @@ export function OrderScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(ov.rst.c1, ov.rst.c2, 14) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient stays as PhotoHeader's fallback, so a missing or
+        still-loading file leaves this looking as it did before.
+      */}
+      <PhotoHeader
+        src={restaurantImage(state.restId)}
+        alt={""}
+        note={PLACE_NOTE}
+        c1={ov.rst.c1}
+        c2={ov.rst.c2}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <h1 style={{
@@ -252,15 +256,18 @@ export function SugarMealScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes('#3C5A42', '#2F4A31', 14) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient stays as PhotoHeader's fallback, so a missing or
+        still-loading file leaves this looking as it did before.
+      */}
+      <PhotoHeader
+        src={mealImage()}
+        alt={'Butter-bean, collard and sorghum bowl, illustration'}
+        note={ILLUSTRATION_NOTE}
+        c1={'#3C5A42'}
+        c2={'#2F4A31'}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{

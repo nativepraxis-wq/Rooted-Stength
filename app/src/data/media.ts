@@ -114,3 +114,39 @@ export const LANDSCAPE_NOTE =
 
 export const VOLUME_NOTE =
   'Illustration, generated - not a photograph.';
+
+/*
+  Crop profiles show the plant growing - vine, panicle, pod, log, tree - which
+  keeps them distinct from the Pantry Codex, where the same species appear as the
+  dried ingredient. A cowpea in the field and a bowl of dried cowpeas are two
+  different claims, so they are two different pictures.
+*/
+export function cropImage(id: string): string {
+  return base('crop-' + id);
+}
+
+/*
+  The three restaurants are the same businesses as three of the six places, so
+  they reuse those files rather than generating near-duplicates. Same reasoning
+  applies: no storefront, no signage - see the placeImage note above.
+*/
+const RESTAURANT_TO_PLACE: Record<string, string> = {
+  ital: 'ital-roots-kitchen',
+  coop: 'yam-yarrow-co-op-market',
+  abuela: 'abuela-verde',
+};
+
+export function restaurantImage(restId: string): string {
+  return base('place-' + (RESTAURANT_TO_PLACE[restId] || 'ital-roots-kitchen'));
+}
+
+/* The single dish on the blood-sugar meal screen. */
+export function mealImage(): string {
+  return base('meal-sugarbowl');
+}
+
+export const CROP_NOTE =
+  'Illustration of this crop, generated - not a photograph of a specific plant.';
+
+export const PLACE_NOTE =
+  'Illustration of the kind of place, generated - it does not depict these premises.';
