@@ -689,6 +689,57 @@ renders unchanged.
 
 ---
 
+## 23. The "Your days involve" control was not a dropdown
+
+On the first onboarding step (`ob1`), "Your days involve" rendered as a plain
+`<div>` containing the text **"Farm & garden work, 3 days/week"** and a chevron.
+It had no click handler, no options, no state behind it, and was not a button -
+so it was not focusable, not keyboard reachable, and carried no ARIA.
+
+Two defects, and the second is the serious one:
+
+1. **It did not open.** It looked interactive and was inert.
+2. **It asserted an answer nobody had given.** "Farm & garden work, 3 days/week"
+   was displayed as though the user had chosen it, in an app whose
+   `initialState` already documents the opposite discipline for goals:
+
+   > `obGoal` / `obGoal2` are COMPUTATION DEFAULTS, not the user's answer.
+   > Nothing may describe them as "your goal" until ob2 records a real choice and
+   > sets `obGoalSet`.
+
+   That rule is honoured in nine places across the app. This control broke it.
+
+### The fix
+
+`obDayDefs` in `content.ts` carries seven options - the old sample value is now
+one of them rather than a fabricated answer. `obDays` and `obDaysSet` follow the
+`obGoal` / `obGoalSet` pattern exactly, and `obDays` has **no default at all**.
+The control reads **"Not set"** in muted ink until the user picks.
+
+It is now a real disclosure listbox: a `<button>` with `aria-haspopup`,
+`aria-expanded` and `aria-controls`; a `role="listbox"` of `role="option"`
+buttons carrying `aria-selected`; 44px minimum touch targets; and Escape to
+close. Verified in the browser - opens, lists seven options, records the choice,
+closes on select, updates the label, persists `aria-selected` on reopen, and
+closes on Escape.
+
+### What this fix does NOT do
+
+**Nothing consumes `obDays`.** The answer is recorded and nothing reads it.
+
+The "Why we ask" copy beneath the control says *"physical labor counts as
+training - plans adjust so you're not overworked on farm days."* **No plan
+adjusts.** That copy was there before this change and is prototype-verbatim, so
+it has not been rewritten here, but it is now a promise the app visibly collects
+an answer for and does not keep - which is more conspicuous than when the control
+was inert.
+
+Either the value should feed `state/move.ts` load calculation the way `goalSet`
+does, or the copy should stop promising it. That is a product decision, not a
+bug fix, so it is recorded here rather than guessed at.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
