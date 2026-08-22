@@ -925,6 +925,62 @@ as the Farm-Fitness Library: *"The written cues govern form, not the picture."*
 
 ---
 
+## 28. The warrior traditions now show people
+
+The five warrior traditions carry practitioner photographs, at the owner's
+direction. This reverses the rule sections 15 and 19 were built on - that nothing
+figurative would be generated for Zulu, Agojie, Maasai, capoeira or kalenda.
+
+The reversal is the owner's call to make, and there is a real argument for it:
+depicting Black and Indigenous people everywhere in the app **except** in their
+own traditions is its own kind of erasure.
+
+### The original objection is preserved in how these are made
+
+Every image shows a **contemporary practitioner performing the drill the app
+actually prescribes** - the endurance run, the obstacle climb and sandbag carry,
+the ginga, the tall-spine vertical jump, the stick figure-eight flow. The screen
+already says these traditions are "adapted for modern training", so a modern
+person training is what the screen is genuinely about.
+
+What they deliberately are **not** is staged historical reenactment. No shields,
+no spears, no shuka, no beadwork, no invented regalia or insignia. Fabricating
+ethnographic documentation of Zulu regiments, the Agojie or Maasai ceremony was
+the original objection and it still stands - a synthetic photograph of a real
+people's ceremony is a claim nobody can back. Depicting somebody training today
+is not that claim.
+
+Two of the five are living practices shown as they are actually practised:
+capoeira in white abada trousers in a modern roda, and kalenda worked with a
+training stick to a drummer in a yard. That is documentation of a present-day
+practice, not an invented past.
+
+### Each image is carried by the screen's own text
+
+| tradition | image | the drill beneath it |
+|---|---|---|
+| Zulu regiments | three runners, loose formation, modern kit | "Long barefoot-style run" |
+| Agojie | two women, obstacle wall and sandbag carry | "Wall / obstacle climb-over" |
+| Capoeira | ginga, low and springy, modern roda | "Ginga (base sway)" |
+| Maasai-derived | tall-spine vertical jump, minimal knee bend | "Vertical pogo jumps" |
+| Kalenda | stick figure-eight to a drummer | "Stick figure-8 flows" |
+
+The Agojie image is the clearest case: two women doing hard conditioning today
+honours women warriors without costuming anybody as one.
+
+### The note does the disambiguating
+
+Under every image: *"Contemporary practitioners training these traditions today -
+not a historical depiction."* Without that line the Zulu runners sit directly
+above a paragraph about amabutho and could be misread as a depiction of them.
+
+The foodways stills stay exactly where they were, in the Warrior fuel band. Both
+images follow the selected tradition.
+
+App imagery is now **227 files, 10 MB**, 17 of them depicting people.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

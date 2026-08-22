@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { traditionImage, farmMoveImage, FARM_MOVE_NOTE } from '../data/media';
+import { traditionImage, farmMoveImage, FARM_MOVE_NOTE, warriorImage, WARRIOR_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
@@ -718,6 +718,28 @@ export function WarriorScreen() {
             >{w.name}</Chip>
           ))}
         </div>
+
+        {/*
+          A contemporary practitioner performing the drill this screen prescribes -
+          not a historical reenactment. The note under it says so plainly, because
+          the difference between a modern person training and a staged depiction of
+          a real people's ceremony is the whole point. See data/media.ts.
+        */}
+        <img
+          src={warriorImage(sel.id)}
+          alt={sel.name + ', trained today \u2014 illustration'}
+          loading="lazy"
+          decoding="async"
+          style={{
+            display: 'block', width: '100%', height: 176, objectFit: 'cover',
+            borderRadius: 'var(--r-band)', marginTop: 14,
+            background: 'var(--surface-2)',
+          }}
+        />
+        <div style={{
+          fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, marginTop: 6,
+        }}>{WARRIOR_NOTE}</div>
 
         <div style={{
           marginTop: 14, background: sel.tint, borderRadius: 'var(--r-band)', padding: '15px 16px',
