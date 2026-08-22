@@ -266,3 +266,29 @@ export function hubImage(id: string): string {
 }
 
 export const HUB_NOTE = 'Illustration, generated - not a photograph.';
+
+/*
+  Sub-screen imagery for the Journey and Nourish tabs.
+
+  The hub note above explains why these were initially left bare. The owner asked
+  for them, so the risk is handled in the CHOICE OF SUBJECT rather than by
+  refusing.
+
+  Nothing inside the scan flow is a plated dish. That flow photographs the user's
+  own meal and reports on it, so a finished plate sitting in it could be read as
+  their scan result - a claim about their food nobody made. Instead:
+
+    scan     - the ACT of photographing, food soft in the lower frame
+    detected - hands sorting SEPARATE components on a board, not a plate
+    hidden   - oil going into a pan, the seasonings that go unrecorded
+    report   - a working kitchen mid-cook, components at different stages
+
+  Those four also carry SCAN_NOTE rather than the usual line, because "not a
+  photograph" is not the confusion worth foreclosing there. "Not your photo" is.
+*/
+export function subImage(id: string): string {
+  return base('sub-' + id);
+}
+
+export const SCAN_NOTE =
+  'Illustration, generated - not your photo.';
