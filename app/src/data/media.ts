@@ -90,3 +90,27 @@ const PLACE_SLUGS: Record<string, string> = {
 export function placeImage(name: string): string {
   return base('place-' + (PLACE_SLUGS[name] || 'sankofa-community-garden'));
 }
+
+/*
+  Codex region headers.
+
+  Land, not people. Three of these volumes - African American, Indenture and
+  Afro-Italy - are about coerced and exploited agricultural labour, and a header
+  full of workers in a field would romanticise exactly what the text is there to
+  name. So these are the agro-ecology the volume describes: the crop, the soil,
+  the water, the terrace. No figures anywhere.
+*/
+export function regionImage(id: string): string {
+  return base('region-' + id);
+}
+
+/* Pantry volume headers - an arrangement of what the volume is about. */
+export function volumeImage(id: string): string {
+  return base('vol-' + id);
+}
+
+export const LANDSCAPE_NOTE =
+  'Illustration of this region, generated - not a photograph of a specific place.';
+
+export const VOLUME_NOTE =
+  'Illustration, generated - not a photograph.';
