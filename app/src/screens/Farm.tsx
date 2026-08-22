@@ -1,3 +1,4 @@
+import { greenImage } from '../data/media';
 import { useStore } from '../state/store';
 import {
   greenDefs, cropMeta, trays, saladDefs, gardenBase, tendDefs,
@@ -536,6 +537,27 @@ export function VarietyScreen() {
           ))}
         </div>
       </DarkHeader>
+
+      {/*
+        Sits below the header rather than replacing it: the eyebrow, title and
+        flavour note are printed ON the DarkHeader gradient, so swapping it for a
+        photo would cost the text. Illustration, not a photograph of this tray -
+        see data/media.ts.
+      */}
+      <img
+        src={greenImage(v.id)}
+        alt={v.name + ' microgreens, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 132,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>Illustration, not a photograph of this tray</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <h2 style={{

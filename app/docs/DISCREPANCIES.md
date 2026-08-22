@@ -518,6 +518,62 @@ illustration, not a photograph of the dish.
 
 ---
 
+## 19. Greens, and why the six places get no storefront
+
+**17 greens.** Every microgreen variety now carries a tray still, shown as a
+banner under the variety screen's `DarkHeader` rather than replacing it - the
+eyebrow, title and flavour note are printed on that gradient and would have been
+lost.
+
+### The places are a different problem
+
+The six places are **named businesses**, each with a distance and a map pin. The
+screen states "distances below are the real figures", and the Explore screen
+carries a band saying ownership tags "come from the business". The app is telling
+the user these are real and findable. There are no addresses, URLs or phone
+numbers behind them, which says placeholder.
+
+A photoreal storefront is the wrong image either way:
+
+- If the businesses are **invented**, a facade makes them look findable, and
+  someone may go looking for a shop that does not exist. That is a fabricated
+  record, not a decoration.
+- If any are **real**, a synthetic facade misrepresents premises whose owners
+  never agreed to it - and several are tagged Black-owned, family-run or
+  Indigenous-owned, which makes getting it wrong worse, not better.
+
+So the six illustrate the **kind** of place: crates of produce, a pot on a stove,
+a family table, a farm-stand table, kelp drying on racks, raised beds. **No
+signage, no shopfront, no building exterior, no people.** They say what sort of
+place this is without asserting that a particular building stands anywhere. They
+replace what was a purely decorative colour dot in the list row.
+
+### Also found: 46 dead remote image URLs
+
+`cropPhotos` and `photos` in `content.ts` hold **46 CloudFront URLs** from a
+generation run on 2026-07-30. Neither export is imported by any screen, so
+nothing hotlinks to an external CDN today. They are left in place because
+`content.ts` is prototype-verbatim, but they are a liability: wiring them up
+would reintroduce an external dependency that can rot, and the `coop`, `ital` and
+`abuela` entries among them are exactly the storefront images this section argues
+against.
+
+### Three images regenerated to remove text
+
+`green-pea` carried a legible "BOTANICAL FIELD GUIDE" book, and
+`pantry-hibiscus` and `pantry-turmeric` carried herbarium-style label cards, all
+despite "no text" in the prompt. Regenerated clean.
+
+### A fourth safety false positive
+
+"Wooden crates of produce ... yams, collard greens, sweet potatoes" was refused
+as `nsfw`. That makes four across this work, all on plainly botanical or
+grocery subjects. Rewording clears them.
+
+Total app imagery is now **179 files, 6.4 MB**.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
