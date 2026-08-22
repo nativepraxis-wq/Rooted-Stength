@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
 import {
   sbList, sbEffective, sbTotals, sbName, sbVerdict, sbHiddenLine, sbParts, blockedAllergens,
@@ -12,6 +13,9 @@ import { Screen, Gutter, Band, PrimaryButton, SecondaryButton } from '../compone
   reason plus the swap that would fix them.
 */
 function SmoothieCard({ s }: { s: any }) {
+  /* Method and storage, from data/prepDepth.ts. Saved user blends have
+     no entry and simply render without these two lines. */
+  const d = prepDepth[s.name];
   return (
     <div style={{
       background: s.flagged ? 'var(--safety-bg)' : 'var(--card)',
@@ -39,6 +43,18 @@ function SmoothieCard({ s }: { s: any }) {
           fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
           lineHeight: 1.5, marginTop: 5,
         }}>{s.base}</div>
+        {d && (
+          <>
+            <div className="rs-prose" style={{
+              fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink)',
+              lineHeight: 1.45, marginTop: 6, fontWeight: 600,
+            }}>{d.build}</div>
+            <div className="rs-prose" style={{
+              fontSize: 'calc(11px * var(--scale))', color: 'var(--ink-meta)',
+              lineHeight: 1.45, marginTop: 3,
+            }}>{d.keeps}</div>
+          </>
+        )}
         {s.flagged && (
           <div style={{
             fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
