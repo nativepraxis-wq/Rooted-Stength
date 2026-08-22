@@ -1,3 +1,4 @@
+import { hubImage, HUB_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { warriorDefs, saladDefs, teaGoalDefs, goalTeaMap, goalTeaLabel } from '../data/content';
 import { Screen, Gutter } from '../components/ui';
@@ -129,6 +130,25 @@ export function TodayScreen() {
           >A</button>
         </div>
       </header>
+      {/*
+        Hub image only. The sub-screens under this tab show the user's own
+        record, and a stock photograph there would compete with their data -
+        on the scan flow it could even be mistaken for their own meal photo.
+      */}
+      <img
+        src={hubImage('today')}
+        alt={'A morning at the counter, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 172,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/* Today so far — computed, tappable through to history */}

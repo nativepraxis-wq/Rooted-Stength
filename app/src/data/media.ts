@@ -248,3 +248,21 @@ export function warriorImage(id: string): string {
 
 export const WARRIOR_NOTE =
   'Contemporary practitioners training these traditions today - not a historical depiction.';
+
+/*
+  Hub imagery for the Today, Journey and Nourish tabs.
+
+  Hubs only. The sub-screens under these tabs - Progress, History, the profile
+  recap, the scan flow, the recipe generator - show the user's own record, and a
+  generated photograph there would compete with their data rather than support it.
+
+  The scan flow is the sharpest case: it walks the user through photographing
+  their own meal and then reports on it. A generated plate sitting inside that
+  flow could be read as their scan result, which is a claim about their food that
+  nobody made.
+*/
+export function hubImage(id: string): string {
+  return base('hub-' + id);
+}
+
+export const HUB_NOTE = 'Illustration, generated - not a photograph.';
