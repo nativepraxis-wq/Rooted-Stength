@@ -186,3 +186,34 @@ export function farmMoveImage(farmName: string): string | null {
 
 export const FARM_MOVE_NOTE =
   'Illustrations of each movement. The written cues govern form, not the picture.';
+
+/*
+  Session photography for the six non-farm Move sessions.
+
+  All six depict African American people, with age, gender, body and personal
+  style varied deliberately across the set rather than one archetype repeated.
+  Wardrobe is styled up - fine knits, tailored trousers, silk headwraps, good
+  outerwear - in the app's own clay, ochre, forest and cream palette.
+
+  Same form discipline as the Farm-Fitness Library, and it changed two of them:
+
+  - `mobility` was regenerated. The first attempt was a deep backbend with the
+    head dropped back. Not dangerous, but the session is labelled "12 min,
+    joint-friendly" and that pose oversells the intensity to somebody with joint
+    problems. It is now a supine figure-four, unmistakably gentle.
+  - `elder` and `seated` are the two safety-critical ones. Elder shows a
+    sit-to-stand with a hand resting on the chair arm, upright and stable rather
+    than frail. Seated shows an upright chair-supported row, feet flat, spine
+    neutral.
+
+  `ancestral` shows a present-day person moving barefoot in contemporary dress.
+  It is deliberately NOT a costumed reenactment - the warrior-tradition rule from
+  the tradition imagery still holds: do not fabricate documentary depictions of a
+  living tradition's practitioners.
+*/
+export function sessionImage(id: string): string {
+  return base('session-' + id);
+}
+
+export const SESSION_NOTE =
+  'Illustration of this session. The written cues govern form, not the picture.';

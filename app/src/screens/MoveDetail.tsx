@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { sessionImage, SESSION_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { useMoveStats } from '../state/move';
 import {
@@ -86,6 +87,25 @@ export function MobilityScreen() {
           chairs or years took something from.
         </p>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('mobility')}
+        alt={'Mobility and joint reset, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', gap: 9 }}>
@@ -137,6 +157,25 @@ export function SeatedScreen() {
           chair users, and anyone training beside an elder.
         </p>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('seated')}
+        alt={'Seated and adaptive circuit, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/*
@@ -192,6 +231,25 @@ export function ElderScreen() {
           serve the village.
         </p>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('elder')}
+        alt={'Elder strength, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <Band tone="cream">
@@ -337,6 +395,25 @@ export function AncestralScreen() {
           barbell. Fitness as remembrance, not punishment.
         </p>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('ancestral')}
+        alt={'Ancestral movement, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{
@@ -494,6 +571,25 @@ export function BreathScreen() {
           ))}
         </div>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('breath')}
+        alt={'Long-exhale breathing reset, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <SessionButton name="Breathwork & mobility reset" meta="14 min · long exhale" />
@@ -630,6 +726,25 @@ export function HikeScreen() {
           ))}
         </div>
       </DarkHeader>
+      {/*
+        Sits below the header rather than replacing it - the eyebrow and title
+        are printed on the DarkHeader gradient and would be lost. Form was
+        checked before this shipped; see data/media.ts.
+      */}
+      <img
+        src={sessionImage('hike')}
+        alt={'Zone 2 ridge hike, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 168,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{SESSION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
