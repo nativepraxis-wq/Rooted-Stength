@@ -12,6 +12,25 @@
 */
 
 const DISH_SLUGS: Record<string, string> = {
+  /*
+    The thirteen dishes added to the African American volume in
+    data/codexDepth.ts. They live in that file rather than in content.ts,
+    which stays verbatim - but their images are keyed here like every other
+    dish so the lookup stays in one place.
+  */
+  "afam|Gumbo z\u2019herbes": 'afam-gumbo-zherbes',
+  "afam|Hot water cornbread": 'afam-hot-water-cornbread',
+  "afam|Red beans and rice": 'afam-red-beans-rice',
+  "afam|Boiled peanuts": 'afam-boiled-peanuts',
+  "afam|Field peas & snaps": 'afam-field-peas-snaps',
+  "afam|Chow-chow": 'afam-chow-chow',
+  "afam|Sweet potato pone": 'afam-sweet-potato-pone',
+  "afam|Okra pilau": 'afam-okra-pilau',
+  "afam|Carolina Gold middlins": 'afam-middlins',
+  "afam|Groundnut soup": 'afam-groundnut-soup',
+  "afam|Watermelon rind pickle": 'afam-watermelon-rind',
+  "afam|Soup beans & cornbread": 'afam-soup-beans',
+  "afam|Poke sallet": 'afam-poke-sallet',
   "west|Akara": 'akara',
   "west|Red red": 'red-red',
   "west|Waakye": 'waakye',

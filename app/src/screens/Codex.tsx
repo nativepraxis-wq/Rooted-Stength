@@ -2,6 +2,9 @@ import { codexRegions, codexFamilies, pantryVols } from '../data/content';
 import { CLS_TIER, CLAIM_TIER } from '../data/tiers';
 import { regionImage, volumeImage, LANDSCAPE_NOTE, VOLUME_NOTE } from '../data/media';
 import { dishImage } from '../data/dishImages';
+import {
+  codexExtraDishes, dishDepth, zoneDepth, type CodexDish,
+} from '../data/codexDepth';
 import { pantryImage } from '../data/pantryImages';
 import { useStore } from '../state/store';
 import { TierBadge } from '../components/TierBadge';
@@ -77,7 +80,9 @@ function VolumeCard({ swatch, name, ev, sub, ink, hook, counts, onClick }: {
 export function CodexScreen() {
   const { go, goBack, set } = useStore();
   const regions = codexRegions as Region[];
-  const dishTotal = regions.reduce((a, g) => a + g.dishes.length, 0);
+  /* Counts the added dishes as well, or the hub would understate the codex. */
+  const dishTotal = regions.reduce(
+    (a, g) => a + g.dishes.length + (codexExtraDishes[g.id]?.length ?? 0), 0);
 
   const openRegion = (id: string) => { set({ codexId: id }); go('codexRegion'); };
 
@@ -262,9 +267,30 @@ export function CodexScreen() {
 
 /* ===================== A region volume ===================== */
 
+/* Small uppercase run-in label for the depth blocks. */
+function CxLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
 export function CodexRegionScreen() {
   const { state, goBack } = useStore();
   const g: Region = regionById(state.codexId) ?? (codexRegions as Region[])[0];
+
+  /*
+    content.ts is verbatim, so dishes added to a volume live in
+    data/codexDepth.ts and are appended here rather than edited into the array.
+    Additive only - nothing already in the codex is changed or reordered.
+  */
+  const allDishes: CodexDish[] = [
+    ...(g.dishes as CodexDish[]),
+    ...(codexExtraDishes[g.id] ?? []),
+  ];
 
   return (
     <Screen>
@@ -316,7 +342,9 @@ export function CodexRegionScreen() {
           color: 'var(--ink-muted)', marginTop: 6,
         }}>{g.zoneSub}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          {g.zones.map((z: any) => (
+          {g.zones.map((z: any) => {
+            const zd = zoneDepth[g.id + '|' + z.z];
+            return (
             <div key={z.z} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '13px 14px',
@@ -332,15 +360,46 @@ export function CodexRegionScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.5,
                 color: 'var(--ink-muted)', margin: '6px 0 0',
               }}>{z.note}</p>
+
+              {/* Depth, from data/codexDepth.ts. */}
+              {zd && (
+                <div style={{
+                  marginTop: 10, paddingTop: 10,
+                  borderTop: '1px solid var(--border)',
+                }}>
+                  <CxLabel>How it grows</CxLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.55,
+                    color: 'var(--ink)', margin: 0,
+                  }}>{zd.system}</p>
+
+                  <div style={{ marginTop: 9 }}>
+                    <CxLabel>Whose knowledge</CxLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', lineHeight: 1.5,
+                      color: 'var(--ink-muted)', margin: 0,
+                    }}>{zd.hands}</p>
+                  </div>
+
+                  <div style={{ marginTop: 9 }}>
+                    <CxLabel>What is pressing on it</CxLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', lineHeight: 1.5,
+                      color: 'var(--earth)', margin: 0, fontWeight: 600,
+                    }}>{zd.pressure}</p>
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Dishes, each carrying its classification */}
         <h2 style={{
           fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))', fontWeight: 600,
           color: 'var(--ink)', margin: '24px 0 12px',
-        }}>{g.dishes.length} dishes profiled</h2>
+        }}>{allDishes.length} dishes profiled</h2>
         {/*
           Said once for the section rather than stamped on all 78 cards. These
           are generated illustrations and the app does not pass them off as
@@ -351,8 +410,9 @@ export function CodexRegionScreen() {
           fontWeight: 700, margin: '-6px 0 10px',
         }}>Dish images are illustrations, not photographs</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {g.dishes.map((d: any) => {
+          {allDishes.map((d: any) => {
             const img = dishImage(g.id, d.n);
+            const dd = dishDepth[g.id + '|' + d.n];
             return (
             <div key={d.n} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
@@ -386,6 +446,40 @@ export function CodexRegionScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.5,
                 color: 'var(--ink-muted)', margin: '6px 0 0',
               }}>{d.d}</p>
+
+              {/* Depth, from data/codexDepth.ts. */}
+              {dd && (
+                <div style={{
+                  marginTop: 10, paddingTop: 10,
+                  borderTop: '1px solid var(--border)',
+                }}>
+                  <CxLabel>What it is</CxLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.55,
+                    color: 'var(--ink)', margin: 0,
+                  }}>{dd.build}</p>
+
+                  {/*
+                    Why the badge says what it says. The codex never relabels a
+                    dish to suit a diet, so the classification is argued here
+                    rather than left to be assumed from the badge alone.
+                  */}
+                  <div style={{ marginTop: 9 }}>
+                    <CxLabel>Why it is classed this way</CxLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', lineHeight: 1.5,
+                      color: 'var(--ink-muted)', margin: 0,
+                    }}>{dd.stands}</p>
+                  </div>
+
+                  {dd.watch && (
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', lineHeight: 1.45,
+                      color: 'var(--clay)', margin: '9px 0 0', fontWeight: 700,
+                    }}>{dd.watch}</p>
+                  )}
+                </div>
+              )}
             </div>
             );
           })}
