@@ -1,10 +1,10 @@
-import { placeImage } from '../data/media';
+import { placeImage, cropImage, CROP_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
   bioregions, bioNotes, places, freqBandDefs, goalFreqMap, fusionQs, obGoals,
 } from '../data/content';
-import { DarkHeader, stripes } from '../components/Headers';
+import { DarkHeader, stripes, PhotoHeader } from '../components/Headers';
 import { TierBadge } from '../components/TierBadge';
 import { Screen, Gutter, Band, Chip, BackButton } from '../components/ui';
 
@@ -155,15 +155,18 @@ export function CropScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(c.c1, c.c2, 12) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient stays as PhotoHeader's fallback, so a missing or
+        still-loading file leaves this looking as it did before.
+      */}
+      <PhotoHeader
+        src={cropImage(state.cropId || 'cowpea')}
+        alt={c.name + ', illustration'}
+        note={CROP_NOTE}
+        c1={c.c1}
+        c2={c.c2}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{

@@ -607,8 +607,47 @@ infusion botanicals, a row of plant drinks, trays of microgreens.
 All 16 checked on contact sheets before wiring, same method as section 18. All 16
 correct, geographically distinct, no people, no text.
 
-Total app imagery is now **195 files, 7.6 MB**. Every striped photo stand-in in
-the app has been filled.
+Total app imagery is now **195 files, 7.6 MB**.
+
+> **Correction.** This section originally claimed every striped photo stand-in in
+> the app had been filled. That was wrong when written - three remained, on the
+> crop profile, restaurant order and blood-sugar meal screens. They are dealt
+> with in section 21, which is what actually makes the claim true.
+
+---
+
+## 21. The last three, and a correction
+
+Three striped stand-ins survived section 20's sweep: the **crop profile** header,
+the **restaurant order** header and the **blood-sugar meal** header. Section 20
+claimed the job was finished before it was; that claim is now corrected in place.
+
+**14 crop profiles** show the plant growing - cowpea vines in flower, oyster
+mushrooms shelving on a log, baobab pods on the branch, teff in highland terraces.
+That keeps them distinct from the Pantry Codex, where several of the same species
+appear as the dried ingredient. A cowpea in the field and a bowl of dried cowpeas
+are two different claims, so they are two different pictures.
+
+**The three restaurants reuse the place stills.** They are the same businesses as
+three of the six places - `ital`, `coop`, `abuela` - so `restaurantImage()` maps
+to the existing files rather than generating near-duplicates. The reasoning from
+section 19 carries over unchanged: no storefront, no signage.
+
+**One dish** for the blood-sugar meal screen, and it failed the same way
+everything with cooked sorghum in it has failed. The first attempt rendered pearl
+couscous again **despite the prompt explicitly forbidding it by name**. It took
+describing the grain as "cooked wheat berries or barley - irregular tan-and-russet
+kernels with a darker germ mark" before the model produced sorghum. That is now
+three separate occasions where this specific substitution had to be beaten out of
+it; anyone regenerating a cooked-grain image should expect to fight it.
+
+### A fifth safety false positive
+
+A bunch of plantains on the plant was refused as `nsfw`. Five now, all on plainly
+botanical or grocery subjects.
+
+Total app imagery is **210 files, 8.9 MB**, and **there are now no striped photo
+stand-ins left anywhere in the app** - verified by grep, not by assumption.
 
 ---
 
