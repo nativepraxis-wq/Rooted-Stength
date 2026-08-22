@@ -223,12 +223,30 @@ export function Ob1Screen() {
       <Title>First — who are we growing with?</Title>
       <Sub>Every question can be skipped and revisited later.</Sub>
 
-      <FieldLabel>Your name</FieldLabel>
-      <div style={{
-        background: 'var(--card)', border: '1px solid var(--border-2)', borderRadius: 14,
-        padding: '14px 16px', fontSize: 'calc(15px * var(--scale))', fontWeight: 600,
-        color: 'var(--ink)', marginBottom: 16,
-      }}>Amara</div>
+      {/*
+        This was a div containing the literal string "Amara", so the intake
+        form's first question could not be answered. It is a real text input
+        now, bound to state, and the name it holds is what the rest of the app
+        greets you by.
+      */}
+      <label htmlFor="ob-name" style={{ display: 'block' }}>
+        <FieldLabel>Your name</FieldLabel>
+      </label>
+      <input
+        id="ob-name"
+        type="text"
+        autoComplete="given-name"
+        value={state.obName ?? ''}
+        onChange={(e) => set({ obName: e.target.value })}
+        placeholder="What should we call you?"
+        style={{
+          width: '100%', minHeight: 44, boxSizing: 'border-box',
+          background: 'var(--card)', border: '1px solid var(--border-2)',
+          borderRadius: 14, padding: '14px 16px', marginBottom: 16,
+          fontSize: 'calc(15px * var(--scale))', fontWeight: 600,
+          color: 'var(--ink)', fontFamily: 'inherit',
+        }}
+      />
 
       <FieldLabel>Pronouns</FieldLabel>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 9, marginBottom: 6 }}>
@@ -619,7 +637,7 @@ export function ObRecapScreen() {
   const rows = [
     {
       to: 'ob1', label: 'Who you are',
-      value: 'Amara · ' + state.obPronoun,
+      value: (state.obName || 'No name set') + ' · ' + state.obPronoun,
       effect: 'Names and pronouns are used throughout; physiology questions stay optional.',
     },
     {

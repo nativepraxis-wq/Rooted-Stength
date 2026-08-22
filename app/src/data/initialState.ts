@@ -68,6 +68,15 @@ export const initialState: any = {
       });
       return out;
     })(),
+    /*
+      The name was previously a hardcoded string inside four separate JSX
+      literals, including the ob1 field itself, which was a div and therefore
+      could not be typed into at all. It is state now. 'Amara' stays here as
+      seeded demo data, the same way the fourteen days of logs and the streak
+      are seeded - but it is a value the user can change, not a literal.
+      Anything rendering it must handle the empty string.
+    */
+    obName: 'Amara',
     obPronoun: 'she/her',
     /*
       obGoal / obGoal2 are COMPUTATION DEFAULTS, not the user's answer. They
