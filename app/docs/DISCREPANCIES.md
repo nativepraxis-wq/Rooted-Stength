@@ -1280,6 +1280,63 @@ App imagery is now **256 files, 12 MB**.
 
 ---
 
+## 36. Process depth for the Apothecary, and the line it holds
+
+Every one of the 107 Apothecary guide items carried a `why` - what it is, what it
+is for, evidence-tiered - and **no `how` at all**. `apothecaryDepth.ts` adds the
+process to **73** of them. Separate file; `content.ts` untouched.
+
+### Culinary process is written in full
+
+Fermentation was named specifically and got the most detail, because here the
+detail is the safety:
+
+- **Kraut** - 2% salt by weight, 20g per kilo, 18-22C, seven to fourteen days.
+  And the rule that actually matters: *everything must stay under the brine*. A
+  flat white film is kahm yeast and can be skimmed; fuzzy or coloured growth means
+  discard the jar and **do not scoop around it**.
+- **Ginger beer and sorrel** - bottled ferments build real pressure. Burp daily,
+  refrigerate once lively, and use a plastic test bottle as the gauge.
+- **Garum** - 4% salt and 55-60C held for weeks, with an explicit instruction not
+  to cut the salt to taste, because the salt and the warmth are what keep it safe.
+- **Yogurt** - 110F, eight to twelve hours, scalded equipment, and discard if it
+  smells yeasty rather than cleanly sour.
+
+A kraut above the brine is a hazard, not a stylistic failure, so these numbers are
+stated rather than gestured at.
+
+### Herbal process is technique only
+
+The nervines and adaptogens get **method and nothing else**: covered infusion
+versus decoction, why a lid keeps what an open cup loses, why a root or a woody
+fungus needs forty-five minutes of simmering rather than a five-minute steep.
+
+**There are no doses and no frequencies anywhere in the file.** Ashwagandha,
+motherwort, mugwort and passionflower are pharmacologically active and carry
+documented interactions; each entry's `watch` points back at the caution flags and
+at a clinician. A method note must not quietly become a prescription, and on this
+screen that is a very short distance to travel.
+
+### Thirty-four items are deliberately bare
+
+- **"Working with care"** in the diabetes guide - meds needing adjustment, testing
+  frequency, what to bring to a visit. Clinical guidance, not mine to instruct.
+- **"Remission"** in the same guide, for the same reason.
+- **Rationale items** throughout - "Live cultures for the gut", "Fat that carries
+  vitamins", "Provision-ground economy". Reasons and history, not things you make.
+
+Cultural practices - libation, the grater as family memory - are described as what
+the practice **is**, never as instructions for performing someone's tradition.
+
+### Verified
+
+107 items, 73 entries, **all 73 matching an item name** - two keys initially did
+not match and rendered nothing until corrected. Every clinical item confirmed
+bare. Confirmed in the browser that the kraut submersion rule, the kahm-versus-
+mould distinction and the bottle-pressure warning all reach the screen.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

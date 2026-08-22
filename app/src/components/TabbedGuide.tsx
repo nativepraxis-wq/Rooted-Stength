@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { APOTHECARY_NOTE } from '../data/media';
+import { apothecaryDepth } from '../data/apothecaryDepth';
 import { useStore } from '../state/store';
 import { DarkHeader } from './Headers';
 import { TierBadge } from './TierBadge';
@@ -136,6 +137,33 @@ export function TabbedGuide({
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                   lineHeight: 1.5, margin: '6px 0 0',
                 }}>{it.why}</p>
+                {/*
+                  Process, from data/apothecaryDepth.ts. Items that are
+                  rationale, clinical guidance or somebody's tradition have no
+                  entry and render exactly as before - see that file for why.
+                */}
+                {apothecaryDepth[it.name] && (
+                  <div style={{
+                    marginTop: 9, paddingTop: 9,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <div style={{
+                      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                      letterSpacing: 1, textTransform: 'uppercase',
+                      color: 'var(--ink-meta)', marginBottom: 4,
+                    }}>How</div>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{apothecaryDepth[it.name].how}</p>
+                    {apothecaryDepth[it.name].watch && (
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600,
+                      }}>{apothecaryDepth[it.name].watch}</p>
+                    )}
+                  </div>
+                )}
                 {clash && (
                   <div style={{
                     fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
