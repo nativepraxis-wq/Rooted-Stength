@@ -148,3 +148,85 @@ export const teaDepth: Record<string, TeaDepth> = {
 
 export const FREQ_DEPTH_COUNT = Object.keys(freqDepth).length;
 export const TEA_DEPTH_COUNT = Object.keys(teaDepth).length;
+
+/*
+  The six core teas on the Apothecary hub.
+
+  These are the reference cards the rest of the tea surfaces point back to, and
+  they were the last list in the Atlas with no depth at all - a `supports` line,
+  a `notes` line, a one-line `brew` and a short caution.
+
+  They get four fields rather than the two the goal-brews get, because a
+  reference card is doing a different job from a suggestion:
+
+    plant    - what it actually is, botanically and geographically. Several of
+               these names travel badly: "sorrel" is one plant in the Caribbean
+               and a completely different one in Europe, and moringa tea and
+               moringa powder are not interchangeable.
+    brewWhy  - what the one-line brew instruction is doing. Steep and simmer are
+               not preferences.
+    evidence - what the badge on the card actually covers, stated narrowly. This
+               is where an "Emerging evidence" tier gets held to its meaning
+               instead of being read as a promise.
+    interacts- the mechanism behind the short caution already on the card.
+
+  NO DOSES AND NO FREQUENCIES, same line as everywhere else. Several of these
+  are pharmacologically active and the app already flags them and points at a
+  clinician; a method note must not become a prescription. Where the honest
+  answer to "how much" is that it belongs with a clinician, that is what the
+  entry says.
+*/
+
+export type CoreTeaDepth = {
+  /** What the plant actually is, and where the name misleads. */
+  plant: string;
+  /** What the brew line is doing. */
+  brewWhy: string;
+  /** What the evidence badge actually covers. */
+  evidence: string;
+  /** The mechanism behind the caution on the card. */
+  interacts: string;
+};
+
+/* Keyed on the exact `name` strings in content.ts - note these differ from the
+   goal-brew names above ("Blue Vervain" here, "Blue vervain" there). */
+export const coreTeaDepth: Record<string, CoreTeaDepth> = {
+  'Hibiscus / Sorrel (zobo)': {
+    plant: 'Hibiscus sabdariffa, and the part used is the calyx - the fleshy crimson sepal left after the flower drops - not the petal. It is called zobo in Nigeria, sobolo in Ghana, bissap in Senegal and sorrel across the anglophone Caribbean, and the Caribbean name causes real confusion: European sorrel is Rumex, a sour green leaf, and has nothing to do with it. Grown across West Africa and the Caribbean and harvested as the pods swell.',
+    brewWhy: 'Fifteen to twenty minutes because the pigment and acid come out readily but the body of the drink does not - a short steep gives colour without much else. A cold overnight steep extracts more gently and gives a rounder, less astringent result, which is why it is as good iced as hot. Ginger, clove and orange peel are the traditional company; the sweetener goes in hot so it dissolves.',
+    evidence: 'Emerging evidence, and specifically for blood pressure: several controlled trials in people with mild hypertension have found modest reductions from regular hibiscus tea. Modest is the operative word, and the trials are small and short. The anthocyanins and vitamin C are simply present rather than proven to do anything in particular.',
+    interacts: 'The blood-pressure effect is the caution as well as the finding: taken alongside antihypertensive medication the two can stack, which is why the card flags it. It also binds non-heme iron in the gut like tea and coffee do - the same mechanism the Mineral atlas describes - so it is worth keeping an hour away from the plate you are relying on for iron.',
+  },
+  'Tulsi (Holy Basil)': {
+    plant: 'Ocimum tenuiflorum, native to the Indian subcontinent and grown at the threshold of many Hindu households as a sacred plant rather than a culinary one. It is a different species from the sweet basil used in cooking and tastes it - clove-like and peppery rather than sweet.',
+    brewWhy: 'Five to ten minutes with the cup covered. The active compounds here include volatile aromatic oils, and an open cup loses a real part of them to the steam - which is the same reason lemon balm and blue vervain are brewed covered. Water off the boil rather than at a rolling boil. It re-steeps reasonably well, which is unusual in this list.',
+    evidence: 'Emerging evidence. There are human trials pointing at reduced stress scores and modest metabolic effects, and they are mostly small, short and heterogeneous. Adaptogen is a useful descriptive category rather than a regulated or mechanistically settled one, and the card saying it calms the HPA axis without sedation is describing the reported subjective pattern, not a demonstrated pathway.',
+    interacts: 'The pregnancy caution on the card is the important one, and it is precautionary rather than alarmist: animal work has raised questions about effects on fertility and pregnancy, human data is thin, and thin data in pregnancy is a reason to ask rather than assume. There is also a possible effect on clotting and on blood sugar, which matters if you take anything for either.',
+  },
+  Lemongrass: {
+    plant: 'Cymbopogon citratus, a tropical grass grown across West Africa, the Caribbean, South and Southeast Asia. The usable part is the pale swollen base of the stalk rather than the tough green blade, and the citrus note is citral - the same compound that dominates lemon peel, which is why it reads as lemon without any relation to the fruit.',
+    brewWhy: 'Five to eight minutes, and bruise or crush the stalk first - the oils sit in the fibres and an unbruised stalk gives you hot water with a hint of something. Fresh stalk is markedly better than dried here; it loses aroma faster than most in storage. Cut it into short lengths and split them.',
+    evidence: 'Traditional use, and the badge is doing its job. Lemongrass has a long and wide record as a calming and digestive tea across many cultures, and the laboratory work on citral is interesting, but there is very little human trial evidence for either claim. The card calls it a gentle nervine, which is what tradition says rather than what a trial has shown.',
+    interacts: 'The card says generally gentle and that is fair - it is one of the few here with no significant flagged interaction. Very large intakes have been associated with liver and kidney effects in animal studies, which is a reason not to treat "gentle" as "unlimited" rather than a reason for concern about a cup.',
+  },
+  'Blue Vervain': {
+    plant: 'Verbena hastata, native to North America, with slender purple flowering spikes. It is not the same plant as European vervain (Verbena officinalis) or as lemon verbena, and the three are routinely confused in shops and recipes. The codex line that it was carried by maroon healers places it in a specific tradition of plant knowledge held by people who had escaped enslavement.',
+    brewWhy: 'Ten minutes, covered, and the card says bitter is the point. That is not a flourish: the bitter iridoid compounds are what the plant is used for, so a short steep sweetened into palatability has removed most of what was being brewed. Covering the cup keeps the volatiles in. It is genuinely unpleasant to many people and traditional use does not pretend otherwise.',
+    evidence: 'Traditional use, and there is very little else. The human trial literature on Verbena hastata specifically is close to non-existent, and most of what circulates online conflates it with European vervain, which has slightly more study behind it. The app grades it honestly rather than borrowing another species\u2019 evidence.',
+    interacts: 'Avoid in pregnancy, as the card says - vervains have a traditional reputation as uterine stimulants, and that reputation alone is sufficient reason to stay away without better data. It may also interact with blood-pressure medication and with hormone-sensitive conditions. Traditional use is knowledge, not a safety clearance, and this is the entry where that distinction bites hardest.',
+  },
+  Moringa: {
+    plant: 'Moringa oleifera leaf, from a fast-growing tree that stays in leaf through drought when little else does - which is most of why it matters agriculturally. The leaf tea and the powder are related but not interchangeable: the powder is the whole leaf and delivers the minerals the Mineral atlas credits it with, while the tea is a water extract and carries far less of them.',
+    brewWhy: 'Five minutes and mild, and the instruction elsewhere in this app not to boil the leaf applies here too - sustained heat turns it bitter and degrades the vitamin content. Water off the boil, short steep, no aggressive extraction. If you are drying your own, shade-dry rather than sun-dry: sun-dried moringa goes khaki and loses much of what shade-dried leaf keeps.',
+    evidence: 'Emerging evidence. There are small human trials on blood sugar and lipids and a large body of laboratory and animal work, and the gap between the two is wide. The card credits it for recovery and minerals; the honest position is that moringa leaf is a genuinely nutrient-dense food and that its therapeutic claims are much less settled than its enthusiasts suggest.',
+    interacts: 'The card says start with small amounts, which is unusually practical advice: moringa is a mild laxative for some people and a large first serving finds that out unpleasantly. It may also lower blood sugar and blood pressure, so it stacks with medication for either. Root and root bark are a different matter entirely and are not food - the leaf is what is meant here.',
+  },
+  'Ginger + Turmeric': {
+    plant: 'Two rhizomes in the same family - Zingiber officinale and Curcuma longa - rather than roots, which is why both are dense, fibrous and slow to give anything up. Turmeric stains permanently; the colour is the curcuminoids, so the staining is a fair proxy for the compound being there.',
+    brewWhy: 'Simmer ten minutes, not steep, because a rhizome does not release much to hot water sitting still. The card adds the black pepper and that is the whole mechanism: curcumin is very poorly absorbed on its own, and piperine from pepper raises that absorption dramatically. Curcumin is also fat-soluble, so a fat in the cup - coconut or plant milk - does real work. Leave out the pepper or the fat and you have made an attractive yellow drink.',
+    evidence: 'Well established is the highest badge on this list and it is carried mostly by the pepper-absorption interaction and by ginger for nausea, both of which have solid human evidence. Curcumin\u2019s anti-inflammatory effects in humans are more mixed than the popular account suggests, and much of the encouraging trial work uses concentrated extracts at doses a cup does not approach - the same extract gap the Mushroom mastery screen describes.',
+    interacts: 'High intakes of both may affect clotting, which is the card\u2019s caution and matters if you take anticoagulants or have surgery scheduled. Turmeric can also aggravate gallstones and may interfere with iron absorption. A cup is a cup; the concern belongs to sustained high-dose supplementation, and that is a clinician conversation rather than a card one.',
+  },
+};
+
+export const CORE_TEA_DEPTH_COUNT = Object.keys(coreTeaDepth).length;

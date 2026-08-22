@@ -1,10 +1,10 @@
 import {
   apoImage, APOTHECARY_NOTE, shroomImage, ATLAS_PREP_NOTE,
-  swapGroupImage, teaGoalImage, nervImage, waterImage, fermImage,
+  swapGroupImage, teaGoalImage, nervImage, waterImage, fermImage, teaImage,
   cocoImage, honeyImage, cerImage, shrecImage,
 } from '../data/media';
 import { mushroomDepth } from '../data/mushroomDepth';
-import { teaDepth } from '../data/bandDepth';
+import { teaDepth, coreTeaDepth } from '../data/bandDepth';
 import { useStore } from '../state/store';
 import {
   teas, teaGoalDefs, teaRules, teaFlagWord, goalTeaMap, goalTeaLabel,
@@ -121,8 +121,20 @@ export function ApothecaryScreen() {
           {(teas as any[]).map((t) => (
             <div key={t.name} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',
             }}>
+              <img
+                src={teaImage(t.name)}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  display: 'block', width: '100%', height: 150,
+                  objectFit: 'cover', background: 'var(--surface-2)',
+                }}
+              />
+              <div style={{ padding: '13px 14px' }}>
               <div style={{
                 display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
               }}>
@@ -156,9 +168,65 @@ export function ApothecaryScreen() {
                   fontWeight: 700, marginTop: 4, lineHeight: 1.4,
                 }}>⚠ {t.caution}</div>
               )}
+
+              {/*
+                Depth, from data/bandDepth.ts. Four fields rather than the two
+                the goal-brews get, because these are the reference cards the
+                other tea surfaces point back to.
+              */}
+              {coreTeaDepth[t.name] && (() => {
+                const cd = coreTeaDepth[t.name];
+                return (
+                  <div style={{
+                    marginTop: 10, paddingTop: 10,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <MLabel>What the plant is</MLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{cd.plant}</p>
+
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>Why brewed that way</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{cd.brewWhy}</p>
+                    </div>
+
+                    {/*
+                      Holds the badge to its meaning. An "Emerging evidence" tier
+                      is an open question, not a promise, and this is where that
+                      gets said in specifics.
+                    */}
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>What the badge covers</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{cd.evidence}</p>
+                    </div>
+
+                    <div style={{ marginTop: 9 }}>
+                      <MLabel>Behind the caution</MLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{cd.interacts}</p>
+                    </div>
+                  </div>
+                );
+              })()}
+              </div>
             </div>
           ))}
         </div>
+
+        <div style={{
+          fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, marginTop: 10,
+        }}>{APOTHECARY_NOTE}</div>
 
         <HerbCaution />
 

@@ -429,6 +429,29 @@ export const honeyImage = guideImage('honey');
 export const cerImage = guideImage('cer');
 export const shrecImage = guideImage('shrec');
 
+
+/*
+  The six core teas on the Apothecary hub. Brewed cups and the plant part that
+  goes into them - calyx, stalk base, rhizome - because the depth text for these
+  is largely about what the plant actually is and what the brew is extracting.
+
+  Keyed by the exact `name` in content.ts, which is not a slug: "Hibiscus /
+  Sorrel (zobo)" and "Ginger + Turmeric" both contain characters a derived
+  filename would mangle, so the map is explicit.
+*/
+export function teaImage(name: string): string {
+  return base('tea-' + (TEA_SLUG[name] ?? 'hibiscus'));
+}
+
+const TEA_SLUG: Record<string, string> = {
+  'Hibiscus / Sorrel (zobo)': 'hibiscus',
+  'Tulsi (Holy Basil)': 'tulsi',
+  Lemongrass: 'lemongrass',
+  'Blue Vervain': 'vervain',
+  Moringa: 'moringa',
+  'Ginger + Turmeric': 'gingerturmeric',
+};
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 
