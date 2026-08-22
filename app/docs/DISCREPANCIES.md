@@ -1148,6 +1148,52 @@ Swaps, What this dish actually is - with all four original sections intact.
 Checked on two different plates to confirm the depth is per-recipe and jollof's
 lines do not leak onto akara.
 
+> **This section covered only the 28 plate recipes.** Sixteen other preparations
+> in the app had no method at all and were missed. They are done in section 33.
+
+---
+
+## 33. The sixteen preparations that had no method at all
+
+Section 32 deepened the 28 plate recipes and stopped there. That was an
+incomplete reading of "all the recipes throughout the app". Sixteen other things
+the app tells you to make had **no method whatsoever**:
+
+- **8 microgreen salads** - a `mix` line naming the components, and nothing about
+  how to build one
+- **5 smoothies** and **3 kid smoothies** - a `base` line listing what goes in,
+  and nothing about what goes in *first*
+
+For a smoothie the blend order is most of the technique. Sea moss gel has to
+disperse into the liquid before anything else joins it; pineapple goes last. For
+a shoot salad the whole question is when the dressing lands, because dressed
+shoots have minutes. None of that was anywhere.
+
+### Two lines each, not a wall of text
+
+These render as compact list cards, so depth is a **build** line and a **keeps**
+line rather than the three-section treatment the plate recipes got. Anything
+longer would have buried the cards.
+
+### Same restraint as section 32
+
+New file, `src/data/prepDepth.ts`; `content.ts` untouched. No nutrition figures -
+the smoothies already carry protein and kcal and those are claims. And no
+extension of the reasoning already in each item's own line: the salads' `mix`
+field says *why* each is built as it is - "vitamin C unlocks the iron",
+"mucilage and sulforaphane slow the curve" - and those are evidence-tiered
+elsewhere. Nothing added here restates or stretches them.
+
+**Mama & Baby** carries "clear herbs with your midwife" in its own line. Nothing
+added there touches herbal guidance, and that line was checked as still present
+after the change.
+
+### Verified
+
+16 items, 16 depth entries, no missing and no orphans, no nutrition figures in
+the file. Confirmed in the browser that all 8 salads render both new lines with
+their original `mix` text intact.
+
 ---
 
 ## Not a discrepancy, but carried forward

@@ -1,4 +1,5 @@
 import { greenImage } from '../data/media';
+import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
 import {
   greenDefs, cropMeta, trays, saladDefs, gardenBase, tendDefs,
@@ -292,6 +293,18 @@ export function MicrogreensScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '6px 0 0',
               }}>{s.mix}</p>
+              {prepDepth[s.name] && (
+                <>
+                  <div className="rs-prose" style={{
+                    fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.45, marginTop: 6, fontWeight: 600,
+                  }}>{prepDepth[s.name].build}</div>
+                  <div className="rs-prose" style={{
+                    fontSize: 'calc(11px * var(--scale))', color: 'var(--ink-meta)',
+                    lineHeight: 1.45, marginTop: 3,
+                  }}>{prepDepth[s.name].keeps}</div>
+                </>
+              )}
             </div>
           ))}
         </div>
