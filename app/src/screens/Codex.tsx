@@ -1,10 +1,11 @@
 import { codexRegions, codexFamilies, pantryVols } from '../data/content';
 import { CLS_TIER, CLAIM_TIER } from '../data/tiers';
+import { regionImage, volumeImage, LANDSCAPE_NOTE, VOLUME_NOTE } from '../data/media';
 import { dishImage } from '../data/dishImages';
 import { pantryImage } from '../data/pantryImages';
 import { useStore } from '../state/store';
 import { TierBadge } from '../components/TierBadge';
-import { stripes } from '../components/Headers';
+import { stripes, PhotoHeader } from '../components/Headers';
 import { Screen, Gutter, Band, StatTiles, BackButton } from '../components/ui';
 
 type Region = any;
@@ -267,15 +268,18 @@ export function CodexRegionScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(g.c1, g.c2, 12) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient stays as PhotoHeader's fallback, so a missing
+        or still-loading file leaves this looking as it did before.
+      */}
+      <PhotoHeader
+        src={regionImage(g.id)}
+        alt={g.name + ', illustration'}
+        note={LANDSCAPE_NOTE}
+        c1={g.c1}
+        c2={g.c2}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{
@@ -505,15 +509,18 @@ export function PantryVolScreen() {
 
   return (
     <Screen>
-      <header style={{ position: 'relative', height: 132, background: stripes(v.c1, v.c2, 12) }}>
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.58), rgba(15,13,10,0.34))',
-        }} />
-        <div style={{ position: 'absolute', top: 58, left: 18 }}>
-          <BackButton onDark onClick={goBack} />
-        </div>
-      </header>
+      {/*
+        The striped gradient stays as PhotoHeader's fallback, so a missing
+        or still-loading file leaves this looking as it did before.
+      */}
+      <PhotoHeader
+        src={volumeImage(v.id)}
+        alt={v.name + ', illustration'}
+        note={VOLUME_NOTE}
+        c1={v.c1}
+        c2={v.c2}
+        back={goBack}
+      />
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{

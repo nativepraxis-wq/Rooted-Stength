@@ -574,6 +574,44 @@ Total app imagery is now **179 files, 6.4 MB**.
 
 ---
 
+## 20. The last sixteen headers - land, not labour
+
+The 10 Foodways Codex regions and 6 Pantry Codex volumes now carry photographic
+headers through `PhotoHeader`, which keeps the striped gradient underneath as its
+fallback. These were the last striped stand-ins in the app.
+
+### Region headers show land, never people
+
+Three of these volumes - **African American**, **Indenture** and **Afro-Italy** -
+are about coerced and exploited agricultural labour. Afro-Italy's own subtitle
+reads "gastrofascism, the harvest fields", which points at the exploitation of
+African farm workers in southern Italy today.
+
+A header full of figures working a field would romanticise precisely what the
+text beneath it exists to name, and the Move hub already commits the app against
+that: *"Present-day sovereignty and skill - never romanticized labor."*
+
+So every region header is the **agro-ecology the volume describes** - the crop,
+the soil, the water, the terrace - and carries no figures at all. Lowcountry is
+tidal marsh and cypress; Indenture is a flooded paddy; Afro-Italy is dry-stone
+terraces and olives. What the land grew, not who was made to grow it.
+
+### Volume headers
+
+Straightforward arrangements of what each volume covers: bowls of the six
+cereals, bowls of the legumes, four distinguishable mushroom species, dried
+infusion botanicals, a row of plant drinks, trays of microgreens.
+
+### Every image reviewed
+
+All 16 checked on contact sheets before wiring, same method as section 18. All 16
+correct, geographically distinct, no people, no text.
+
+Total app imagery is now **195 files, 7.6 MB**. Every striped photo stand-in in
+the app has been filled.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
