@@ -1060,6 +1060,47 @@ App imagery is now **238 files, 11 MB**.
 
 ---
 
+## 31. Kitchen screens - meal plan, pantry, grocery and the input flows
+
+Six screens, not the three named: meal plan, pantry and grocery list, plus **Plan
+grocery list**, **Scan a barcode** and **Add by voice**, which are sub-screens of
+the same two areas.
+
+### Each shows the activity, not an inventory
+
+The pantry screen tracks the user's real stock and draws it down as plates are
+logged - *"17 in stock, 4 running low."* An idealised full-shelf photograph above
+that could be read as **their** shelf. The image is instead somebody mid-restock,
+gaps on the shelf, jars still in a crate below: a pantry being **kept**, not a
+pantry being claimed.
+
+The same logic runs through the rest - planning the week, shopping from a list,
+writing a list from the plan, logging a jar, speaking an item. Activities, not
+stock displays.
+
+### Two regenerations
+
+**Grocery list** was regenerated twice over. The first version had visible
+signage - chalkboard prices, "ARTISANAL" on a crate - despite the prompt
+forbidding it, and more seriously the background figures read as white, which
+breaks the instruction that everybody in these images be African American. The
+replacement has him alone in frame with no lettering anywhere.
+
+Two others simply **failed** on submission - not a safety refusal, just a failed
+job - and went through on retry. Worth knowing that plain failures happen and are
+not always a content problem.
+
+### A mistake worth recording
+
+The first batch went out with a placeholder in one slot: model `"nash"`, prompt
+`"placeholder"`. It was rejected by the API rather than silently generating
+something wrong, but it was my error in composing the batch, and the pantry image
+had to be submitted separately as a result.
+
+App imagery is now **244 files, 11 MB**.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since

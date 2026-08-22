@@ -1,3 +1,4 @@
+import { kitchenImage, HUB_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import {
   pantryView, groceryView, planGroceryView, blockedAllergens, servings, restockMessage,
@@ -64,6 +65,20 @@ export function MealPlanScreen() {
           building on training days.
         </p>
       </DarkHeader>
+      <img
+        src={kitchenImage('mealplan')}
+        alt={'Planning the week ahead, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/* Day selector */}
@@ -191,6 +206,20 @@ export function PantryScreen() {
           {pv.count} in stock · {pv.low} running low
         </div>
       </DarkHeader>
+      <img
+        src={kitchenImage('pantry')}
+        alt={'Restocking the pantry shelf, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {/* What cooking actually consumed */}
@@ -376,6 +405,20 @@ export function GroceryScreen() {
           }}>{gv.est} estimated</span>
         </div>
       </DarkHeader>
+      <img
+        src={kitchenImage('grocery')}
+        alt={'Shopping from a list, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div role="status" style={{
@@ -472,6 +515,20 @@ export function PlanGroceryScreen() {
           letterSpacing: 1, textTransform: 'uppercase', color: 'var(--ochre-light)',
         }}>{pg.need} to buy · {pg.have} already in the pantry</div>
       </DarkHeader>
+      <img
+        src={kitchenImage('plangrocery')}
+        alt={'Writing a list from the plan, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         {pg.swappedCount > 0 && (
@@ -546,6 +603,20 @@ export function BarcodeScreen() {
   return (
     <Screen>
       <DarkHeader eyebrow="Nourish · pantry" title="Scan a barcode" back={goBack} />
+      <img
+        src={kitchenImage('barcode')}
+        alt={'Logging a jar into stock, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
       <Gutter style={{ paddingTop: 18 }}>
         <div aria-hidden="true" style={{
           height: 200, borderRadius: 'var(--r-card)', background: 'var(--forest-2)',
@@ -615,6 +686,20 @@ export function VoiceScreen() {
   return (
     <Screen>
       <DarkHeader eyebrow="Nourish · pantry" title="Add by voice" back={goBack} />
+      <img
+        src={kitchenImage('voice')}
+        alt={'Adding an item by voice, illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 152,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{HUB_NOTE}</div>
       <Gutter style={{ paddingTop: 18 }}>
         <div style={{
           position: 'relative', height: 200,
