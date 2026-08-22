@@ -65,6 +65,15 @@ const PAIRS = [
   ['leaf accent on app ground', 'leaf', 'sand', 4.5],
   ['plum accent on app ground', 'plum', 'sand', 4.5],
   ['indigo accent on app ground', 'indigo', 'sand', 4.5],
+  /*
+    Accents also sit on card fill, not only on the app ground - the mineral
+    atlas puts earth, clay and leaf there. Those pairings were never measured,
+    so they are added rather than assumed from the ground figures; card and
+    ground are different backgrounds and dark mode does not rank them the same.
+  */
+  ['earth accent on card', 'earth', 'card', 4.5],
+  ['clay accent on card', 'clay', 'card', 4.5],
+  ['leaf accent on card', 'leaf', 'card', 4.5],
   ['active tab ink', 'forest-tab-active', 'card', 4.5],
   ['inactive tab ink', 'tab-inactive', 'card', 4.5],
   ['cream band text', 'ink-muted', 'surface-cream', 4.5],
