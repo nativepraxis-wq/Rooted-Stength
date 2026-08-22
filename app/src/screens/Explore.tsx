@@ -3,7 +3,9 @@ import { useStore } from '../state/store';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
   bioregions, bioNotes, places, freqBandDefs, goalFreqMap, fusionQs, obGoals,
+  plateDefs, plateRecipes,
 } from '../data/content';
+import { mineralDepth, mineralPairs } from '../data/mineralDepth';
 import { DarkHeader, stripes, PhotoHeader } from '../components/Headers';
 import { TierBadge } from '../components/TierBadge';
 import { Screen, Gutter, Band, Chip, BackButton } from '../components/ui';
@@ -631,6 +633,71 @@ export function SeasonalScreen() {
 
 /* ===================== minerals ===================== */
 
+/*
+  Recipe chips for the atlas.
+
+  A chip only appears where the recipe's own ingredient list contains a food the
+  mineral card names as a source - the links in data/mineralDepth.ts were derived
+  by scanning those lists, not asserted. `showIron` surfaces the per-serving iron
+  figure content.ts already declares on every plate; it is the app's own number,
+  read at render time rather than copied.
+*/
+function RecipeChips({ ids, showIron }: { ids: string[]; showIron?: boolean }) {
+  const { set } = useStore();
+  const defs = ids
+    .map((id) => (plateDefs as any[]).find((d) => d.id === id))
+    .filter(Boolean);
+  if (!defs.length) return null;
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 7 }}>
+      {defs.map((d: any) => {
+        const iron = showIron ? (plateRecipes as any)[d.id]?.iron : null;
+        return (
+          <button
+            key={d.id}
+            type="button"
+            onClick={() => set({
+              plateId: d.id, plateRelaxed: false,
+              route: 'recipeDetail', councilOpen: false,
+            })}
+            style={{
+              font: 'inherit', cursor: 'pointer', textAlign: 'left',
+              background: 'var(--surface-2)', border: '1px solid var(--border)',
+              borderRadius: 999, padding: '5px 10px',
+              fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700,
+              color: 'var(--ink)', lineHeight: 1.3,
+            }}
+          >
+            {d.name}
+            {iron && (
+              <span style={{ color: 'var(--ink-meta)', fontWeight: 600 }}>
+                {' \u00b7 '}{iron} iron
+              </span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* Small uppercase run-in label, used throughout the depth blocks. */
+function DLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
+const PAIR_TONE: Record<string, { label: string; c: string }> = {
+  helps: { label: 'Works together', c: 'var(--leaf)' },
+  competes: { label: 'Competes', c: 'var(--clay)' },
+  needs: { label: 'Depends on', c: 'var(--earth)' },
+};
+
 export function MineralsScreen() {
   const { goBack } = useStore();
 
@@ -687,13 +754,149 @@ export function MineralsScreen() {
                 fontSize: 'calc(11.5px * var(--scale))', color: 'var(--earth)',
                 fontWeight: 700, marginTop: 7, lineHeight: 1.45,
               }}>{m.tip}</div>
+
+              {/*
+                Depth, from data/mineralDepth.ts. Figures are ranges, never single
+                numbers - the Atlas sets that rule for itself in the microgreen
+                copy, and the reason holds for every mineral here.
+              */}
+              {mineralDepth[m.sym] && (() => {
+                const d = mineralDepth[m.sym];
+                return (
+                  <div style={{
+                    marginTop: 11, paddingTop: 11,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <DLabel>Reference intake</DLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 700,
+                    }}>{d.target}</p>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: '4px 0 0',
+                    }}>{d.targetNote}</p>
+
+                    <div style={{ marginTop: 10 }}>
+                      <DLabel>What carries it</DLabel>
+                      <ul style={{
+                        margin: 0, paddingLeft: 16,
+                        fontSize: 'calc(12px * var(--scale))',
+                        color: 'var(--ink-muted)', lineHeight: 1.55,
+                      }}>
+                        {d.carries.map((c) => (
+                          <li key={c.food}>
+                            <b style={{ color: 'var(--ink)' }}>{c.food}</b>
+                            {' \u2014 '}{c.amount}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div style={{ marginTop: 10 }}>
+                      <DLabel>Raises absorption</DLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{d.absorb}</p>
+                    </div>
+                    <div style={{ marginTop: 8 }}>
+                      <DLabel>Lowers it</DLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{d.blocks}</p>
+                    </div>
+
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: '10px 0 0',
+                    }}>{d.depth}</p>
+
+                    <div style={{ marginTop: 10 }}>
+                      <DLabel>In these recipes</DLabel>
+                      <RecipeChips ids={d.recipes} showIron={m.sym === 'Fe'} />
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           ))}
         </div>
 
+        {/*
+          Combinations. These decide more of the outcome than raw intake does - a
+          plate can be rich in iron and hand over very little of it - so they get
+          the same depth as the individual minerals.
+        */}
+        <h2 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+          fontWeight: 600, color: 'var(--ink)', margin: '22px 0 3px',
+        }}>How they work on each other</h2>
+        <p className="rs-prose" style={{
+          fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+          lineHeight: 1.55, margin: '0 0 10px',
+        }}>
+          Minerals are not absorbed one at a time. What else is on the plate, and
+          what is in the cup beside it, changes how much of each one you keep.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {mineralPairs.map((pr) => {
+            const tone = PAIR_TONE[pr.kind];
+            return (
+              <div key={pr.pair} style={{
+                background: 'var(--card)', border: '1px solid var(--border)',
+                borderRadius: 'var(--r-card)', padding: '14px 15px',
+              }}>
+                <div style={{
+                  display: 'flex', gap: 9, alignItems: 'baseline', flexWrap: 'wrap',
+                }}>
+                  <span style={{
+                    fontFamily: 'var(--font-serif)', flex: 1, minWidth: 150,
+                    fontSize: 'calc(16px * var(--scale))', fontWeight: 600,
+                    color: 'var(--ink)',
+                  }}>{pr.pair}</span>
+                  <span style={{
+                    fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                    letterSpacing: 1, textTransform: 'uppercase', color: tone.c,
+                  }}>{tone.label}</span>
+                  <TierBadge kind="ev" evLabel={pr.ev} />
+                </div>
+
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12.5px * var(--scale))', color: tone.c,
+                  fontWeight: 700, lineHeight: 1.45, margin: '6px 0 0',
+                }}>{pr.short}</p>
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                  lineHeight: 1.55, margin: '7px 0 0',
+                }}>{pr.detail}</p>
+
+                <div style={{ marginTop: 9 }}>
+                  <DLabel>What to do</DLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{pr.practice}</p>
+                </div>
+
+                {pr.recipes && pr.recipes.length > 0 && (
+                  <div style={{ marginTop: 9 }}>
+                    <DLabel>Already built into</DLabel>
+                    <RecipeChips ids={pr.recipes} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
         <Band tone="safety" title="Feeling is not a test" style={{ marginTop: 14 }}>
           The &ldquo;enough feels like&rdquo; lines describe patterns, not diagnoses. Fatigue has
-          many causes, and only a blood test tells you which one you have.
+          many causes, and only a blood test tells you which one you have. The
+          intake figures here are general adult reference ranges, not personal
+          targets \u2014 and iodine is the one where too much is as harmful as too little.
         </Band>
       </Gutter>
     </Screen>
