@@ -1,6 +1,7 @@
 import {
   apoImage, APOTHECARY_NOTE, shroomImage, ATLAS_PREP_NOTE,
-  swapGroupImage, teaGoalImage,
+  swapGroupImage, teaGoalImage, nervImage, waterImage, fermImage,
+  cocoImage, honeyImage, cerImage, shrecImage,
 } from '../data/media';
 import { mushroomDepth } from '../data/mushroomDepth';
 import { teaDepth } from '../data/bandDepth';
@@ -574,6 +575,7 @@ export function NervinesScreen() {
   return (
     <TabbedGuide
       image={apoImage('nervines')}
+      groupImage={nervImage}
       eyebrow="Apothecary · nervines"
       title="Nervines &amp; adaptogens"
       lede="Calm, build, release. Herbs that work on the stress response — and the honest limits of what each one is known to do."
@@ -588,6 +590,7 @@ export function WaterMedScreen() {
   return (
     <TabbedGuide
       image={apoImage('water')}
+      groupImage={waterImage}
       eyebrow="Apothecary · water"
       title="Water as medicine"
       lede="The cheapest intervention there is, and the one most often skipped. Rhythm, minerals and the water that carries meaning."
@@ -607,6 +610,7 @@ export function FermentScreen() {
   return (
     <TabbedGuide
       image={apoImage('ferment')}
+      groupImage={fermImage}
       eyebrow="Apothecary · fermentation"
       title="Live cultures"
       lede="Preservation, flavour and a daily dose of something alive — the technique the diaspora already owns."
@@ -665,6 +669,7 @@ export function CeremonyScreen() {
   return (
     <TabbedGuide
       image={apoImage('ceremony')}
+      groupImage={cerImage}
       eyebrow="Explore · the table"
       title="Food as ceremony"
       lede="Before, during and after the meal — the practices that turn eating from fuel into relationship."
@@ -684,6 +689,7 @@ export function CoconutScreen() {
   return (
     <TabbedGuide
       image={apoImage('coconut')}
+      groupImage={cocoImage}
       eyebrow="Explore · cultural foodways"
       title="Coconut foodways"
       lede="One palm, whole pantry — milk, water, oil, flesh and story across the diaspora."
@@ -704,6 +710,7 @@ export function HoneyScreen() {
   return (
     <TabbedGuide
       image={apoImage('honey')}
+      groupImage={honeyImage}
       eyebrow="Explore · honey"
       title="Honey, incorporated"
       lede="Fuel, traditional medicine, beekeeping economies — and the vegan question the app does not pretend to settle for you."
@@ -717,6 +724,7 @@ export function ShroomRecipesScreen() {
   return (
     <TabbedGuide
       image={apoImage('shroomrec')}
+      groupImage={shrecImage}
       eyebrow="Explore · cooking fungi"
       title="Cook with mushrooms"
       lede="Stews, grills, broths and everyday protein — cultivated fungi doing the work a pot used to ask of meat."

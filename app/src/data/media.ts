@@ -402,6 +402,33 @@ export function teaGoalImage(id: string): string {
   return base('teag-' + id);
 }
 
+
+/*
+  The remaining seven tabbed guides, same reasoning as swaps above: one image per
+  group, keyed to the group id in content.ts.
+
+  Two of these needed the rule stated rather than assumed.
+
+  SACRED WATER is a still life of a plain clay vessel and wet earth, with no
+  people and no ceremony being performed. Libation and river ceremony are living
+  religious practices with their own authorities and initiations; depicting them
+  being carried out would be staging someone's religion for decoration. The
+  depth text takes the same position - it describes that the practice exists and
+  does not instruct.
+
+  CEREMONY & STORY under coconut is the grater bench and the bowl, not a rite,
+  for the same reason.
+*/
+const guideImage = (prefix: string) => (id: string) => base(prefix + '-' + id);
+
+export const nervImage = guideImage('nerv');
+export const waterImage = guideImage('water');
+export const fermImage = guideImage('ferm');
+export const cocoImage = guideImage('coco');
+export const honeyImage = guideImage('honey');
+export const cerImage = guideImage('cer');
+export const shrecImage = guideImage('shrec');
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 
