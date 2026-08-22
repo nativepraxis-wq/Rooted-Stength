@@ -734,9 +734,61 @@ it has not been rewritten here, but it is now a promise the app visibly collects
 an answer for and does not keep - which is more conspicuous than when the control
 was inert.
 
-Either the value should feed `state/move.ts` load calculation the way `goalSet`
-does, or the copy should stop promising it. That is a product decision, not a
-bug fix, so it is recorded here rather than guessed at.
+**Resolved in section 24** - `obDays` now feeds the Move hub.
+
+---
+
+## 24. obDays wired into Move - and the two things it must not touch
+
+`obDays` now reaches `state/move.ts`. A `WORK_LOAD` map grades the seven ob1
+answers into heavy / moderate / light / variable, gated on `obDaysSet` exactly as
+the goal is gated on `obGoalSet` - an unanswered question is not an answer, and a
+stale `obDays` value with `obDaysSet: false` is verified to leak nothing.
+
+**What it changes.** When work is heavy *and* the goal is strength-shaped
+(muscle, strength or farming stamina), the hub's matching session steps down from
+another heavy lift to mobility, and says so in a note naming the work pattern.
+That is the adjustment ob1's copy promises: *"plans adjust so you're not
+overworked on farm days."*
+
+### The two things it deliberately does not touch
+
+**It does not touch `moved`.** That counts real logged sessions. Crediting
+assumed work days as logged training would invent entries the user never made,
+and would have the Move hub romanticising labour on the one screen that promises
+*"never romanticized labor."*
+
+**It does not lower the elder Minimum effective dose.** The 2-a-week figure sits
+directly under a cited claim - 3-8% muscle loss per decade, resistance training
+the only proven reversal - and **manual work is not resistance training**.
+Shovelling and carrying do not supply progressive loading. "You farm, therefore
+one session is enough" is a health claim this app cannot support, and it would be
+made on the very screen citing evidence for the opposite. Heavy work changes how
+much **more** the app asks for, never the floor underneath it. Verified: with
+`obDays: farm5` the elder screen still measures against the 2-a-week minimum and
+the load note does not appear there.
+
+### Verified across four states
+
+| state | result |
+|---|---|
+| heavy work + strength goal | steps down to mobility, note shown, `moved` unchanged |
+| light work (desk) + same goal | no step-down, no note |
+| heavy work, elder screen | minimum intact, evidence intact, no note leak |
+| `obDaysSet: false` with a stale `obDays` | nothing leaks |
+
+### Found while verifying: the "Today's session" card is hardcoded
+
+The dark **"Today's session - 42 min - Farm-Strength: Push & Carry"** card on the
+Move hub is static JSX. It follows neither the goal nor the work load, so a user
+whose goal is Mobility has always been shown Farm-Strength there. That predates
+this change, but this change made it visible: the first draft of the load note
+said "this leads with mobility" while that card still said Farm-Strength.
+
+The note now describes only what actually changed - the matching session - rather
+than the whole screen. **The hardcoded card remains a real inconsistency and is
+not fixed here**, because driving it properly means inventing duration and
+movement-count data for sessions that have none.
 
 ---
 

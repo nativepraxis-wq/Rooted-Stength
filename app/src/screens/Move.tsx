@@ -126,6 +126,23 @@ export function MoveScreen() {
               fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, color: 'var(--teal)',
             }}
           >{stats.goalSet ? 'Start the matching session' : 'Start a session'} — {stats.goalSessionLabel} →</button>
+          {/*
+            Shown only once ob1's "Your days involve" has a real answer. When
+            heavy work has stepped the offer down to mobility, this is what says
+            so - the adjustment is stated, not made silently behind the user.
+          */}
+          {stats.daysSet && stats.loadNote && (
+            <div style={{
+              marginTop: 9, background: 'var(--surface-1)',
+              border: '1px solid var(--border)', borderRadius: 12,
+              padding: '10px 12px',
+              fontSize: 'calc(11.5px * var(--scale))', lineHeight: 1.45,
+              color: 'var(--ink-muted)',
+            }}>
+              <b style={{ color: 'var(--ink)' }}>{stats.workLabel}</b> — {stats.loadNote}
+            </div>
+          )}
+
           <div role="status" style={{
             fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
             fontWeight: 700, marginTop: 9,
