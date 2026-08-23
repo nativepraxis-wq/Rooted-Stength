@@ -346,7 +346,29 @@ export function MapScreen() {
 /* ===================== forage ===================== */
 
 export function ForageScreen() {
-  const { goBack } = useStore();
+  const { state, set, goBack } = useStore();
+  /*
+    Every one of the fifteen items carries a `regions` array and nothing read
+    it - the plants were tagged by bioregion and the tags did nothing. A plant
+    list that shows chipilin to someone in Connecticut and dandelion to someone
+    in Kingston is less useful than the data already allowed for.
+
+    `all` is the default so nothing is hidden by surprise, and the counts are
+    shown so an empty-looking region reads as a fact rather than a bug.
+  */
+  const REGIONS = [
+    { id: 'all', name: 'All regions' },
+    { id: 'northeast', name: 'Northeast U.S.' },
+    { id: 'caribbean', name: 'Caribbean' },
+    { id: 'westafrica', name: 'West Africa' },
+    { id: 'eastafrica', name: 'East Africa' },
+    { id: 'centralam', name: 'Central America' },
+  ];
+  const region = state.forageRegion || 'all';
+  const all = forageItems as any[];
+  const shown = region === 'all'
+    ? all
+    : all.filter((f) => (f.regions || []).includes(region));
 
   return (
     <Screen>
@@ -376,8 +398,34 @@ export function ForageScreen() {
           fontWeight: 700, marginTop: 10,
         }}>{ATLAS_PREP_NOTE}</div>
 
+        <div className="rs-scroll" style={{
+          display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4, marginTop: 14,
+        }}>
+          {REGIONS.map((r) => {
+            const n = r.id === 'all'
+              ? all.length
+              : all.filter((f) => (f.regions || []).includes(r.id)).length;
+            return (
+              <Chip
+                key={r.id}
+                selected={r.id === region}
+                color="var(--leaf)"
+                onClick={() => set({ forageRegion: r.id })}
+              >{r.name} · {n}</Chip>
+            );
+          })}
+        </div>
+
+        <div role="status" style={{
+          fontSize: 'calc(12px * var(--scale))', fontWeight: 700,
+          color: 'var(--ink-meta)', marginTop: 10,
+        }}>
+          {shown.length} of {all.length} plants
+          {region === 'all' ? '' : ' recorded for this region'}
+        </div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 14 }}>
-          {(forageItems as any[]).map((f) => (
+          {shown.map((f: any) => (
             <div key={f.name} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',

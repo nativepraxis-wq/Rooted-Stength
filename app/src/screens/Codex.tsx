@@ -495,6 +495,18 @@ export function CodexRegionScreen() {
           </ul>
         </Band>
 
+        {/*
+          labourT / labourB were in content.ts on two volumes and rendered
+          nowhere - a whole band each, on who did the work. In a codex about
+          food and liberation that was the wrong thing to leave in the file:
+          the indenture volume explains that bunny chow's shape came from
+          apartheid law, and the Italy volume names the caporalato system.
+          Only two volumes carry it, so it is conditional.
+        */}
+        {g.labourT && (
+          <Band tone="labour" title={g.labourT} style={{ marginTop: 12 }}>{g.labourB}</Band>
+        )}
+
         <Band tone="forest" title="Sovereignty" style={{ marginTop: 12 }}>{g.sov}</Band>
       </Gutter>
     </Screen>

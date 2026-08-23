@@ -154,6 +154,21 @@ export function JourneyScreen() {
                   display: 'block', fontSize: 'calc(11px * var(--scale))',
                   color: 'var(--ink-meta)', marginTop: 3, fontWeight: 700,
                 }}>{v.meta}</span>
+                {/*
+                  `icon` was a semantic key on every entry - carry, hike, back,
+                  meal, sleep - and nothing read it. No icon set ships with this
+                  app, so it is surfaced as the word it already is rather than
+                  by inventing glyphs the design does not have.
+                */}
+                {v.icon && (
+                  <span style={{
+                    display: 'inline-block', marginTop: 5,
+                    fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                    letterSpacing: 0.8, textTransform: 'uppercase',
+                    color: v.c, background: 'var(--surface-2)',
+                    padding: '2px 8px', borderRadius: 10,
+                  }}>{v.icon}</span>
+                )}
               </span>
             </div>
           ))}

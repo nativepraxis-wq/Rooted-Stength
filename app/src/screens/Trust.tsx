@@ -758,6 +758,21 @@ export function MembershipScreen() {
                         display: 'block', fontFamily: 'var(--font-serif)',
                         fontSize: 'calc(19px * var(--scale))', fontWeight: 600, color: 'var(--ink)',
                       }}>{t.name}</span>
+                      {/*
+                        `popular` was set on exactly one tier and never read.
+                        A pricing table that knows which plan it recommends and
+                        does not say so is withholding the one thing the field
+                        was added to convey.
+                      */}
+                      {t.popular && (
+                        <span style={{
+                          display: 'inline-block', marginLeft: 8,
+                          fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+                          letterSpacing: 0.6, textTransform: 'uppercase',
+                          background: t.accent, color: '#F4EDDF',
+                          padding: '2px 8px', borderRadius: 10,
+                        }}>Most chosen</span>
+                      )}
                       <span style={{
                         display: 'block', fontSize: 'calc(11.5px * var(--scale))',
                         color: 'var(--ink-meta)', marginTop: 2,
