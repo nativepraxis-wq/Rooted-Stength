@@ -508,7 +508,29 @@ export function FiltersScreen() {
 export function FamilyScreen() {
   const { state, set, goBack } = useStore();
   const blocked = blockedAllergens(state);
-  const people = familyDefs as any[];
+  /*
+    The household's training adult IS the user, not a separate persona: the
+    seeded obName is that member's name, obPronoun matches, the age and the
+    protein-and-iron guidance are the app's own user model. So renaming yourself
+    in the intake form has to rename this card too - it did not, and the
+    household went on calling you Amara after you had changed it everywhere else.
+
+    Only that one member is substituted. Kofi and Nana are other people and are
+    left alone. The initial follows the name so the avatar does not end up
+    showing someone else's letter.
+
+    With no name set it falls back to the ROLE rather than to the seeded 'Amara'.
+    Falling back to the seed would reintroduce the same bug in miniature - the
+    app calling you by a stranger's name because you had not given it one - and
+    it would contradict how the rest of the app handles an absent value, which is
+    to name the absence: "No name set", "No goal set".
+  */
+  const people = (familyDefs as any[]).map((p) => {
+    if (p.id !== 'amara') return p;
+    const n = (state.obName ?? '').trim();
+    if (!n) return { ...p, name: p.role, initial: p.role[0].toUpperCase() };
+    return { ...p, name: n, initial: n[0].toUpperCase() };
+  });
   const sel = people.find((p) => p.id === state.familyId) ?? people[0];
 
   const kids = (kidSmoothies as any[]).map((s) => ({

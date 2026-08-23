@@ -75,6 +75,24 @@ function WhyPanel({ msg }: { msg: any }) {
   );
 }
 
+
+/*
+  The seeded council thread greets the user by name. That name lives in
+  `obName` and is editable in the intake form, so it cannot be baked into the
+  message string - it used to be, and renaming yourself left the council still
+  saying "Morning, Amara".
+
+  `{name}` in a message becomes ", Amara" when a name is set and disappears
+  entirely when it is not, so the greeting reads "Morning." rather than
+  "Morning, ." for someone who left the field blank. Messages without the token
+  are returned untouched, including everything the user types.
+*/
+export function withName(text: string, name?: string): string {
+  if (!text.includes('{name}')) return text;
+  const trimmed = (name ?? '').trim();
+  return text.replace(/\{name\}/g, trimmed ? ', ' + trimmed : '');
+}
+
 export function CouncilSheet() {
   const { state, set } = useStore();
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -159,7 +177,7 @@ export function CouncilSheet() {
               }}>
                 <div className="rs-prose" style={{
                   fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.55,
-                }}>{m.text}</div>
+                }}>{withName(m.text, state.obName)}</div>
                 {!m.you && <WhyPanel msg={m} />}
               </div>
             </div>
