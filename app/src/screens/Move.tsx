@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { traditionImage, farmMoveImage, FARM_MOVE_NOTE, warriorImage, WARRIOR_NOTE } from '../data/media';
-import { farmMoveDepth } from '../data/moveDepth';
+import { farmMoveDepth, exerciseDetail } from '../data/moveDepth';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
-  movements, trainWeek, warriorDefs, exVariantText,
+  movements, trainWeek, warriorDefs,
 } from '../data/content';
 import { DarkHeader } from '../components/Headers';
 import { TierBadge } from '../components/TierBadge';
@@ -295,7 +295,7 @@ export function MoveScreen() {
 /* ===================== farm ===================== */
 
 export function FarmScreen() {
-  const { go, goBack } = useStore();
+  const { set, go, goBack } = useStore();
 
   return (
     <Screen>
@@ -331,7 +331,7 @@ export function FarmScreen() {
             <button
               key={m.farm}
               type="button"
-              onClick={() => go('exercise')}
+              onClick={() => { set({ exMove: m.farm }); go('exercise'); }}
               style={{
                 width: '100%', textAlign: 'left', background: 'var(--card)',
                 border: '1px solid var(--border)', borderRadius: 'var(--r-tile)',
@@ -474,19 +474,19 @@ export function ExerciseScreen() {
     { id: 'seated', label: 'Seated' },
   ];
 
-  const cues = [
-    'Stand tall, feet hip-width, tool or load close to the shins',
-    'Push the hips back like closing a door behind you',
-    'Keep a long spine — chest proud, gaze down and forward',
-    'Drive through the whole foot to stand; squeeze glutes at the top',
-  ];
+  /*
+    This screen used to be hardcoded for the shovel lift - breadcrumb,
+    heading, setup, cues, mistakes and variant text all hinge-specific -
+    while all six farm cards navigated here. Tapping "Compost turning"
+    showed shovel-lift instructions. It now reads whichever movement was
+    tapped, from data/moveDepth.ts.
 
-  const mistakes = [
-    'Rounding the low back to reach the load',
-    'Squatting down instead of hinging back',
-    'Yanking with the arms instead of the hips',
-    'Holding the breath through the lift',
-  ];
+    The fallback is the shovel lift, which is what this screen always
+    showed, so arriving without a selection behaves exactly as before.
+  */
+  const ex = exerciseDetail[state.exMove] ?? exerciseDetail['Shovel lift'];
+  const cues = ex.cues;
+  const mistakes = ex.mistakes;
 
   return (
     <Screen>
@@ -512,17 +512,17 @@ export function ExerciseScreen() {
           display: 'flex', gap: 8, alignItems: 'center',
           fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: 'var(--ink-meta)',
         }}>
-          <span>Shovel lift</span><span aria-hidden="true">→</span><span>Hip hinge</span>
+          <span>{state.exMove}</span><span aria-hidden="true">&#8594;</span><span>{ex.pattern}</span>
         </div>
         <h1 style={{
           fontFamily: 'var(--font-serif)', fontSize: 'calc(24px * var(--scale))', fontWeight: 600,
           lineHeight: 1.15, color: 'var(--ink)', margin: '4px 0 0',
-        }}>The Shovel-Lift Hinge</h1>
+        }}>{ex.title}</h1>
         <div style={{
           display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 6,
           fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: 'var(--ink-meta)',
         }}>
-          <span>3 × 10</span><span>· 90s rest</span><span>· posterior chain</span>
+          {ex.meta.map((x) => <span key={x}>{x}</span>)}
         </div>
 
         <div style={{
@@ -555,7 +555,12 @@ export function ExerciseScreen() {
         </div>
 
         <Band tone="cream" title="This version" style={{ marginTop: 12 }}>
-          {(exVariantText as any)[state.exVariant]}
+          {/*
+            Per-movement now. The shovel lift's three strings are the
+            originals from content.ts, moved verbatim into moveDepth.ts so
+            nothing that shipped was reworded - see the header there.
+          */}
+          {(ex.variants as any)[state.exVariant]}
         </Band>
 
         <H3>Setup</H3>
@@ -563,8 +568,7 @@ export function ExerciseScreen() {
           fontSize: 'calc(13px * var(--scale))', lineHeight: 1.6,
           color: 'var(--ink-muted)', margin: 0,
         }}>
-          Feet hip-width, load (shovel, sandbag or bucket) centered between the shins. Brace
-          lightly — think &ldquo;proud chest, long back.&rdquo;
+          {ex.setup}
         </p>
 
         <H3>Movement cues</H3>
@@ -602,7 +606,7 @@ export function ExerciseScreen() {
             <div style={{
               fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
               marginTop: 3, lineHeight: 1.45,
-            }}>Inhale as you hinge down; exhale as you drive up. Never hold.</div>
+            }}>{ex.breath}</div>
           </div>
         </div>
 
