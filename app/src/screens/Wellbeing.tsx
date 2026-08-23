@@ -1,3 +1,4 @@
+import { sleepHabitDepth, sleepStageDepth } from '../data/healthDepth';
 import { useStore } from '../state/store';
 import { sleepWeek, sleepStages, sleepHabits, sleepByDay, sleepTargets } from '../data/content';
 import { DarkHeader } from '../components/Headers';
@@ -108,6 +109,19 @@ export function SleepScreen() {
                 <div style={{ height: 8, borderRadius: 6, background: 'var(--surface-2)', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: s.pct, background: s.c, borderRadius: 6 }} />
                 </div>
+                {/* Depth, from data/healthDepth.ts. */}
+                {sleepStageDepth[s.label] && (
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                    lineHeight: 1.5, margin: '7px 0 0',
+                  }}>{sleepStageDepth[s.label].why}</p>
+                )}
+                {sleepStageDepth[s.label]?.how && (
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                    lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600,
+                  }}>{sleepStageDepth[s.label].how}</p>
+                )}
               </div>
             ))}
           </div>
@@ -140,14 +154,33 @@ export function SleepScreen() {
         }}>Wind-down habits</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(sleepHabits as any[]).map((h, i) => (
-            <ToggleRow
-              key={h.name}
-              label={h.name}
-              on={state.sleepHabit?.[i] ?? h.on}
-              onToggle={() => set((s) => ({
-                sleepHabit: { ...s.sleepHabit, [i]: !(s.sleepHabit?.[i] ?? h.on) },
-              }))}
-            />
+            <div key={h.name}>
+              <ToggleRow
+                label={h.name}
+                on={state.sleepHabit?.[i] ?? h.on}
+                onToggle={() => set((s) => ({
+                  sleepHabit: { ...s.sleepHabit, [i]: !(s.sleepHabit?.[i] ?? h.on) },
+                }))}
+              />
+              {/*
+                Depth, from data/healthDepth.ts. A toggle without a reason is a
+                chore; the reason is what makes it worth keeping on.
+              */}
+              {sleepHabitDepth[h.name] && (
+                <div style={{ padding: '8px 2px 2px 2px' }}>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{sleepHabitDepth[h.name].why}</p>
+                  {sleepHabitDepth[h.name].how && (
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: '6px 0 0',
+                    }}>{sleepHabitDepth[h.name].how}</p>
+                  )}
+                </div>
+              )}
+            </div>
           ))}
         </div>
 
