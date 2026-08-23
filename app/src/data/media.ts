@@ -452,6 +452,43 @@ const TEA_SLUG: Record<string, string> = {
   'Ginger + Turmeric': 'gingerturmeric',
 };
 
+
+/*
+  Nourish reference screens.
+
+  The Nourish hub comment says "hub image only", because the sub-screens under
+  that tab show the USER'S OWN record and a stock picture there would compete
+  with their data - on the scan flow it could even be read as their own meal
+  photo. That reasoning still holds and these do not break it.
+
+  These four screens are the exception the rule allows for: uptake and
+  pairings, the grocery budget, the household and the smoothie builder are
+  REFERENCE material, not the user's log. Nothing here can be mistaken for
+  something the user recorded.
+
+  `pairImage` is per-pairing and keyed on the exact `combo` string, because each
+  one is a specific concrete combination of two foods and a generic header would
+  waste the clearest illustration opportunity in the section.
+*/
+export function nourImage(id: string): string {
+  return base('nour-' + id);
+}
+
+export function pairImage(combo: string): string {
+  return base('pair-' + (PAIR_SLUG[combo] ?? 'cowpea'));
+}
+
+const PAIR_SLUG: Record<string, string> = {
+  'Cowpeas + lime': 'cowpea',
+  'Diri kole ak pwa + pikliz': 'dirikole',
+  'Beans + red pepper or guava': 'beanpepper',
+  'Three Sisters: corn + beans + squash': 'threesisters',
+  'Turmeric + black pepper': 'turmeric',
+  'Greens + a healthy fat': 'greensfat',
+  'Fermented food + whole grains': 'fermentgrain',
+  'Sea moss + microgreens': 'seamoss',
+};
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 
