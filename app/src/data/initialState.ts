@@ -183,7 +183,12 @@ export const initialState: any = {
     ],
     swapUse: 'protein', fermUse: 'why', dbUse: 'plate', cerUse: 'before',
     councilThread: [
-      { council: true, text: "Morning, Amara. Your readiness reads Grounded today — sleep and energy are solid, soreness is low. It's a good day to carry load at the farm session.", hasWhy: false },
+      /*
+        {name} is substituted at render from obName - see components/CouncilSheet.
+        The name used to be baked into this string, so renaming yourself in the
+        intake form left the council still greeting Amara.
+      */
+      { council: true, text: "Morning{name}. Your readiness reads Grounded today — sleep and energy are solid, soreness is low. It's a good day to carry load at the farm session.", hasWhy: false },
       { you: true, text: "I'm feeling a little low on energy actually." },
       { council: true, text: "Thank you for telling me. Let's not push a heavy day. I'd suggest keeping the Push & Carry work but dropping one round, and front-loading carbs — add plantain and fonio to lunch. If low energy lasts more than a week alongside pale nails or breathlessness, that's worth an iron/ferritin check with a clinician.", hasWhy: true,
         why: ["You logged 6h10 sleep last night — below your 7h30 average", "Your last plate ran low on iron (38% of target) two days running", "You noted a heavy farm-work day tomorrow"],
