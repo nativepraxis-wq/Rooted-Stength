@@ -1,5 +1,8 @@
 import { sovImage, ILLUSTRATION_NOTE } from '../data/media';
 import { conditionDepth, labDepth } from '../data/healthDepth';
+import {
+  consentDepth, neverDepth, vaultPermDepth, biasTestDepth,
+} from '../data/trustDepth';
 import { useStore } from '../state/store';
 import {
   sourceLibrary, consentList, egressLog, dsNeverList,
@@ -103,6 +106,17 @@ export function SourcesScreen() {
 
 /* ===================== privacy ===================== */
 
+/* Small uppercase run-in label for the trust depth blocks. */
+function TLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
 /* Small uppercase run-in label for the health depth blocks. */
 function HLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -159,13 +173,44 @@ export function PrivacyScreen() {
         }}>Permissions &amp; AI access</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(consentList as any[]).map((c) => (
-            <ToggleRow
-              key={c.id}
-              label={c.label}
-              sub={c.sub}
-              on={!!state.consent[c.id]}
-              onToggle={() => set((s) => ({ consent: { ...s.consent, [c.id]: !s.consent[c.id] } }))}
-            />
+            <div key={c.id}>
+              <ToggleRow
+                label={c.label}
+                sub={c.sub}
+                on={!!state.consent[c.id]}
+                onToggle={() => set((s) => ({ consent: { ...s.consent, [c.id]: !s.consent[c.id] } }))}
+              />
+              {/*
+                Depth, from data/trustDepth.ts. A consent toggle the user cannot
+                evaluate is not really consent, so each one says what it covers,
+                what it does not, and what would make it checkable.
+              */}
+              {consentDepth[c.label] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <TLabel>What it means</TLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{consentDepth[c.label].means}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What it does not cover</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{consentDepth[c.label].limit}</p>
+                  </div>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What would make it checkable</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{consentDepth[c.label].check}</p>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </div>
 
@@ -406,6 +451,49 @@ export function DataSovScreen() {
           ))}
         </div>
 
+        {/*
+          The chips are a list of names; this is what each promise actually
+          covers. See data/trustDepth.ts - none of it describes an
+          implementation, because this repository does not contain one.
+        */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 12 }}>
+          {(dsNeverList as any[]).map((n) => neverDepth[n.label] && (
+            <div key={n.label} style={{
+              background: 'var(--card)', border: '1px solid var(--border)',
+              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+            }}>
+              <div style={{
+                fontSize: 'calc(13.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
+              }}>{n.label}</div>
+              {neverDepth[n.label] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <TLabel>What it means</TLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{neverDepth[n.label].means}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What it does not cover</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{neverDepth[n.label].limit}</p>
+                  </div>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What would make it checkable</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{neverDepth[n.label].check}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
         <h2 style={{
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
@@ -577,13 +665,39 @@ export function VaultScreen() {
         }}>What the Council may read</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(vaultPerms as any[]).map((p) => (
-            <ToggleRow
-              key={p.key}
-              label={p.label}
-              sub={p.sub}
-              on={!!perms[p.key]}
-              onToggle={() => set((s) => ({ vaultPerm: { ...s.vaultPerm, [p.key]: !s.vaultPerm[p.key] } }))}
-            />
+            <div key={p.key}>
+              <ToggleRow
+                label={p.label}
+                sub={p.sub}
+                on={!!perms[p.key]}
+                onToggle={() => set((s) => ({ vaultPerm: { ...s.vaultPerm, [p.key]: !s.vaultPerm[p.key] } }))}
+              />
+              {vaultPermDepth[p.label] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <TLabel>What it means</TLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{vaultPermDepth[p.label].means}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What it does not cover</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{vaultPermDepth[p.label].limit}</p>
+                  </div>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>What would make it checkable</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{vaultPermDepth[p.label].check}</p>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </div>
 
@@ -962,20 +1076,55 @@ export function AdminScreen() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(biasTests as any[]).map((b) => (
             <div key={b.name} style={{
-              display: 'flex', gap: 11, alignItems: 'center',
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
-              <span style={{
-                flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
-                color: 'var(--ink)', lineHeight: 1.45,
-              }}>{b.name}</span>
-              <span style={{
-                fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
-                padding: '3px 9px', borderRadius: 12,
-                background: b.status === 'pass' ? '#E4EDDD' : 'var(--safety-bg)',
-                color: b.status === 'pass' ? 'var(--leaf)' : 'var(--clay)',
-              }}>{b.status === 'pass' ? 'pass' : b.status}</span>
+              <div style={{ display: 'flex', gap: 11, alignItems: 'center' }}>
+                <span style={{
+                  flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
+                  color: 'var(--ink)', lineHeight: 1.45,
+                }}>{b.name}</span>
+                <span style={{
+                  fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
+                  padding: '3px 9px', borderRadius: 12,
+                  background: b.status === 'pass' ? '#E4EDDD' : 'var(--safety-bg)',
+                  color: b.status === 'pass' ? 'var(--leaf)' : 'var(--clay)',
+                }}>{b.status === 'pass' ? 'pass' : b.status}</span>
+              </div>
+
+              {/*
+                Depth, from data/trustDepth.ts. A pass/warn chip states a verdict
+                without saying what was tested - and on a self-audit, that is the
+                part a reader has no way to supply.
+              */}
+              {biasTestDepth[b.name] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <TLabel>What is checked</TLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{biasTestDepth[b.name].checks}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <TLabel>Why it matters here</TLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{biasTestDepth[b.name].why}</p>
+                  </div>
+                  {/* Only the one that does not pass carries this. */}
+                  {biasTestDepth[b.name].gap && (
+                    <div style={{ marginTop: 9 }}>
+                      <TLabel>Why this one is flagged</TLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{biasTestDepth[b.name].gap}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
