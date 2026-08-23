@@ -539,6 +539,22 @@ const SEAT_SLUG: Record<string, string> = {
   'Trunk rotation with a reach': 'rotate',
 };
 
+
+/*
+  The four food-sovereignty systems on the Journey screen.
+
+  Reference content rather than the user's own record, which is the line the
+  Nourish hub draws: a picture beside somebody's logged data competes with it,
+  a picture beside "here is what greens do for blood pressure" does not.
+
+  Deliberately food, never anatomy or a body. These cards are about what the pot
+  can carry for heart, blood sugar, blood and gut, and a diagram of an organ
+  would push a food page toward looking like a medical one.
+*/
+export function sovImage(id: string): string {
+  return base('sov-' + id);
+}
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 

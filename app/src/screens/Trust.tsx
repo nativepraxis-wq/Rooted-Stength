@@ -1,3 +1,5 @@
+import { sovImage, ILLUSTRATION_NOTE } from '../data/media';
+import { conditionDepth, labDepth } from '../data/healthDepth';
 import { useStore } from '../state/store';
 import {
   sourceLibrary, consentList, egressLog, dsNeverList,
@@ -100,6 +102,17 @@ export function SourcesScreen() {
 }
 
 /* ===================== privacy ===================== */
+
+/* Small uppercase run-in label for the health depth blocks. */
+function HLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
 
 export function PrivacyScreen() {
   const { state, set, go, goBack } = useStore();
@@ -501,6 +514,31 @@ export function VaultScreen() {
               }}>
                 <span>{l.status}</span><span>ref {l.range}</span>
               </div>
+
+              {/*
+                Depth, from data/healthDepth.ts. These explain the MARKER and
+                deliberately do not interpret the value beside them - reading a
+                result back at someone is diagnosis, and this screen already
+                routes that to a clinician.
+              */}
+              {labDepth[l.name] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <HLabel>What it measures</HLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{labDepth[l.name].measures}</p>
+                  <div style={{ marginTop: 8 }}>
+                    <HLabel>Why the range sits there</HLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{labDepth[l.name].range}</p>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -708,6 +746,25 @@ export function SovereigntyScreen() {
           ))}
         </div>
 
+        {/* One per system, keyed to the open chip. */}
+        <img
+          key={sel.id}
+          src={sovImage(sel.id)}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          style={{
+            display: 'block', width: '100%', height: 150, marginTop: 14,
+            objectFit: 'cover', borderRadius: 'var(--r-band)',
+            background: 'var(--surface-2)',
+          }}
+        />
+        <div style={{
+          fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+          fontWeight: 700, marginTop: 6,
+        }}>{ILLUSTRATION_NOTE}</div>
+
         <div style={{
           marginTop: 14, background: sel.tintBg, borderRadius: 'var(--r-band)', padding: '15px 16px',
         }}>
@@ -730,6 +787,54 @@ export function SovereigntyScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '5px 0 0',
               }}>{c.fix}</p>
+
+              {/*
+                `stat` was already in content.ts on all eight conditions and was
+                never rendered - the quantified half of every claim on this
+                screen was sitting in the data, invisible. On a screen about what
+                the evidence carries, that was the wrong thing to hide.
+              */}
+              {c.stat && (
+                <div style={{
+                  fontSize: 'calc(11.5px * var(--scale))', fontWeight: 800,
+                  color: sel.c, marginTop: 7,
+                }}>{c.stat}</div>
+              )}
+
+              {/* Depth, from data/healthDepth.ts. */}
+              {conditionDepth[c.name] && (() => {
+                const cd = conditionDepth[c.name];
+                return (
+                  <div style={{
+                    marginTop: 10, paddingTop: 10,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <HLabel>Why it works</HLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{cd.mechanism}</p>
+
+                    <div style={{ marginTop: 9 }}>
+                      <HLabel>What that number covers</HLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{cd.limit}</p>
+                    </div>
+
+                    {cd.clinician && (
+                      <div style={{ marginTop: 9 }}>
+                        <HLabel>Theirs, not ours</HLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                          lineHeight: 1.5, margin: 0, fontWeight: 600,
+                        }}>{cd.clinician}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           ))}
         </div>
