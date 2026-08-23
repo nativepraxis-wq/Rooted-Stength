@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { nourImage, ILLUSTRATION_NOTE } from '../data/media';
 import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
 import {
@@ -110,6 +111,22 @@ export function SmoothiesScreen() {
           Blends built to carry real protein, not just fruit. Aim for about 30 g after training.
         </p>
       </DarkHeader>
+
+      <img
+        src={nourImage('smoothies')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{ILLUSTRATION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <PrimaryButton onClick={() => go('smoothieBuilder')}>Build your own →</PrimaryButton>

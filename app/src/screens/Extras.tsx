@@ -1,3 +1,8 @@
+import { nourImage, pairImage, ILLUSTRATION_NOTE } from '../data/media';
+import {
+  pairingDepth, methodDepth, hydratorDepth, filterDepth,
+  householdDepth, kidSmoothieDepth,
+} from '../data/nourishDepth';
 import { useStore } from '../state/store';
 import {
   pairings, prepMethods, prepMatrix, uptakeFacts, uptakeMyths,
@@ -8,6 +13,17 @@ import { blockedAllergens } from '../state/kitchen';
 import { DarkHeader } from '../components/Headers';
 import { TierBadge } from '../components/TierBadge';
 import { Screen, Gutter, Band, Chip } from '../components/ui';
+
+/* Small uppercase run-in label for the Nourish depth blocks. */
+function NLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
 
 /* ===================== pairings ===================== */
 
@@ -25,6 +41,22 @@ export function PairingsScreen() {
           and by how much.
         </p>
       </DarkHeader>
+
+      <img
+        src={nourImage('pairings')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{ILLUSTRATION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 9 }}>
@@ -53,8 +85,20 @@ export function PairingsScreen() {
           {(pairings as any[]).map((p) => (
             <div key={p.combo} style={{
               background: 'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',
             }}>
+              <img
+                src={pairImage(p.combo)}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  display: 'block', width: '100%', height: 140,
+                  objectFit: 'cover', background: 'var(--surface-2)',
+                }}
+              />
+              <div style={{ padding: '13px 14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline' }}>
                 <span style={{
                   fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
@@ -68,6 +112,46 @@ export function PairingsScreen() {
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '6px 0 0',
               }}>{p.why}</p>
+
+              {/*
+                Depth, from data/nourishDepth.ts. `limit` is where the headline
+                multiplier gets held to its conditions - a fourfold rise on 2%
+                absorption is still 8%.
+              */}
+              {pairingDepth[p.combo] && (() => {
+                const pd = pairingDepth[p.combo];
+                return (
+                  <div style={{
+                    marginTop: 10, paddingTop: 10,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <NLabel>How to do it</NLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{pd.how}</p>
+
+                    <div style={{ marginTop: 9 }}>
+                      <NLabel>Why it works</NLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{pd.mechanism}</p>
+                    </div>
+
+                    {pd.limit && (
+                      <div style={{ marginTop: 9 }}>
+                        <NLabel>Where the claim stops</NLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--earth)',
+                          lineHeight: 1.5, margin: 0, fontWeight: 600,
+                        }}>{pd.limit}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+              </div>
             </div>
           ))}
         </div>
@@ -98,6 +182,20 @@ export function PairingsScreen() {
                 fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
                 lineHeight: 1.5, margin: '5px 0 0',
               }}>{m.e}</p>
+              {/* Depth, from data/nourishDepth.ts. */}
+              {methodDepth[m.m] && (
+                <div style={{ marginTop: 8 }}>
+                  <NLabel>How it is done</NLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{methodDepth[m.m].how}</p>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                    lineHeight: 1.5, margin: '6px 0 0',
+                  }}>{methodDepth[m.m].effect}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -171,6 +269,21 @@ export function BudgetScreen() {
           }} />
         </div>
       </DarkHeader>
+      <img
+        src={nourImage('budget')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{ILLUSTRATION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -360,6 +473,32 @@ export function HydrationScreen() {
                   display: 'block', fontSize: 'calc(11.5px * var(--scale))',
                   color: 'var(--ink-meta)', marginTop: 2, lineHeight: 1.45,
                 }}>{h.why}</span>
+
+                {/* Depth, from data/nourishDepth.ts. */}
+                {hydratorDepth[h.name] && (
+                  <span style={{
+                    display: 'block', marginTop: 8, paddingTop: 8,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <NLabel>How</NLabel>
+                    <span className="rs-prose" style={{
+                      display: 'block', fontSize: 'calc(12px * var(--scale))',
+                      color: 'var(--ink)', lineHeight: 1.5,
+                    }}>{hydratorDepth[h.name].how}</span>
+                    <NLabel><span style={{ display: 'inline-block', marginTop: 8 }}>When it is the right one</span></NLabel>
+                    <span className="rs-prose" style={{
+                      display: 'block', fontSize: 'calc(12px * var(--scale))',
+                      color: 'var(--ink-muted)', lineHeight: 1.5,
+                    }}>{hydratorDepth[h.name].when}</span>
+                    {hydratorDepth[h.name].note && (
+                      <span className="rs-prose" style={{
+                        display: 'block', fontSize: 'calc(11.5px * var(--scale))',
+                        color: 'var(--clay)', lineHeight: 1.45,
+                        marginTop: 7, fontWeight: 600,
+                      }}>{hydratorDepth[h.name].note}</span>
+                    )}
+                  </span>
+                )}
               </span>
             </div>
           ))}
@@ -447,6 +586,31 @@ export function FiltersScreen() {
                   fontWeight: 800, color: 'var(--ink-meta)',
                 }}>{f.cost}</span>
               </div>
+              {/*
+                Depth, from data/nourishDepth.ts. `limit` matters most on the
+                charcoal stick, which is a taste improver rather than a
+                protective filter - choosing it for a lead problem would be a
+                serious mistake, and the card now says so.
+              */}
+              {filterDepth[f.name] && (
+                <div style={{
+                  marginTop: 10, paddingTop: 10,
+                  borderTop: '1px solid var(--border)',
+                }}>
+                  <NLabel>How it works</NLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{filterDepth[f.name].how}</p>
+                  <div style={{ marginTop: 8 }}>
+                    <NLabel>What it does not do</NLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{filterDepth[f.name].limit}</p>
+                  </div>
+                </div>
+              )}
               <div style={{
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                 marginTop: 9, lineHeight: 1.5,
@@ -547,6 +711,21 @@ export function FamilyScreen() {
           One pot, different needs. Nobody at this table gets a separate, lesser meal.
         </p>
       </DarkHeader>
+      <img
+        src={nourImage('family')}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 156,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',
+        fontWeight: 700, padding: '6px 18px 0',
+      }}>{ILLUSTRATION_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
         <div className="rs-scroll" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
@@ -591,6 +770,27 @@ export function FamilyScreen() {
               }}>{pt}</li>
             ))}
           </ul>
+
+          {/* Depth, from data/nourishDepth.ts. Keyed on the member id. */}
+          {householdDepth[sel.id] && (
+            <div style={{
+              marginTop: 12, paddingTop: 12,
+              borderTop: '1px solid var(--border)',
+            }}>
+              <NLabel>Why their needs differ</NLabel>
+              <p className="rs-prose" style={{
+                fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                lineHeight: 1.55, margin: 0,
+              }}>{householdDepth[sel.id].why}</p>
+              <div style={{ marginTop: 9 }}>
+                <NLabel>From the same pot</NLabel>
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                  lineHeight: 1.5, margin: 0,
+                }}>{householdDepth[sel.id].onePot}</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <h2 style={{
@@ -619,6 +819,23 @@ export function FamilyScreen() {
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                   lineHeight: 1.5, margin: '6px 0 0',
                 }}>{s.base}</p>
+                {/* Depth, from data/nourishDepth.ts. */}
+                {kidSmoothieDepth[s.name] && (
+                  <div style={{
+                    marginTop: 9, paddingTop: 9,
+                    borderTop: '1px solid var(--border)',
+                  }}>
+                    <NLabel>Building it</NLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{kidSmoothieDepth[s.name].build}</p>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: '6px 0 0',
+                    }}>{kidSmoothieDepth[s.name].why}</p>
+                  </div>
+                )}
                 {s.flagged && (
                   <div style={{
                     fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
