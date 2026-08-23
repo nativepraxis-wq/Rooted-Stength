@@ -260,3 +260,196 @@ export const SEATED_DEPTH_COUNT = Object.keys(seatedDepth).length;
 export const ELDER_DEPTH_COUNT = Object.keys(elderMoveDepth).length;
 export const ANCESTRAL_DEPTH_COUNT = Object.keys(ancestralDepth).length;
 export const BREATH_DEPTH_COUNT = Object.keys(breathDepth).length;
+
+/*
+  ────────────────────────────────────────────────────────────────────────
+  PER-MOVEMENT DETAIL FOR THE EXERCISE SCREEN
+
+  All six farm-movement cards used to navigate to one hardcoded screen: the
+  breadcrumb said "Shovel lift", the heading said "The Shovel-Lift Hinge", and
+  the setup, cues, mistakes and variant text were all hinge-specific. Tapping
+  "Compost turning" or "Water carry" showed shovel-lift instructions.
+
+  The screen now reads whichever movement was tapped. The `Shovel lift` entry
+  below is the EXISTING SCREEN COPY MOVED VERBATIM - the same setup sentence,
+  the same four cues, the same four mistakes, the same meta line and the same
+  three variant texts that were in exVariantText. Nothing that shipped was
+  reworded; it was given a key. The other five are new.
+
+  ON SETS AND REPS. The cueing records above carry none, deliberately. These
+  variant lines do, because the screen they feed has always carried them - the
+  original beginner text read "2 sets of 8, unhurried" - and stripping the
+  volume out of the one place the app gives it would remove information rather
+  than add care. They stay modest and stay tied to the variation.
+  ────────────────────────────────────────────────────────────────────────
+*/
+
+export type ExerciseDetail = {
+  /** Breadcrumb tail: the movement pattern. */
+  pattern: string;
+  /** Screen heading. */
+  title: string;
+  /** The meta line under the heading. */
+  meta: string[];
+  setup: string;
+  cues: string[];
+  mistakes: string[];
+  /** What to do about the breath, specific to this movement. */
+  breath: string;
+  variants: { beginner: string; standard: string; seated: string };
+};
+
+/* Keyed on the `farm` strings in `movements`. */
+export const exerciseDetail: Record<string, ExerciseDetail> = {
+  'Shovel lift': {
+    pattern: 'Hip hinge',
+    title: 'The Shovel-Lift Hinge',
+    meta: ['3 \u00d7 10', '\u00b7 90s rest', '\u00b7 posterior chain'],
+    setup: 'Feet hip-width, load (shovel, sandbag or bucket) centered between the shins. Brace lightly \u2014 think \u201cproud chest, long back.\u201d',
+    cues: [
+      'Stand tall, feet hip-width, tool or load close to the shins',
+      'Push the hips back like closing a door behind you',
+      'Keep a long spine \u2014 chest proud, gaze down and forward',
+      'Drive through the whole foot to stand; squeeze glutes at the top',
+    ],
+    mistakes: [
+      'Rounding the low back to reach the load',
+      'Squatting down instead of hinging back',
+      'Yanking with the arms instead of the hips',
+      'Holding the breath through the lift',
+    ],
+    breath: 'Inhale as you hinge down; exhale as you drive up. Never hold.',
+    variants: {
+      beginner: 'Hinge to a box or raised bed so you never round the low back. Empty bucket or light load. 2 sets of 8, unhurried.',
+      standard: 'Full hip hinge with a loaded shovel or sandbag. Soft knees, long spine, drive the hips back then through. 3 sets of 10.',
+      seated: 'Seated good-morning: sit tall on a sturdy chair, hinge from the hips with a band across the lap. Same posterior-chain work, fall-safe.',
+    },
+  },
+
+  'Loaded shovel press': {
+    pattern: 'Shoulder + core',
+    title: 'The Loaded Overhead Press',
+    meta: ['3 \u00d7 8', '\u00b7 90s rest', '\u00b7 shoulders & bracing'],
+    setup: 'Feet hip-width and set, load at shoulder height, ribs down and trunk braced before anything moves. An offset or long load is the point \u2014 it asks the trunk to stop you twisting.',
+    cues: [
+      'Set the feet and brace the trunk before the load moves',
+      'Ribs down \u2014 the press travels straight up, not arcing forward',
+      'Exhale as it goes up; keep breathing between reps',
+      'Stop where the shoulder stops, not where the back could bend further',
+    ],
+    mistakes: [
+      'Arching the low back to find the last few inches',
+      'Letting the ribs flare as the arms finish',
+      'Pressing a load that swings the trunk sideways',
+      'Holding the breath at the top',
+    ],
+    breath: 'Breathe in at the shoulder, out as you press. No breath-holds.',
+    variants: {
+      beginner: 'Press an empty bar, a broom or a light bucket, standing tall. 2 sets of 8, stopping well short of any back arch.',
+      standard: 'Full overhead press with a shovel, sandbag or an offset load. Trunk braced, ribs down. 3 sets of 8.',
+      seated: 'Seated press against a chair back, which removes the low-back arch entirely. Light dumbbells or a band underfoot.',
+    },
+  },
+
+  'Water carry': {
+    pattern: 'Loaded carry',
+    title: 'The Loaded Carry',
+    meta: ['4 \u00d7 30m', '\u00b7 60s rest', '\u00b7 grip & trunk'],
+    setup: 'Load either side, or one side for a harder trunk challenge. Stand tall, take the weight with a hinge rather than a stoop, and set the shoulders before the first step.',
+    cues: [
+      'Stand tall \u2014 shoulders down and back, not shrugged',
+      'Walk normally; do not lean away from the weight',
+      'Grip firmly and keep breathing the whole distance',
+      'Set the load down with a hinge, the same way you picked it up',
+    ],
+    mistakes: [
+      'Leaning sideways to counterbalance a one-sided load',
+      'Holding the breath for the whole carry',
+      'Dropping the load rather than lowering it',
+      'Shrugging the shoulders up toward the ears',
+    ],
+    breath: 'Breathe steadily throughout. A carry is the easiest place to hold your breath without noticing.',
+    variants: {
+      beginner: 'Two light buckets, a short distance, both sides loaded evenly. Put them down the moment posture goes.',
+      standard: 'Loaded cans, jugs or a sandbag, longer distance. One-sided carries make the trunk work hardest.',
+      seated: 'Seated hold: sit tall and hold a weight in each hand at your sides for time. Grip and trunk without any walking.',
+    },
+  },
+
+  'Wheelbarrow push': {
+    pattern: 'Full-body conditioning',
+    title: 'The Loaded Push',
+    meta: ['5 \u00d7 20m', '\u00b7 walk back', '\u00b7 legs & drive'],
+    setup: 'Pack the load low and forward toward the wheel, which makes the barrow lighter to lift and easier to steer. Hands set, arms long, trunk braced before the first push.',
+    cues: [
+      'Drive from the legs; the arms hold the barrow, they do not push it',
+      'Arms long, trunk braced, chest over the handles',
+      'Small steps on uneven ground',
+      'Keep the load low and forward, over the wheel',
+    ],
+    mistakes: [
+      'Packing high and then fighting the tip',
+      'Pushing with the shoulders and low back instead of the legs',
+      'Long strides on rough ground',
+      'Overloading and running out of control on a slope',
+    ],
+    breath: 'Steady rhythmic breathing. If you cannot talk, the load or the pace is too much.',
+    variants: {
+      beginner: 'A part-filled barrow on flat, firm ground. Short distances, turn wide.',
+      standard: 'A working load over the ground you actually have, including a slope.',
+      seated: 'Not a seated movement. Substitute the seated band row and press for the same push-and-brace work.',
+    },
+  },
+
+  'Compost turning': {
+    pattern: 'Hinge + rotation',
+    title: 'The Rotational Hinge',
+    meta: ['3 \u00d7 8 each side', '\u00b7 90s rest', '\u00b7 hips & obliques'],
+    setup: 'Feet wider than the hinge, load in front, and know where it is going before you lift it. Rotation belongs to the hips and ribs \u2014 the feet turn, the spine does not.',
+    cues: [
+      'Hinge to the load, then turn the FEET toward where it is going',
+      'Rotate through the hips and ribs, not the low back',
+      'Exhale on the throw',
+      'Alternate the leading side so one side does not do the whole pile',
+    ],
+    mistakes: [
+      'Twisting with the feet planted and the load out in front',
+      'Rounding the back to reach into the pile',
+      'Working one side only for an entire session',
+      'Rushing the turn with a heavy fork',
+    ],
+    breath: 'Inhale on the lift, exhale on the turn and release.',
+    variants: {
+      beginner: 'Light fork, small loads, and a deliberate pause to reset the feet on every single rep.',
+      standard: 'Working fork and load, feet turning under a continuous rhythm.',
+      seated: 'Seated trunk rotation with a band or a light weight, hips square. Same rotation, no load overhead.',
+    },
+  },
+
+  'Harvest squat': {
+    pattern: 'Leg endurance',
+    title: 'The Working Squat',
+    meta: ['3 \u00d7 12', '\u00b7 60s rest', '\u00b7 quads & ankles'],
+    setup: 'Feet about shoulder width, toes turned slightly out, weight through the whole foot. This is endurance rather than a heavy lift \u2014 the target is hundreds of quality repetitions across a day.',
+    cues: [
+      'Sit down between the feet rather than folding forward over them',
+      'Heels stay flat; chest tall enough to see the work',
+      'Come all the way up rather than hovering half-way for minutes',
+      'When the legs tire, kneel \u2014 do not round the back instead',
+    ],
+    mistakes: [
+      'Bending from the low back once the legs fatigue',
+      'Heels lifting at the bottom',
+      'Holding a half-squat for long stretches',
+      'Knees collapsing inward on the way up',
+    ],
+    breath: 'Breathe out on the way up. Steady breathing across the set, not a hold.',
+    variants: {
+      beginner: 'Squat to a box or a low stool so there is a target to sit to. A kneeling pad is training equipment, not a concession.',
+      standard: 'Full working squat, repeated across the row. Change position before form goes.',
+      seated: 'Chair sit-to-stand, or the hover version. The same pattern with the balance risk removed.',
+    },
+  },
+};
+
+export const EXERCISE_DETAIL_COUNT = Object.keys(exerciseDetail).length;

@@ -118,6 +118,13 @@ export const initialState: any = {
     bioregion: 'northeast',
     seasonIdx: null,
     approved: {},
+    /*
+      Which farm movement the exercise screen is showing. All six cards used
+      to navigate to one hardcoded shovel-lift screen, so tapping "Compost
+      turning" showed hinge instructions. The default keeps the previous
+      landing behaviour for anyone arriving without having tapped a card.
+    */
+    exMove: 'Shovel lift',
     exVariant: 'standard',
     trainDay: 1,
     pregStep: 0,
