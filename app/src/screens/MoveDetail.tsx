@@ -1,5 +1,10 @@
 import type { ReactNode } from 'react';
-import { sessionImage, SESSION_NOTE } from '../data/media';
+import {
+  sessionImage, SESSION_NOTE, mobImage, seatImage,
+} from '../data/media';
+import {
+  mobilityDepth, seatedDepth, elderMoveDepth, ancestralDepth, breathDepth,
+} from '../data/moveDepth';
 import { useStore } from '../state/store';
 import { useMoveStats } from '../state/move';
 import {
@@ -41,13 +46,47 @@ function Tile({ n, l }: { n: string; l: string }) {
   A move with its dose and the reason it earns a place. Used by mobility and
   seated — the two circuits where the "why" is the point.
 */
-function MoveRow({ m }: { m: any }) {
+/* Small uppercase run-in label for the Move depth blocks. */
+function MvLabel({ children }: { children: ReactNode }) {
   return (
     <div style={{
-      display: 'flex', gap: 11, alignItems: 'flex-start',
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
+/*
+  Shared by the mobility and seated screens. `kind` picks which depth record and
+  which illustration to use, because the two lists have separate names and
+  separate images but an identical card.
+*/
+function MoveRow({ m, kind }: { m: any; kind: 'mob' | 'seat' }) {
+  const d = kind === 'mob' ? mobilityDepth[m.name] : seatedDepth[m.name];
+  const img = kind === 'mob' ? mobImage(m.name) : seatImage(m.name);
+  return (
+    <div style={{
       background: 'var(--card)', border: '1px solid var(--border)',
-      borderRadius: 'var(--r-tile)', padding: '13px 14px',
+      borderRadius: 'var(--r-tile)', padding: 0, overflow: 'hidden',
     }}>
+      {/*
+        The only per-exercise images in the app. Each was checked against the
+        cue printed directly beneath it - see data/media.ts.
+      */}
+      <img
+        src={img}
+        alt={m.name + ', illustration'}
+        loading="lazy"
+        decoding="async"
+        style={{
+          display: 'block', width: '100%', height: 150,
+          objectFit: 'cover', background: 'var(--surface-2)',
+        }}
+      />
+      <div style={{
+        display: 'flex', gap: 11, alignItems: 'flex-start', padding: '13px 14px',
+      }}>
       <span aria-hidden="true" style={{
         width: 10, height: 10, borderRadius: '50%', flex: 'none', background: m.c, marginTop: 5,
       }} />
@@ -67,6 +106,42 @@ function MoveRow({ m }: { m: any }) {
           fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
           lineHeight: 1.5, margin: '5px 0 0',
         }}>{m.why}</p>
+
+        {/*
+          Cueing, from data/moveDepth.ts. `watch` is the safety information on a
+          training screen - the failure mode is what hurts people, so it is
+          rendered in the caution colour rather than as another paragraph.
+        */}
+        {d && (
+          <div style={{
+            marginTop: 10, paddingTop: 10, borderTop: '1px solid var(--border)',
+          }}>
+            <MvLabel>How to do it</MvLabel>
+            <p className="rs-prose" style={{
+              fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+              lineHeight: 1.55, margin: 0,
+            }}>{d.cue}</p>
+
+            <div style={{ marginTop: 9 }}>
+              <MvLabel>What it protects</MvLabel>
+              <p className="rs-prose" style={{
+                fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                lineHeight: 1.5, margin: 0,
+              }}>{d.purpose}</p>
+            </div>
+
+            {d.watch && (
+              <div style={{ marginTop: 9 }}>
+                <MvLabel>Common failure</MvLabel>
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                  lineHeight: 1.5, margin: 0, fontWeight: 600,
+                }}>{d.watch}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       </div>
     </div>
   );
@@ -115,7 +190,7 @@ export function MobilityScreen() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 14 }}>
-          {(mobilityMoves as any[]).map((m) => <MoveRow key={m.name} m={m} />)}
+          {(mobilityMoves as any[]).map((m) => <MoveRow key={m.name} m={m} kind="mob" />)}
         </div>
 
         <Band tone="safety" title="How to know it worked" style={{ marginTop: 16 }}>
@@ -188,7 +263,7 @@ export function SeatedScreen() {
         </Band>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 14 }}>
-          {(seatedMoves as any[]).map((m) => <MoveRow key={m.name} m={m} />)}
+          {(seatedMoves as any[]).map((m) => <MoveRow key={m.name} m={m} kind="seat" />)}
         </div>
 
         <Band tone="cream" title="Two rounds, then stop" style={{ marginTop: 16 }}>
@@ -330,6 +405,33 @@ export function ElderScreen() {
               <div style={{
                 fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)', marginTop: 3,
               }}>→ {m.adl}</div>
+              {elderMoveDepth[m.move] && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <MvLabel>How to do it</MvLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{elderMoveDepth[m.move].cue}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <MvLabel>What it protects</MvLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{elderMoveDepth[m.move].purpose}</p>
+                  </div>
+                  {elderMoveDepth[m.move].watch && (
+                    <div style={{ marginTop: 9 }}>
+                      <MvLabel>Common failure</MvLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{elderMoveDepth[m.move].watch}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -460,6 +562,33 @@ export function AncestralScreen() {
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                   lineHeight: 1.5, margin: '5px 0 0',
                 }}>{t.builds}</p>
+                {ancestralDepth[t.name] && (
+                  <div style={{
+                    marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                  }}>
+                    <MvLabel>How to do it</MvLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{ancestralDepth[t.name].cue}</p>
+                    <div style={{ marginTop: 9 }}>
+                      <MvLabel>What it protects</MvLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{ancestralDepth[t.name].purpose}</p>
+                    </div>
+                    {ancestralDepth[t.name].watch && (
+                      <div style={{ marginTop: 9 }}>
+                        <MvLabel>Common failure</MvLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                          lineHeight: 1.5, margin: 0, fontWeight: 600,
+                        }}>{ancestralDepth[t.name].watch}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -641,7 +770,7 @@ export function BreathScreen() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {BREATH_PRACTICES.map((b) => (
             <div key={b.name} style={{
-              display: 'flex', gap: 11, alignItems: 'center',
+              display: 'flex', gap: 11, alignItems: 'flex-start',
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
@@ -657,6 +786,33 @@ export function BreathScreen() {
                   display: 'block', fontSize: 'calc(11.5px * var(--scale))',
                   color: 'var(--ink-meta)', marginTop: 2,
                 }}>{b.meta}</span>
+                {breathDepth[b.name] && (
+                  <span style={{ display: 'block',
+                    marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                  }}>
+                    <MvLabel>How to do it</MvLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                      lineHeight: 1.55, margin: 0,
+                    }}>{breathDepth[b.name].cue}</p>
+                    <div style={{ marginTop: 9 }}>
+                      <MvLabel>What it protects</MvLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                        lineHeight: 1.5, margin: 0,
+                      }}>{breathDepth[b.name].purpose}</p>
+                    </div>
+                    {breathDepth[b.name].watch && (
+                      <div style={{ marginTop: 9 }}>
+                        <MvLabel>Common failure</MvLabel>
+                        <p className="rs-prose" style={{
+                          fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                          lineHeight: 1.5, margin: 0, fontWeight: 600,
+                        }}>{breathDepth[b.name].watch}</p>
+                      </div>
+                    )}
+                  </span>
+                )}
               </span>
             </div>
           ))}
