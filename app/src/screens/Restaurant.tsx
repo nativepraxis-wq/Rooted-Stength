@@ -169,6 +169,22 @@ export function OrderScreen() {
                   fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
                   fontWeight: 700, marginTop: 4,
                 }}>{m.statLabel}</div>
+                {/*
+                  Both of these were sitting in content.ts unrendered. The
+                  tag wording is the source's own - see state/kitchen.ts.
+                */}
+                {m.tagLabel && (
+                  <div style={{
+                    fontSize: 'calc(11px * var(--scale))', color: 'var(--ink-meta)',
+                    fontWeight: 700, marginTop: 4,
+                  }}>{m.tagLabel}</div>
+                )}
+                {m.cautionLabel && (
+                  <div style={{
+                    fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                    fontWeight: 800, marginTop: 4, lineHeight: 1.4,
+                  }}>{m.cautionLabel}</div>
+                )}
                 {m.clashLabel && (
                   <div style={{
                     fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',

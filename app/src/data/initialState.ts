@@ -124,6 +124,9 @@ export const initialState: any = {
       turning" showed hinge instructions. The default keeps the previous
       landing behaviour for anyone arriving without having tapped a card.
     */
+    /* Which bioregion the Foraged foods list is filtered to. The plants were
+       always region-tagged; nothing read the tags until now. */
+    forageRegion: 'all',
     exMove: 'Shovel lift',
     exVariant: 'standard',
     trainDay: 1,

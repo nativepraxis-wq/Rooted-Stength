@@ -2,7 +2,7 @@ import { greenImage } from '../data/media';
 import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
 import {
-  greenDefs, cropMeta, trays, saladDefs, gardenBase, tendDefs,
+  greenDefs, cropMeta, trays, saladDefs, gardenBase, tendDefs, allergenWord,
   gardenMilestones, sowAdvice, bioregions,
 } from '../data/content';
 import { blockedAllergens } from '../state/kitchen';
@@ -522,6 +522,14 @@ export function VarietyScreen() {
   const cart = state.seedCart || {};
   const isSown = sown.includes(v.id) || (trays as any[]).some((t) => t.id === v.id);
   const inCart = !!cart[v.id];
+  /*
+    cropMeta carries `allergen` on the sesame variety and nothing read it. The
+    microgreens hub already blocks salads by `has`, and sesame is one of the
+    four allergens the app tracks - so the app knew the restriction, knew the
+    crop, and never joined them on the page where you decide to sow it.
+  */
+  const seedBlocked = blockedAllergens(state);
+  const allergenClash = !!(v.allergen && seedBlocked.includes(v.allergen));
 
   return (
     <Screen>
@@ -601,6 +609,14 @@ export function VarietyScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
         }}>Grow protocol</h2>
+        {allergenClash && (
+          <Band tone="safety" title="Flagged against your profile" style={{ marginBottom: 14 }}>
+            This seed is {(allergenWord as any)[v.allergen] || v.allergen}, which your profile
+            asks the app to keep out. Growing it puts it in your kitchen and on your hands, not
+            only on your plate.
+          </Band>
+        )}
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[
             ['Soak', v.soak],
@@ -630,6 +646,35 @@ export function VarietyScreen() {
 
         {v.grow && (
           <Band tone="cream" style={{ marginTop: 12 }}>🌱 {v.grow}</Band>
+        )}
+
+        {/*
+          `uses` was in cropMeta on all seventeen varieties - three concrete
+          lines each, fifty-one in total - and rendered nowhere. The screen
+          explained the botany, the yield and how to grow it, and never what
+          to do with the thing once cut.
+        */}
+        {v.uses && v.uses.length > 0 && (
+          <>
+            <h2 style={{
+              fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+              fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
+            }}>What to do with it</h2>
+            <ul style={{ margin: 0, paddingLeft: 18 }}>
+              {v.uses.map((x: string) => (
+                <li key={x} className="rs-prose" style={{
+                  fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+                  lineHeight: 1.55, marginBottom: 5,
+                }}>{x}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        {v.pair && (
+          <p className="rs-prose" style={{
+            fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+            lineHeight: 1.55, margin: '10px 0 0', fontWeight: 600,
+          }}>{v.pair}</p>
         )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 16 }}>

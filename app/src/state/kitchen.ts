@@ -315,13 +315,27 @@ export function orderView(state: AppState) {
   let cost = 0;
   let fitCount = 0;
   let flagCount = 0;
+  let cautionCount = 0;
   const roles: Record<string, boolean> = {};
   const flagged: string[] = [];
 
   const items = rst.menu.map((m: any) => {
     const sel = !!ord[m.id];
     const clash = !!(m.has && blocked.includes(m.has));
+    /*
+      `allergen: true` is a separate signal from `has`, and only `has` used to
+      be checked. The Tostones carries allergen: true and tags ['Shared fryer']
+      with NO `has` field - so it was not a clash, it incremented fitCount, and
+      with no other clashes present the summary read "nothing here clashes with
+      your profile" to someone with a nut allergy.
+
+      A caution is not a profile clash and is not treated as one: the item is
+      not reordered or greyed out. It is surfaced, counted apart, and the
+      summary stops claiming a clean bill while one is on screen.
+    */
+    const caution = !!m.allergen && !clash;
     if (clash) { flagCount++; if (sel) flagged.push(m.name); } else fitCount++;
+    if (caution) cautionCount++;
     if (sel) { kcal += m.kcal; prot += m.p; cost += m.price; roles[m.role] = true; }
     return {
       ...m, sel, clash,
@@ -330,6 +344,15 @@ export function orderView(state: AppState) {
         : '',
       statLabel: m.kcal + ' kcal · ' + m.p + 'g protein',
       priceLabel: '$' + m.price,
+      /*
+        Both of these were in content.ts and neither reached the screen. The
+        tags carry the actual warning wording - "Shared fryer", "Contains
+        peanut" - so they are shown rather than paraphrased.
+      */
+      tagLabel: (m.tags || []).join(' · '),
+      cautionLabel: caution
+        ? 'Allergen caution — ask the kitchen before ordering'
+        : '',
     };
   });
   items.sort((a: any, b: any) => (a.clash ? 1 : 0) - (b.clash ? 1 : 0));
@@ -352,10 +375,20 @@ export function orderView(state: AppState) {
       ? 'Still missing: ' + need.join(', ') + '.'
       : 'Complete Rooted Plate — protein, green, carb and hydration covered.',
     gapDone: need.length === 0,
-    fitLine: flagCount === 0
+    /*
+      The no-clash wording is only used when there is genuinely nothing to
+      raise. A cross-contamination caution is not a clash, but saying
+      "nothing here clashes" while one is on screen is the overclaim this
+      fix exists to remove.
+    */
+    fitLine: flagCount === 0 && cautionCount === 0
       ? fitCount + ' dishes · nothing here clashes with your profile'
-      : fitCount + ' of ' + (fitCount + flagCount) + ' dishes fit your profile · '
-        + flagCount + ' flagged below',
+      : flagCount === 0
+        ? fitCount + ' dishes · no profile clashes · '
+          + cautionCount + ' carrying an allergen caution'
+        : fitCount + ' of ' + (fitCount + flagCount) + ' dishes fit your profile · '
+          + flagCount + ' flagged below'
+          + (cautionCount ? ' · ' + cautionCount + ' with an allergen caution' : ''),
     warnText: flagged.length
       ? 'In your order and off your profile: ' + flagged.join(', ')
         + ' — ask the kitchen or swap it out.'
