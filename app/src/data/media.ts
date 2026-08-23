@@ -489,6 +489,56 @@ const PAIR_SLUG: Record<string, string> = {
   'Sea moss + microgreens': 'seamoss',
 };
 
+
+/*
+  Mobility and seated-and-adaptive exercises, one illustration each.
+
+  These are the only per-EXERCISE images in the app, and they exist because
+  seeing the shape of a 90/90 switch or a band row genuinely helps someone
+  perform it, in a way that a still of a landscape or a bowl of food does not.
+
+  That makes them the images where being wrong actually costs something, so
+  each one was checked against the cue it illustrates rather than against
+  whether it looked good. Four were regenerated on that basis: a 90/90 that was
+  really a cross-legged sit, an ankle drill that did not show the heel down, a
+  "dead hang" with both feet on the floor, and an overhead press with the elbows
+  flared wide against the cue text sitting directly beneath it.
+
+  "Dead hang or doorframe stretch" is illustrated with the DOORFRAME half of
+  its own title. Two attempts at the hang came back with the feet on the floor
+  and the arms unloaded, which is a standing overhead reach and not a hang - and
+  an ambiguous picture of a hang teaches nothing. The doorframe version is
+  unmistakable, is equally the card, and needs no equipment.
+
+  Ancestral movement deliberately gets none - see the header in
+  data/moveDepth.ts for why.
+*/
+export function mobImage(name: string): string {
+  return base('mob-' + (MOB_SLUG[name] ?? 'squat'));
+}
+
+export function seatImage(name: string): string {
+  return base('seat-' + (SEAT_SLUG[name] ?? 'sitstand'));
+}
+
+const MOB_SLUG: Record<string, string> = {
+  'Deep squat hold': 'squat',
+  'Thoracic rotation, open book': 'openbook',
+  '90/90 hip switches': '9090',
+  'Ankle rocks at the wall': 'ankle',
+  'Wrist & forearm circles': 'wrist',
+  'Dead hang or doorframe stretch': 'hang',
+};
+
+const SEAT_SLUG: Record<string, string> = {
+  'Chair sit-to-stand (or hover)': 'sitstand',
+  'Seated marches': 'march',
+  'Band row, anchored at a door': 'row',
+  'Overhead press, light': 'press',
+  'Heel & toe raises': 'heel',
+  'Trunk rotation with a reach': 'rotate',
+};
+
 export const ATLAS_PREP_NOTE =
   'Illustration of the preparation, generated - never a guide to identifying a plant.';
 

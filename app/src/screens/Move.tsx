@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { traditionImage, farmMoveImage, FARM_MOVE_NOTE, warriorImage, WARRIOR_NOTE } from '../data/media';
+import { farmMoveDepth } from '../data/moveDepth';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
@@ -13,6 +14,17 @@ import { Screen, Gutter, Band, Chip, BackButton } from '../components/ui';
   The session control shared by every Move screen. Green once logged, and it
   says how to undo — logging is reversible everywhere in this app.
 */
+/* Small uppercase run-in label for the Move depth blocks. */
+function MvLabel({ children }: { children: ReactNode }) {
+  return (
+    <div style={{
+      fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
+      letterSpacing: 1, textTransform: 'uppercase',
+      color: 'var(--ink-meta)', marginBottom: 3,
+    }}>{children}</div>
+  );
+}
+
 export function SessionButton({ name, meta }: { name: string; meta: string }) {
   const s = useSession(name, meta);
   return (
@@ -358,6 +370,65 @@ export function FarmScreen() {
                 fontWeight: 600, marginTop: 6,
               }}>Beginner · Advanced · Seated option</div>
             </button>
+            );
+          })}
+        </div>
+
+        {/*
+          Cueing for each of the six, from data/moveDepth.ts.
+
+          It sits here as its own list rather than inside the grid buttons
+          above, for two reasons: a paragraph of cueing inside a tap target is
+          a bad control, and every one of those buttons currently navigates to
+          the SAME generic hinge screen without recording which movement was
+          tapped - so the detail screen cannot host per-movement text either.
+          That navigation gap is noted rather than papered over.
+        */}
+        <h2 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+          fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
+        }}>How each one is performed</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {(movements as any[]).map((m) => {
+            const d = farmMoveDepth[m.farm];
+            if (!d) return null;
+            return (
+              <div key={m.farm} style={{
+                background: 'var(--card)', border: '1px solid var(--border)',
+                borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              }}>
+                <div style={{
+                  fontSize: 'calc(14px * var(--scale))', fontWeight: 700, color: 'var(--ink)',
+                }}>{m.farm}</div>
+                <div style={{
+                  fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700,
+                  color: 'var(--ink-meta)', marginTop: 2,
+                }}>{m.pattern}</div>
+
+                <div style={{ marginTop: 9 }}>
+                  <MvLabel>How to do it</MvLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{d.cue}</p>
+                </div>
+                <div style={{ marginTop: 9 }}>
+                  <MvLabel>What it protects</MvLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                    lineHeight: 1.5, margin: 0,
+                  }}>{d.purpose}</p>
+                </div>
+                {d.watch && (
+                  <div style={{ marginTop: 9 }}>
+                    <MvLabel>Common failure</MvLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                      lineHeight: 1.5, margin: 0, fontWeight: 600,
+                    }}>{d.watch}</p>
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
