@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { traditionImage, farmMoveImage, FARM_MOVE_NOTE, warriorImage, WARRIOR_NOTE } from '../data/media';
-import { farmMoveDepth, exerciseDetail } from '../data/moveDepth';
+import {
+  farmMoveDepth, exerciseDetail, warriorMoveDepth,
+} from '../data/moveDepth';
 import { useStore } from '../state/store';
 import { useSession, useMoveStats } from '../state/move';
 import {
@@ -830,21 +832,58 @@ export function WarriorScreen() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          {sel.moves.map((mv: any) => (
+          {sel.moves.map((mv: any) => {
+            const wd = warriorMoveDepth[mv.name];
+            return (
             <div key={mv.name} style={{
-              display: 'flex', gap: 10, alignItems: 'baseline',
               background: 'var(--card)', border: '1px solid var(--border)',
               borderRadius: 'var(--r-tile)', padding: '12px 13px',
             }}>
-              <span style={{
-                flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
-                fontWeight: 700, color: 'var(--ink)',
-              }}>{mv.name}</span>
-              <span style={{
-                fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: 'var(--ink-meta)',
-              }}>{mv.sets}</span>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
+                <span style={{
+                  flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
+                  fontWeight: 700, color: 'var(--ink)',
+                }}>{mv.name}</span>
+                <span style={{
+                  fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: 'var(--ink-meta)',
+                }}>{mv.sets}</span>
+              </div>
+
+              {/*
+                Cueing, from data/moveDepth.ts. These are the highest-risk
+                movements in the app and they carried a volume prescription and
+                nothing else - which is the wrong half to give first.
+              */}
+              {wd && (
+                <div style={{
+                  marginTop: 9, paddingTop: 9, borderTop: '1px solid var(--border)',
+                }}>
+                  <MvLabel>How to do it</MvLabel>
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink)',
+                    lineHeight: 1.55, margin: 0,
+                  }}>{wd.cue}</p>
+                  <div style={{ marginTop: 9 }}>
+                    <MvLabel>What it builds</MvLabel>
+                    <p className="rs-prose" style={{
+                      fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+                      lineHeight: 1.5, margin: 0,
+                    }}>{wd.purpose}</p>
+                  </div>
+                  {wd.watch && (
+                    <div style={{ marginTop: 9 }}>
+                      <MvLabel>Common failure</MvLabel>
+                      <p className="rs-prose" style={{
+                        fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+                        lineHeight: 1.5, margin: 0, fontWeight: 600,
+                      }}>{wd.watch}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
 
         <button

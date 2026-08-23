@@ -453,3 +453,122 @@ export const exerciseDetail: Record<string, ExerciseDetail> = {
 };
 
 export const EXERCISE_DETAIL_COUNT = Object.keys(exerciseDetail).length;
+
+/*
+  ────────────────────────────────────────────────────────────────────────
+  WARRIOR TRADITION MOVES
+
+  The five traditions carry an origin, a practice note, a fuel note and three
+  movements each - and the movements had a sets line and nothing else. These
+  are the highest-risk movements in the app: barefoot running, obstacle
+  climb-overs, a partner wrestle-carry, repeated jumping and stick work. A
+  volume prescription without a technique note is the wrong half of the
+  instruction to give first.
+
+  Same three fields as everywhere else in this file, and the same rules: no
+  loads, no progression, and the failure mode named because on a training
+  screen that is the safety information.
+
+  TWO THINGS THESE ENTRIES REFUSE TO DO.
+
+  They do not teach the martial art. Capoeira and Nguni stick fighting are
+  living practices with teachers, and the honest scope of a card is the
+  conditioning drill that sits underneath them - the ginga as a base movement,
+  a figure-8 as a wrist and forearm drill - not the art itself. Where a
+  movement really needs a teacher or a partner who knows what they are doing,
+  the entry says so instead of implying a card is enough.
+
+  They do not romanticise. The Move hub already disclaims the warrior framing
+  and the ancestral cards say "never romanticized combat". These read as
+  training notes for a person doing a drill today, which is what the imagery
+  on that screen also settled on.
+  ────────────────────────────────────────────────────────────────────────
+*/
+
+/* Keyed on the `name` strings inside warriorDefs[].moves. */
+export const warriorMoveDepth: Record<string, MoveDepth> = {
+  /* ── Zulu regiments ── */
+  'Long barefoot-style run': {
+    cue: 'Soft ground - grass, sand, track - and an easy pace you could hold a conversation at. Short, quick steps rather than long reaching ones, landing under the hips rather than out in front. Start with minutes, not the full session: barefoot or minimal-shoe running loads the calf and foot far more than cushioned running does.',
+    purpose: 'Aerobic base, and foot and calf strength that cushioned shoes do most of the work of otherwise. The tradition ran for hours; the trainable part is the easy sustained pace, not the duration.',
+    watch: 'Switching to barefoot volume too fast is the classic way to get a calf strain or a metatarsal stress fracture, and the injury usually arrives weeks in rather than on the day. Build it in small increments. Check the ground for glass and stones every time.',
+  },
+  'Formation march intervals': {
+    cue: 'Brisk walking rather than jogging - the point is a sustained working pace you could hold in a group, not a run. Stand tall, arms swinging naturally, breathing through the nose if you can. The walk portion is genuine recovery; do not turn it into a slow march.',
+    purpose: 'Aerobic conditioning at an intensity almost anyone can access, and the rhythm of moving in time with other people, which is the part that made it training rather than travel.',
+  },
+  'Spear-reach lunge': {
+    cue: 'Step forward into a lunge and reach one arm long in the same direction, letting the ribs turn slightly with it. Front shin roughly vertical, back knee travelling down rather than the body pitching forward. Slow is the instruction on the card and it is the whole drill - the reach is a balance and rotation challenge, not a stretch to bounce into.',
+    purpose: 'Lunge strength plus rotation and reach under a single-leg base, which is a combination almost nothing else trains together.',
+    watch: 'The front knee falling inward as you reach, and the low back arching to get the arm further. Shorten the reach rather than losing the position.',
+  },
+
+  /* ── Agojie conditioning ── */
+  'Wall / obstacle climb-over': {
+    cue: 'Controlled up AND controlled down - the card says both and the second half is the one people skip. Get the chest over first, then the hips, then step down under control rather than dropping. Use an obstacle you can already get over comfortably before using a taller one.',
+    purpose: 'Full-body pulling, pushing and coordination against an awkward object, which is what obstacle work trains and what a machine cannot.',
+    watch: 'Dropping down from height is where the ankles and knees get hurt, not climbing up. Check the obstacle is solid and the landing is clear before the first rep, and stop the set when the descents start getting sloppy.',
+  },
+  'Partner or sandbag wrestle-carry': {
+    cue: 'With a sandbag: hug it high on the chest, brace the trunk, and walk under control. With a partner: agree the rules and the stop signal before you start, and go at a fraction of full effort. Pick the load up with a hinge, not a stoop.',
+    purpose: 'Grip, trunk and the specific work of controlling a load that shifts and resists - which is what makes it different from a barbell.',
+    watch: 'Partner work needs a partner who knows what they are doing and a shared understanding of when to stop. If either is missing, use the sandbag - the conditioning transfers, the injury risk does not. Never do this to failure with a person involved.',
+  },
+  'Crawl-to-stand sprint': {
+    cue: 'Start low, come up under control, and accelerate - the transition is the drill rather than the top speed. Short distances, full recovery between reps. Warm up thoroughly first; this asks for near-maximal effort from cold otherwise.',
+    purpose: 'Getting off the ground fast and into motion, which is a genuinely useful capacity and one that disappears quietly with age and disuse.',
+    watch: 'Sprinting is one of the most common places to tear a hamstring, and doing it unwarmed or already fatigued is how. If the reps are slowing noticeably, the set is over.',
+  },
+
+  /* ── Capoeira flow ── */
+  'Ginga (base sway)': {
+    cue: 'A continuous rocking step between a wide base and a back stance, weight staying low and the knees soft, hands moving to cover as the feet change. It is meant to be unbroken - two minutes of never quite standing still. Stay light and keep breathing rather than holding a rigid position.',
+    purpose: 'The base movement of capoeira and a genuinely good low-impact conditioning drill on its own: hips, ankles and continuous coordination without any jumping.',
+    watch: 'This is the one movement in this group that is safe to explore from a description. The rest of capoeira is not - the app is giving you a base sway, not teaching the art.',
+  },
+  'Negativa \u2192 role transition': {
+    cue: 'A low escape into a ground position and back out again. Take it slowly, keep a hand down for support, and work on one side at a time until the pattern is familiar. Floor space clear, nothing to catch a knee or an elbow on.',
+    purpose: 'Getting down to the floor and back up through an unfamiliar path, which is exactly the range most adults lose.',
+    watch: 'These are transitions learned in a class with someone watching. Approached from a card they are a mobility drill to explore gently, not a technique to drill at speed - and knees and wrists are what take it if you rush.',
+  },
+  'Bridge / au (cartwheel) practice': {
+    cue: 'Five slow supported reps, and supported is the operative word on the card - a wall for the bridge, a spotter or a low progression for the au. Warm the wrists and shoulders first; both take the load here and both are the usual complaint afterwards.',
+    purpose: 'Shoulder and thoracic extension, wrist loading, and inversion tolerance - qualities that almost nothing else in this app trains.',
+    watch: 'Inverting is a real skill with a real fall risk and it belongs with a teacher. Anyone with a shoulder, wrist, neck or back problem, or with blood-pressure or eye conditions affected by inversion, should ask before rather than find out during.',
+  },
+
+  /* ── Maasai jumping ── */
+  'Vertical pogo jumps': {
+    cue: 'Minimal knee bend, as the card says - the drive comes from the ankles and the calf, springing off the balls of the feet with the legs staying fairly stiff. Land where you took off. Quiet is the target; a loud landing means you are absorbing with the joints rather than the tendons.',
+    purpose: 'Tendon stiffness and elastic recoil, which is what makes running and jumping efficient and what declines first with age.',
+    watch: 'Plyometric work loads the Achilles hard and it accumulates - the injury shows up after several sessions rather than during one. Land quietly, keep the volume low, and do it on a forgiving surface rather than concrete.',
+  },
+  'Tall-spine hop & stick': {
+    cue: 'Hop, then land and hold - the stick is the drill. Spine tall, hips and knees absorbing softly, and freeze for a beat before the next rep. Land silent, which the card also says: noise is uncontrolled landing.',
+    purpose: 'Landing mechanics and deceleration, which is the half of jumping that prevents injuries rather than causing them.',
+    watch: 'Knees collapsing inward on landing is the pattern to watch for and the one most associated with knee injury. If it appears, lower the hop height rather than pushing through.',
+  },
+  'Single-leg ankle bounces': {
+    cue: 'Small, fast bounces on one foot, staying on the ball of the foot with the ankle doing the work. Hold something for balance to start with - that is a legitimate version rather than a lesser one.',
+    purpose: 'Ankle stiffness and single-leg control, which feed directly into running and into recovering from a stumble.',
+    watch: 'Single-leg plyometrics concentrate all the load on one Achilles. Anyone with a history of Achilles or calf trouble should build to this slowly or leave it out.',
+  },
+
+  /* ── Nguni stick fighting ── */
+  'Stick figure-8 flows': {
+    cue: 'A light stick, tracing a figure-8 in front of the body, wrist and forearm doing the work rather than the shoulder. Slow and continuous first, speed only once the path is smooth. Clear space around you - the arc is wider than it feels.',
+    purpose: 'Wrist and forearm conditioning and coordination, which is the trainable, non-contact part of the stick tradition and useful well outside it.',
+  },
+  'Lateral step-and-strike': {
+    cue: 'Step sideways and strike into empty space or a target, with the feet moving first and the strike following. Weight stays over the feet rather than lunging past them. Alternate sides so one shoulder does not do the whole session.',
+    purpose: 'Footwork and rotational power - moving and generating force at the same time, which is a different skill from either alone.',
+    watch: 'Striking a hard target with an unaccustomed wrist is how people hurt themselves here. Air or a soft target, and let the technique come before the force.',
+  },
+  'Reaction partner taps': {
+    cue: 'A partner offers a hand or a pad at random and you touch it as fast as you can. No contact between people, agreed boundaries, light and playful. Thirty seconds is a long time at genuine reaction speed.',
+    purpose: 'Reaction speed and the ability to change direction on someone else\u2019s cue rather than your own, which is the quality sparring actually trains.',
+    watch: 'This is a reaction drill, not sparring. The codex card for this tradition says never romanticized combat, and the line between a tap drill and hitting each other is one to agree out loud before starting rather than during.',
+  },
+};
+
+export const WARRIOR_MOVE_DEPTH_COUNT = Object.keys(warriorMoveDepth).length;
