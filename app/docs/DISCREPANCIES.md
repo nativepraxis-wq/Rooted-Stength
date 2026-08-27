@@ -1724,6 +1724,80 @@ narrow.
 
 ---
 
+## 47. A button at 1.85:1 in dark mode, under a gate reporting zero failures — **fixed**
+
+The contrast gate reported **"70 pairings, 0 failing"** while the hydration
+screen's **"+ Add a cup"** button rendered cream on pale teal in dark mode.
+
+`PAIRS` in `scripts/contrast.mjs` is hand-maintained, and its own comment calls
+it *"pairs that actually occur in the UI"*. A hand-maintained list of what
+occurs is a claim, and claims go stale the moment someone adds a screen. No pair
+covered this button, so nothing measured it.
+
+### The button
+
+It was a hand-rolled copy of `PrimaryButton` with `--forest` swapped for
+`--teal`. Every other property — radius, padding, font size, weight, min-height
+— already matched `PrimaryButton` exactly.
+
+`--teal` is overridden in the dark theme to a light tint (`#7BBACB`), because
+everywhere else in the app teal is **text**. `--on-dark` is not overridden; it
+stays cream. So this button — the only place in the app where teal is used as a
+fill behind text — came out as:
+
+| theme | ratio | |
+|---|---|---|
+| light | 5.15:1 | passes, which is why it survived |
+| dark | **1.85:1** | against a 4.5:1 requirement |
+
+It now uses `--forest`, like every other primary button: **10.63:1 in both
+themes**.
+
+### The gate
+
+`contrast.mjs` now also **derives** pairs. Every style object in `src` that sets
+both a colour and a background from tokens is measured, with the file named in
+the output. 70 pairings became 96.
+
+The curated list still earns its place: it carries real labels, non-4.5
+thresholds, and pairs split across separate elements, none of which the derived
+pass can see. **A same-object pair is only a lower bound on what renders**,
+because colour is inherited from ancestors. This does not make the gate
+complete. It makes it self-maintaining for the one case it can see without
+guessing.
+
+### Verified
+
+Twice, and in both directions.
+
+The fix was confirmed **in the live DOM under dark theme**, with the ratio
+computed from `getComputedStyle` — what is actually painted — rather than from
+the tokens: 1.85:1 before, 10.63:1 after.
+
+The gate was confirmed by **reverting the button and re-running it**:
+
+```
+dark   derived · on-dark on teal (Extras.tsx)   1.85:1   4.50:1   FAIL
+98 pairings measured against a threshold, 1 failing
+```
+
+A gate that has only ever passed, after a fix, has not been shown to catch
+anything.
+
+### The h1 gate was audited too, and is honest
+
+Its `ROUTES` list is exactly the 86 screens registered in `App.tsx` — no
+registered screen goes unrendered, and no rendered route lacks a screen. The
+route-count question raised in item 6 resolves cleanly at 86.
+
+**Still needs an editorial decision:** teal is the hydration accent throughout —
+the stat tile and the Today stripes both use it — and this fix drops it on that
+one control in favour of the house forest. Keeping teal would mean introducing a
+token whose foreground flips by theme, which is a design decision rather than an
+accessibility one.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
