@@ -22,6 +22,7 @@ npm run dev        # http://localhost:5178
 npm run typecheck
 npm run contrast   # AA audit of both palettes
 npm run h1         # every route has exactly one <h1>
+npm run claims     # comparative claims agree across screens
 ```
 
 `.claude/launch.json` lets the in-app browser preview start the dev server. It
@@ -102,7 +103,7 @@ no longer a "not built yet" screen in normal use; `NotBuiltYet` remains in
 Verified mechanically:
 
 ```bash
-npm run typecheck && npm run contrast && npm run h1
+npm run typecheck && npm run contrast && npm run h1 && npm run claims
 ```
 
 ## Rules that are load-bearing, not stylistic

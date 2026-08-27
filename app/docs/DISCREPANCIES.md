@@ -1337,6 +1337,258 @@ mould distinction and the bottle-pressure warning all reach the screen.
 
 ---
 
+## 37. The app called you Amara after you had renamed yourself — **fixed**
+
+PR #35 made the intake name a real input stored in `obName`, and the Today
+greeting and profile rows followed it. Two surfaces did not.
+
+The seeded council thread opened `"Morning, Amara."` with the name baked into
+the string, and `familyDefs` carries a member `id: 'amara'` that is **not a
+separate persona — it is the user**: the seeded `obName` is that member's name
+and `obPronoun` matches it.
+
+So someone who typed their own name at intake was still greeted as Amara by the
+Council, and still saw Amara listed as the household's training adult.
+
+The greeting now carries a `{name}` token that resolves to `", <name>"` when a
+name is set and **disappears entirely** when it is not, so a user who skipped
+the question gets "Morning." rather than an empty comma. The household row
+follows `obName` the same way.
+
+---
+
+## 38. Six farm-movement cards opened the same exercise — **fixed**
+
+All six cards in the farm-movement grid navigated to one hardcoded screen.
+Tapping **"Compost turning"** or **"Water carry"** showed shovel-lift
+instructions, while the breadcrumb and heading claimed the exercise that had
+been tapped.
+
+On a training screen that is not a cosmetic bug: the setup, the cues and the
+mistakes all belonged to a different movement from the one named at the top.
+
+State gained `exMove` to record which card was tapped, and `moveDepth.ts` gained
+`exerciseDetail` — six entries carrying pattern, title, meta, setup, cues,
+mistakes and breathing. The screen falls back to the shovel lift when no
+selection is present, so arriving without one behaves exactly as before.
+
+**The shovel lift entry is the original copy, moved rather than rewritten.** Its
+setup sentence, four cues, four mistakes, meta line and breathing line are the
+strings that were already on the screen.
+
+---
+
+## 39. Eight fields were written in `content.ts` and reached no screen — **fixed**
+
+A sweep of every array export against every screen that maps over it found
+fields the data defined and nothing ever read. `content.ts` is verbatim, so
+none of these were edited; the screens were changed to read what was already
+there.
+
+**One of them could have misled someone with an allergy.** The restaurant fit
+check tested only `has`:
+
+```js
+const clash = !!(m.has && blocked.includes(m.has));
+if (clash) { flagCount++; ... } else fitCount++;
+```
+
+Abuela Verde's **Tostones** carries `allergen: true` and `tags: ['Shared
+fryer']` with **no `has` field**, so it was never a clash and always counted as
+a fit. A user with a nut allergy was told:
+
+> 7 dishes · **nothing here clashes with your profile**
+
+while a shared-fryer dish sat on the screen. A cross-contamination caution is
+genuinely not the same as an ingredient clash — but saying "nothing here
+clashes" while one is displayed is the overclaim. The fit line now distinguishes
+the two, and the order card shows the source's own tag wording rather than a
+paraphrase of it.
+
+The other seven were content rather than safety: `sovSystemDefs.stat` (the
+quantified half of eight health claims), `forageItems.warn` (three safety
+lines), `codexRegions.labourT` / `labourB` (a whole band each, on who did the
+work), `cropMeta.uses` (fifty-one lines on what to do with a crop once cut) and
+`cropMeta.pair`.
+
+### Verified
+
+Every fix confirmed in the running app, not by typecheck alone. The Abuela Verde
+menu now reads "7 dishes · no profile clashes · 1 carrying an allergen caution".
+
+---
+
+## 40. The intimacy screen hid its own evidence tiers — **fixed**
+
+All four cards on the sexual-vitality screen carry an `ev` tier and the screen
+rendered only the name and the description. The card's top row was already
+`justifyContent: space-between` **with a single child**: the badge slot had been
+built and left empty.
+
+The effect was that "Sleep — well established" and "Traditional tonics —
+traditional use" looked identical, on the one screen where that distinction
+carries the most weight.
+
+`vitalityFoods` — six foods, each with its own tier — was exported from
+`content.ts` and imported by nothing at all. The screen named the mechanisms
+(minerals, sleep, circulation, safety) and never named a food.
+
+Both now render. Two of the six are herbs rather than foods, so the section
+closes on the same `HerbCaution` the Apothecary uses rather than a softer one
+written for this screen.
+
+---
+
+## 41. Pea Microgreens states the ranges rule and breaks it — **carried, explained beneath**
+
+The card's `body` reads:
+
+> High in plant protein and BCAAs, **~397 mg/100g amino acids**
+
+Its `contested` line, on the same card, reads:
+
+> Microgreen nutrient figures vary by variety and method; **the Atlas cites
+> ranges, not single numbers.**
+
+That `contested` line is the only place in `content.ts` where the ranges rule is
+written down, and the card that states it is the card that breaks it, to three
+significant figures.
+
+It is also the wrong order of magnitude for its own sentence. 397mg per 100g is
+0.4g per 100g, and pea shoots carry a few grams of protein per 100g. The figure
+cannot be the protein content that the first half of the same sentence calls
+high. It is readable as **free** amino acids — the unbound fraction, a real and
+different measurement — but nothing on the card marks the difference.
+
+This is the same failure as the moringa iron card in item 42: a defensible
+number, framed so that it means something it does not.
+
+`content.ts` is verbatim, so the card stands. `data/cropDepth.ts` adds a
+"Reading the figure" note under the four crop cards that state a number, saying
+what each figure measures and in what form of the food. **Cowpea is included
+although its figure is sound** — per cooked cup, hedged with a tilde. A note
+that only ever appears under a mistake would teach that a figure is a warning
+sign; the standard is worth naming where it is met.
+
+**Still needs an editorial decision:** whether `body` should eventually say
+"free amino acids", or drop the figure. Both would require editing `content.ts`.
+
+---
+
+## 42. The Atlas disagreed with itself about moringa — **carried, explained beneath**
+
+The iron card in the health surfaces reads:
+
+> Moringa (**28mg iron per 100g — nearly 4× the RDA**)
+
+The arithmetic is right and the framing is not. 28mg per 100g is **dried leaf
+powder**, and nobody eats 100g of it — a heaped tablespoon is around 7g, which
+is closer to 2mg. Comparing a per-100g figure for a powder against a daily
+requirement makes a spoonful sound like a day's iron.
+
+The app already holds itself to the opposite standard. Its own Pantry Codex
+volume lists **"per-gram vs. per-serving honesty"** as a principle, and the
+Mineral atlas gives moringa as "about 1–2mg a tablespoon". The card and the
+atlas disagree, and the atlas is the honest one.
+
+Worth recording that the **crop** card is better hedged than the health card:
+it says "dried leaf", "gram for gram" and "up to", none of which the iron card
+says.
+
+`data/healthDepth.ts` corrects the impression beneath the card rather than
+repeating it.
+
+**Still needs an editorial decision:** the iron card's wording.
+
+---
+
+## 43. Baobab carried two different multipliers — **gated**
+
+| where | claim |
+|---|---|
+| `freqBandDefs` (Nutrient Frequencies) | baobab, **"Six times"** the vitamin C of oranges |
+| `cropProfiles` (crop atlas) | baobab, **"around 10×"** the vitamin C of oranges |
+| `sourceLibrary` | "baobab 10× vitamin C" |
+
+A reader who opened both screens saw the app disagree with itself by two thirds.
+Two of the three say ten, so six is the outlier — though six is also the more
+conservative reading of the same evidence, and the honest summary is that
+baobab pulp is *several* times an orange rather than a settled multiple. The
+depth note now says exactly that, and names the app's other figure rather than
+quietly picking a side.
+
+`scripts/claims.mjs` is the gate that would have caught it. It reads every
+multiplier claim in `src/data` and keys it by **(subject, nutrient,
+comparator)**. The subject is load-bearing: keying on nutrient and comparator
+alone would flag two *different* foods both compared against spinach for iron,
+which is not a contradiction at all.
+
+The subject is taken from the nearest preceding `name:` **or `title:`** field.
+That second field matters — looking for `name:` alone walked back past the whole
+source library into the mineral list and filed a moringa/baobab claim under
+**"Iodine"**, which is exactly how a real disagreement hides: two figures for
+one food, filed under two subjects, never meeting.
+
+Because `content.ts` is verbatim, a contradiction already written into it cannot
+be fixed at source, only explained underneath. Known disagreements sit on an
+explicit `ACKNOWLEDGED` list, and each entry must name where its reading note
+lives. It is a ratchet rather than an amnesty — it fails when a disagreement is
+not listed, when a listed one has **stopped** disagreeing, when a listed claim
+no longer exists, and when a promised depth note is missing.
+
+### Verified
+
+All four failure paths were tested by deliberately breaking them and confirming
+a non-zero exit, then restored. A gate that cannot fail is not a gate. Wired as
+`npm run claims` and confirmed running in CI as a fifth step, not only locally.
+
+---
+
+## 44. Four exports that nothing imports
+
+Item 7 recorded `macros` / `micros` as dead placeholders. A sweep for the same
+class across every export found four more, none of them reachable from any
+screen:
+
+| export | what it holds |
+|---|---|
+| `matrixDims` | four wellbeing dimensions — Physical, Mental, Emotional, Spiritual — each with a percentage, a colour, a `feeds` line and a week of activities |
+| `plantWeek` | thirteen plants with ids; reads as a plant-diversity tracker, which the gut-health depth already tells people to aim for |
+| `vitalityFoods` | six foods with evidence tiers — **now rendered, see item 40** |
+| `_MO` | twelve month abbreviations; a vestigial helper |
+
+`vitalityFoods` had an obvious home on an existing screen and was wired up. The
+other three do not: `matrixDims` and `plantWeek` would each need a screen that
+does not exist, which is a product decision rather than a gap to fill, and `_MO`
+has nothing to render.
+
+**Still needs an editorial decision:** whether the wellbeing matrix and the
+plant-diversity tracker are features, or whether the data should go.
+
+### Verified, and two corrections to the sweep itself
+
+The first run of that sweep reported six dead exports, six broken image paths
+and 196 unreachable media files. **Almost all of it was wrong**, and the
+corrections are worth recording because the same mistakes are easy to repeat:
+
+- `menuCoop` and `menuAbuela` are assigned to a restaurant's `menu:` field
+  *inside* `content.ts`. Counting references only outside that file called two
+  live menus dead.
+- The six "broken" paths came from pairing a slug map with the wrong prefix.
+  There are exactly **three** places a media path is built: `base()` in
+  `media.ts`, `'/media/dish-'` in `dishImages.ts` and `'/media/pantry-'` in
+  `pantryImages.ts`. Handling only the first called 168 live files orphans.
+- A naive string-literal scan breaks on `"Lion's Mane"` — the apostrophe
+  swallows the following quote. That one string has now broken two separate
+  tools written months apart.
+
+After the corrections: **364 media files, all 364 reachable; no broken paths; no
+dead routes.** The `Lion's Mane` slug key was byte-compared against
+`content.ts` in passing — both straight apostrophes, so that lookup does not
+silently fall back to an oyster illustration.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
