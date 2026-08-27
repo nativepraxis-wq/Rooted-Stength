@@ -1641,6 +1641,89 @@ did not match what `innerText` returns.
 
 ---
 
+## 46. A dish could only declare one allergen — **fixed, and gated**
+
+Item 39 was `menu.allergen` never being read. This is the same screen and the
+same kind of harm, from the other direction: `has` could not hold what the dish
+already said out loud.
+
+The restaurant fit check read a single value:
+
+```js
+const clash = !!(m.has && blocked.includes(m.has));
+```
+
+`has` is one string. A dish containing two allergens declared the first and said
+nothing about the second.
+
+The co-op's **Ginger-Tamari Braised Tofu** is that dish. Its `has` is `'soy'` —
+which it genuinely contains, through both the tofu and the tamari — while its
+own description reads *"Hot-bar tray · scallion, **sesame oil**"*.
+
+### What the user was told
+
+Confirmed in the running app before anything was changed, with soy-free **off**
+and sesame-free **on**:
+
+> 6 of 7 dishes fit your profile · 1 flagged below
+
+The tofu was among the fits and carried an add-to-order button, with the word
+*sesame* printed on the same card. Afterwards:
+
+> 5 of 7 dishes fit your profile · **2 flagged below**
+> off your profile · **contains sesame**
+
+The label names the allergen that actually clashed rather than whichever one
+`has` happens to hold — with two blocked, the old code would have named the
+wrong one.
+
+### The fix
+
+`content.ts` is verbatim, so `has` cannot become an array. `data/menuDepth.ts`
+carries the second allergen and `state/kitchen.ts` checks all of them.
+
+Nothing in that file is inferred about what a kitchen might do. Every entry is
+an allergen the app's **own text** — dish name, description or tags — already
+names. Guessing that a stew "probably" contains something would be inventing a
+safety claim, which is worse than the gap being closed.
+
+### The gate
+
+`scripts/allergens.mjs` compares the allergens each dish names in its own text
+against what it declares, and fails on either side of the ledger:
+
+- a dish that **names** an allergen nothing declares
+- a **stale over-declaration** — an id that is not a menu dish, or an extra
+  allergen the dish's text no longer supports
+
+Over-declaring is not the harmless direction. It flags food as unsafe for
+someone who could have eaten it, and this app's rule is that a restriction never
+makes something vanish without saying why.
+
+**The word list is deliberately narrow and the file says so.** It catches an
+allergen the app has already written down and failed to declare. It cannot know
+what a kitchen actually does, and it does not guess.
+
+### Verified
+
+Both failure paths were tested by deliberately breaking them and confirming a
+non-zero exit, then restored. Six gates now — typecheck, contrast, h1, claims,
+allergens, build — in CI and in both README gate lists.
+
+One false positive was found and fixed while writing the checker: `tamari`
+matched inside Chickpea Doubles' **tamarind**, which is a fruit and not soy.
+
+Regression checked in the browser: with soy-free back on and sesame-free off,
+the card still reads "off your profile · contains soy".
+
+**Still needs an editorial decision:** whether `has` should eventually become an
+array in `content.ts`, which would retire `menuDepth.ts`. Twenty dishes carry
+one allergen each today and only this one needed two, so the depth module is the
+smaller change — but it is a workaround for a field that is one value too
+narrow.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
