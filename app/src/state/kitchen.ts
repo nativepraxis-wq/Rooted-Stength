@@ -3,6 +3,7 @@ import {
   pantryCats, pantryUnits, plateUses, pantryKeywords, groceryToPantry,
   groceryStops, planAisles, restaurants, sbOptions,
 } from '../data/content';
+import { allAllergens } from '../data/menuDepth';
 import type { AppState } from './store';
 
 /*
@@ -321,7 +322,18 @@ export function orderView(state: AppState) {
 
   const items = rst.menu.map((m: any) => {
     const sel = !!ord[m.id];
-    const clash = !!(m.has && blocked.includes(m.has));
+    /*
+      `has` holds ONE allergen, so a dish containing two declared the first and
+      said nothing about the second. The Ginger-Tamari Braised Tofu spends its
+      `has` on 'soy' while its own description reads "scallion, sesame oil", so
+      with soy-free off and sesame-free on it counted as a dish that fits.
+
+      data/menuDepth.ts carries the second allergen; content.ts is verbatim and
+      cannot hold an array here.
+    */
+    const carries = allAllergens(m);
+    const hit = carries.find((a) => blocked.includes(a));
+    const clash = !!hit;
     /*
       `allergen: true` is a separate signal from `has`, and only `has` used to
       be checked. The Tostones carries allergen: true and tags ['Shared fryer']
@@ -339,8 +351,9 @@ export function orderView(state: AppState) {
     if (sel) { kcal += m.kcal; prot += m.p; cost += m.price; roles[m.role] = true; }
     return {
       ...m, sel, clash,
+      /* Name the allergen that actually clashed, not whichever `has` holds. */
       clashLabel: clash
-        ? 'off your profile · contains ' + ((allergenWord as any)[m.has] || m.has)
+        ? 'off your profile · contains ' + ((allergenWord as any)[hit as string] || hit)
         : '',
       statLabel: m.kcal + ' kcal · ' + m.p + 'g protein',
       priceLabel: '$' + m.price,
