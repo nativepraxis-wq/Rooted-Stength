@@ -73,5 +73,14 @@ jobs:
       - name: Heading check
         run: npm run h1
 
+      # A menu dish declares one allergen in a single `has` string, so a dish
+      # with two declared the first and stayed silent about the second. The
+      # co-op tofu spent its `has` on soy while its own description read
+      # "sesame oil", and a sesame-free profile was told it fits. This gate
+      # compares the allergens a dish NAMES against what it declares, and
+      # fails on a stale over-declaration too.
+      - name: Allergen declarations
+        run: npm run allergens
+
       - name: Build
         run: npm run build

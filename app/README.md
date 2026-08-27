@@ -23,6 +23,7 @@ npm run typecheck
 npm run contrast   # AA audit of both palettes
 npm run h1         # every route has exactly one <h1>
 npm run claims     # comparative claims agree across screens
+npm run allergens  # a dish declares every allergen it names
 ```
 
 `.claude/launch.json` lets the in-app browser preview start the dev server. It
@@ -103,7 +104,7 @@ no longer a "not built yet" screen in normal use; `NotBuiltYet` remains in
 Verified mechanically:
 
 ```bash
-npm run typecheck && npm run contrast && npm run h1 && npm run claims
+npm run typecheck && npm run contrast && npm run h1 && npm run claims && npm run allergens
 ```
 
 ## Rules that are load-bearing, not stylistic
