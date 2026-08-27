@@ -127,6 +127,11 @@ export const initialState: any = {
     /* Which bioregion the Foraged foods list is filtered to. The plants were
        always region-tagged; nothing read the tags until now. */
     forageRegion: 'all',
+    /* Which source-library entry the user asked for by name. Five links across
+       MoveDetail and Restaurant say "Source: <title>", and every one of them
+       landed on the undifferentiated 66-entry list. This records which one was
+       named so the library can point at it. Empty means arrived generically. */
+    sourceFocus: '',
     exMove: 'Shovel lift',
     exVariant: 'standard',
     trainDay: 1,

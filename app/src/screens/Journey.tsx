@@ -198,7 +198,7 @@ export function JourneyScreen() {
           <Row
             title="Sources &amp; evidence"
             sub="Every claim traced to what carries it"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
           />
           <Row
             title="Membership"

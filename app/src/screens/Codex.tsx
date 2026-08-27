@@ -253,7 +253,7 @@ export function CodexScreen() {
           </div>
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: '7px 0 0',
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',

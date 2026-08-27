@@ -96,7 +96,7 @@ export function MoveScreen() {
       <Gutter style={{ paddingTop: 16 }}>
         <button
           type="button"
-          onClick={() => go('sources')}
+          onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
           style={{
             border: 'none', background: 'none', cursor: 'pointer', padding: 0, textAlign: 'left',
             fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
@@ -533,7 +533,7 @@ export function ExerciseScreen() {
           <TierBadge kind="ev" tierKey="well" />
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: 0,
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',

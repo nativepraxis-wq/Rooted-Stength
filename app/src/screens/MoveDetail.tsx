@@ -292,7 +292,7 @@ export function SeatedScreen() {
 /* ===================== elder strength ===================== */
 
 export function ElderScreen() {
-  const { go, goBack } = useStore();
+  const { set, go, goBack } = useStore();
   const stats = useMoveStats();
 
   return (
@@ -467,7 +467,7 @@ export function ElderScreen() {
           <TierBadge kind="ev" tierKey="well" />
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: 'Elder Plant-Based Fitness' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: 0,
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
@@ -484,7 +484,7 @@ export function ElderScreen() {
 const LINEAGES = ['Zulu', 'Maasai', 'Dahomey', 'Capoeira', 'Taíno', 'Garifuna'];
 
 export function AncestralScreen() {
-  const { go, goBack } = useStore();
+  const { set, go, goBack } = useStore();
 
   return (
     <Screen>
@@ -610,7 +610,7 @@ export function AncestralScreen() {
           <TierBadge kind="ev" tierKey="trad" />
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: 'Ancestral Movement, Dance & Ritual' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: 0,
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
@@ -636,7 +636,7 @@ const BREATH_PRACTICES = [
 ];
 
 export function BreathScreen() {
-  const { state, go, goBack } = useStore();
+  const { state, set, go, goBack } = useStore();
   const reduced = !!state.a11y.reduce;
 
   return (
@@ -738,7 +738,7 @@ export function BreathScreen() {
             <TierBadge kind="ev" tierKey="emerging" />
             <button
               type="button"
-              onClick={() => go('sources')}
+              onClick={() => { set({ sourceFocus: 'Nature Immersion as Anabolic Medicine' }); go('sources'); }}
               style={{
                 border: 'none', background: 'none', cursor: 'pointer', padding: 0,
                 fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
@@ -757,7 +757,7 @@ export function BreathScreen() {
             <TierBadge kind="ev" tierKey="emerging" />
             <button
               type="button"
-              onClick={() => go('sources')}
+              onClick={() => { set({ sourceFocus: 'Nutritional Frequencies for Nervous-System Regulation' }); go('sources'); }}
               style={{
                 border: 'none', background: 'none', cursor: 'pointer', padding: 0,
                 fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
