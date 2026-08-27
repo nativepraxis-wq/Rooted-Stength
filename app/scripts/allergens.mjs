@@ -52,16 +52,33 @@ const extra = {};
 }
 
 /*
-  Words that name an allergen in prose. `tamari` is soy sauce and `tamarind` is
-  a fruit - without the lookahead, Chickpea Doubles was reported as undeclared
-  soy on the strength of its tamarind.
+  Words that name an allergen in prose.
+
+  Three traps, each of which produced a false positive before being closed:
+
+  - `tamari` is soy sauce; `tamarind` is a fruit. Chickpea Doubles was reported
+    as undeclared soy on the strength of its tamarind.
+  - FLOUR IS NOT AN ALLERGEN. It is gluten only when the grain is. A sweep of
+    the swap suggestions found "chickpea flour" and "cassava flour" - both
+    gluten-free - matching a bare /flour/. The grain has to be named.
+  - "Sesame-free" contains "sesame". A dish that declares itself FREE of
+    something would have been told to declare it.
+
+  The last two matter more than a nuisance failure suggests. This gate's whole
+  argument is that over-declaring is harmful - it marks food unsafe for someone
+  who could have eaten it - and a checker that forces a gluten declaration onto
+  cassava flour would be causing precisely that harm.
 */
 const WORDS = {
   sesame: [/sesame/, /tahini/, /dukkah/, /benne/],
   nuts: [/peanut/, /cashew/, /almond/, /walnut/, /pecan/, /nut butter/],
   soy: [/\bsoy\b/, /tofu/, /tamari(?!nd)/, /miso/, /edamame/, /tempeh/],
-  gluten: [/wheat/, /\bbread\b/, /\brolls?\b/, /seitan/, /barley/, /\bflour\b/],
+  gluten: [/wheat/, /\bbread\b/, /\brolls?\b/, /seitan/, /barley/, /\brye\b/,
+    /(?:wheat|barley|rye|spelt|all-purpose|plain)\s+flour/],
 };
+
+/* "sesame-free" is a claim NOT to contain it. Drop those before matching. */
+const dropFree = (t) => t.replace(/\b[\w-]+-free\b/g, ' ');
 
 const dishes = [];
 for (const m of content.matchAll(/\{[^{}]*\}/g)) {
@@ -77,7 +94,7 @@ for (const m of content.matchAll(/\{[^{}]*\}/g)) {
     id: id[1],
     name: name[1],
     has: has ? has[1] : null,
-    prose: [name[1], desc ? desc[1] : '', tags ? tags[1] : ''].join(' ').toLowerCase(),
+    prose: dropFree([name[1], desc ? desc[1] : '', tags ? tags[1] : ''].join(' ').toLowerCase()),
   });
 }
 
