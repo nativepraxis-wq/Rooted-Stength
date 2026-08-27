@@ -268,7 +268,7 @@ export function OrderScreen() {
   adjust anyone's medication.
 */
 export function SugarMealScreen() {
-  const { go, goBack } = useStore();
+  const { set, go, goBack } = useStore();
 
   return (
     <Screen>
@@ -395,7 +395,7 @@ export function SugarMealScreen() {
           <TierBadge kind="ev" tierKey="emerging" />
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: 'Plant-Based Strategies for Type 2 Diabetes' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: 0,
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',

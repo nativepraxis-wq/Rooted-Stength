@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { sovImage, ILLUSTRATION_NOTE } from '../data/media';
 import { conditionDepth, labDepth } from '../data/healthDepth';
 import {
@@ -28,7 +29,25 @@ const PRIVACY_PROMISES = [
 /* ===================== sources ===================== */
 
 export function SourcesScreen() {
-  const { goBack } = useStore();
+  const { state, set, goBack } = useStore();
+
+  /*
+    Five links across MoveDetail and Restaurant read "Source: <title>" and all
+    five arrived here on the same undifferentiated 66-entry list, with nothing
+    recording which of the 66 had been asked for. Same shape as the
+    farm-movement bug in DISCREPANCIES 38: the label named a specific thing and
+    the destination could not tell which one.
+
+    The library is NOT filtered down to the named entry. The other 65 are the
+    point of a library, and hiding them would answer a question nobody asked.
+    The entry is marked and scrolled to instead, and the mark can be cleared.
+  */
+  const focus = state.sourceFocus || '';
+  const focusRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (focus && focusRef.current) focusRef.current.scrollIntoView({ block: 'center' });
+  }, [focus]);
 
   return (
     <Screen>
@@ -68,19 +87,64 @@ export function SourcesScreen() {
           textTransform: 'uppercase', color: 'var(--ink-meta)', marginBottom: 10,
         }}>{(sourceLibrary as any[]).length} sources</div>
 
+        {focus && (
+          <div style={{
+            display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10,
+            background: 'var(--surface-cream)', border: '1px solid var(--border-cream)',
+            borderRadius: 'var(--r-band)', padding: '11px 13px',
+          }}>
+            <span style={{
+              flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',
+              color: 'var(--ink)', lineHeight: 1.5,
+            }}>
+              Showing you <strong>{focus}</strong>, the source that link named. The rest of the
+              library is below it.
+            </span>
+            <button
+              type="button"
+              onClick={() => set({ sourceFocus: '' })}
+              style={{
+                border: 'none', background: 'none', cursor: 'pointer', padding: 0, flex: 'none',
+                fontSize: 'calc(12px * var(--scale))', fontWeight: 800, color: 'var(--earth)',
+              }}
+            >Clear</button>
+          </div>
+        )}
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
           {(sourceLibrary as any[]).map((s, i) => (
-            <div key={s.title + i} style={{
-              background: 'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-tile)', padding: '13px 14px',
-            }}>
+            <div
+              key={s.title + i}
+              ref={s.title === focus ? focusRef : undefined}
+              style={{
+                background: 'var(--card)',
+                border: s.title === focus
+                  ? '2px solid var(--earth)'
+                  : '1px solid var(--border)',
+                borderRadius: 'var(--r-tile)',
+                padding: s.title === focus ? '12px 13px' : '13px 14px',
+              }}
+            >
               <div style={{
                 display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start',
               }}>
                 <span style={{
                   flex: 1, minWidth: 0, fontSize: 'calc(13.5px * var(--scale))',
                   fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35,
-                }}>{s.title}</span>
+                }}>
+                  {s.title}
+                  {/*
+                    The mark is announced as text, not carried by the border
+                    alone - the same rule the tier badges follow.
+                  */}
+                  {s.title === focus && (
+                    <span style={{
+                      display: 'block', fontSize: 'calc(10.5px * var(--scale))',
+                      fontWeight: 800, letterSpacing: 0.8, textTransform: 'uppercase',
+                      color: 'var(--earth)', marginTop: 3,
+                    }}>The source you followed</span>
+                  )}
+                </span>
                 <TierBadge kind="ev" evLabel={s.ev} />
               </div>
               <div style={{

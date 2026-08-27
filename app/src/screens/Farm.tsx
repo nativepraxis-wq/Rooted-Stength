@@ -500,7 +500,7 @@ export function CropLibScreen() {
           <TierBadge kind="ev" tierKey="emerging" />
           <button
             type="button"
-            onClick={() => go('sources')}
+            onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
             style={{
               border: 'none', background: 'none', cursor: 'pointer', padding: 0,
               fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',

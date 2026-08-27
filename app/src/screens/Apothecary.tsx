@@ -44,11 +44,11 @@ function LinkRow({ title, sub, onClick }: { title: string; sub: string; onClick:
 }
 
 function SourceLink({ label }: { label: string }) {
-  const { go } = useStore();
+  const { set, go } = useStore();
   return (
     <button
       type="button"
-      onClick={() => go('sources')}
+      onClick={() => { set({ sourceFocus: '' }); go('sources'); }}
       style={{
         border: 'none', background: 'none', cursor: 'pointer', padding: 0,
         fontSize: 'calc(12px * var(--scale))', fontWeight: 700, color: 'var(--earth)',
