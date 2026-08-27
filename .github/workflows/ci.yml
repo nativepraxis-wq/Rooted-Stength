@@ -58,6 +58,18 @@ jobs:
       # scripts/h1-check.tsx renders all 86 routes through react-dom/server and
       # exits non-zero on any route with zero or more than one. No browser
       # needed, so it costs seconds rather than a Chromium download.
+      # Comparative nutrition claims are written on different screens by
+      # different passes of work, and nothing checked that two claims about
+      # the same food and nutrient agreed. One pair did not: baobab was
+      # "Six times the vitamin C of oranges" on one screen and "around 10x"
+      # on another. scripts/claims.mjs keys every multiplier claim by
+      # (subject, nutrient, comparator) and exits non-zero on a disagreement.
+      # content.ts is verbatim, so a contradiction already in it is carried on
+      # an explicit ACKNOWLEDGED list that must name the depth note explaining
+      # it - and a stale acknowledgement fails too, so the list is a ratchet.
+      - name: Claim consistency
+        run: npm run claims
+
       - name: Heading check
         run: npm run h1
 
