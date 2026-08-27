@@ -4,6 +4,7 @@ import {
 import { forageDepth } from '../data/forageDepth';
 import { freqDepth } from '../data/bandDepth';
 import { useStore } from '../state/store';
+import { cropFigureDepth } from '../data/cropDepth';
 import {
   crops, cropProfiles, minerals, forageItems, events, courses,
   bioregions, bioNotes, places, freqBandDefs, goalFreqMap, fusionQs, obGoals,
@@ -158,6 +159,12 @@ export function CropScreen() {
   const { state, goBack } = useStore();
   const profiles = cropProfiles as any;
   const c = profiles[state.cropId] || profiles.cowpea;
+  /*
+    Four of the fourteen crop cards put a number in `body`. A number is the
+    one thing on a card a reader takes literally, so those four carry a
+    reading note. The other ten resolve to undefined and render nothing.
+  */
+  const fig = cropFigureDepth[state.cropId || 'cowpea'];
 
   return (
     <Screen>
@@ -207,6 +214,30 @@ export function CropScreen() {
               fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
               lineHeight: 1.5, margin: '5px 0 0',
             }}>{c.body}</p>
+            {fig && (
+              <div style={{
+                marginTop: 10, paddingTop: 10, borderTop: '1px solid var(--border)',
+              }}>
+                <div style={{
+                  fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 0.8,
+                  textTransform: 'uppercase', color: 'var(--ink-meta)',
+                }}>Reading the figure</div>
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12px * var(--scale))', color: 'var(--ink)',
+                  lineHeight: 1.5, margin: '5px 0 0', fontWeight: 700,
+                }}>{fig.claim}</p>
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+                  lineHeight: 1.55, margin: '5px 0 0',
+                }}>{fig.covers}</p>
+                {fig.serving && (
+                  <p className="rs-prose" style={{
+                    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+                    lineHeight: 1.55, margin: '7px 0 0',
+                  }}>{fig.serving}</p>
+                )}
+              </div>
+            )}
           </div>
           <div style={{
             background: 'var(--card)', border: '1px solid var(--border)',
