@@ -431,8 +431,23 @@ export function HydrationScreen() {
           <button
             type="button"
             onClick={() => set((s) => ({ hydrationCups: Math.min((s.hydrationCups ?? 0) + 1, 12) }))}
+            /*
+              This was a hand-rolled copy of PrimaryButton with --forest swapped
+              for --teal, and that swap failed in dark mode.
+
+              --teal is overridden in the dark theme to a light tint (#7BBACB)
+              because everywhere else in the app teal is TEXT. --on-dark is not
+              overridden - it stays cream. So this button, the only place teal
+              is used as a fill behind text, rendered cream on pale teal at
+              1.85:1 against a 4.5:1 requirement. Confirmed in the live DOM, not
+              only computed.
+
+              --forest is what every other primary button uses and measures
+              10.63:1 in BOTH themes. Every other property here already matched
+              PrimaryButton exactly.
+            */
             style={{
-              flex: 1, minWidth: 0, border: 'none', background: 'var(--teal)', color: 'var(--on-dark)',
+              flex: 1, minWidth: 0, border: 'none', background: 'var(--forest)', color: 'var(--on-dark)',
               borderRadius: 14, padding: 14, minHeight: 44, cursor: 'pointer',
               fontSize: 'calc(14px * var(--scale))', fontWeight: 800,
             }}
