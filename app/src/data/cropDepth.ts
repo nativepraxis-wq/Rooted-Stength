@@ -114,7 +114,10 @@ export const cropFigureDepth: Record<string, CropFigure> = {
       'Dried fruit pulp against fresh orange, per 100g. Published figures for baobab pulp cover a '
       + 'wide band depending on provenance and how it was assayed, and the multiple that falls out '
       + 'lands anywhere from a few times an orange up to about the ten the card gives. Ten is the '
-      + 'optimistic end of that band, not its centre.',
+      + 'optimistic end of that band, not its centre — which is why the app carries two '
+      + 'different figures for it. The Nutrient Frequencies band says six times, this card says '
+      + 'around ten. Six is the more conservative reading of the same evidence, and the honest '
+      + 'summary is that baobab pulp is several times an orange rather than a settled multiple.',
     serving:
       'The comparison is also between a fruit eaten whole and a powder eaten by the spoon. Nobody '
       + 'eats 100g of baobab powder; a tablespoon is closer to 10g. Per portion the honest claim '
