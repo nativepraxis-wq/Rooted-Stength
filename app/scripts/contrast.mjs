@@ -9,7 +9,7 @@
   bold or >=24px) and for non-text boundaries (1.4.11).
 */
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -109,6 +109,48 @@ const TIER_FAMILIES = {
   amber: [['#F6E7D8', '#8A5320'], ['#2E2317', '#E0A96A']],
 };
 
+/*
+  DERIVED PAIRS.
+
+  PAIRS above is hand-maintained - "pairs that actually occur in the UI" - and a
+  hand-maintained list of what occurs is a claim that goes stale the moment
+  someone adds a screen. It did go stale: the hydration screen's "+ Add a cup"
+  button set `background: var(--teal)` with `color: var(--on-dark)`, no pair
+  covered it, and the gate reported "70 pairings, 0 failing" while that button
+  rendered cream on pale teal at 1.85:1 in dark mode.
+
+  This reads every style object in the app that sets BOTH a colour and a
+  background from tokens, and checks each combination it finds.
+
+  The curated list still earns its place: it carries real labels, non-4.5
+  thresholds, and pairs split across elements, none of which this can see. A
+  same-object pair is only a LOWER BOUND on what renders, because colour is
+  inherited. This does not make the gate complete - it makes it self-maintaining
+  for the one case it can see without guessing.
+*/
+function derivedPairs() {
+  const dir = join(here, '..', 'src');
+  const found = new Map();
+  const walk = (d) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      const p = join(d, e.name);
+      if (e.isDirectory()) { walk(p); continue; }
+      if (!/\.tsx?$/.test(e.name)) continue;
+      const src = readFileSync(p, 'utf8');
+      for (const m of src.matchAll(/\{[^{}]*\}/g)) {
+        const t = m[0];
+        const f = /\bcolor:\s*'var\(--([\w-]+)\)'/.exec(t);
+        const b = /\b(?:background|backgroundColor):\s*'var\(--([\w-]+)\)'/.exec(t);
+        if (f && b) found.set(f[1] + '|' + b[1], [f[1], b[1], e.name]);
+      }
+    }
+  };
+  walk(dir);
+  return [...found.values()];
+}
+
+const DERIVED = derivedPairs();
+
 let failures = 0;
 const rows = [];
 
@@ -125,6 +167,18 @@ for (const [themeName, t] of [['light', light], ['dark', dark]]) {
 for (const [themeName, t] of [['light', light], ['dark', dark]]) {
   for (const [label, fg, bg] of INFO_BORDERS) {
     rows.push([themeName, label, ratio(t[fg], t[bg]).toFixed(2) + ':1', 'n/a', 'info']);
+  }
+}
+
+/* Same-object colour/background combinations, read out of the source. */
+for (const [themeName, t] of [['light', light], ['dark', dark]]) {
+  for (const [fg, bg, file] of DERIVED) {
+    if (!t[fg] || !t[bg]) continue;
+    const r = ratio(t[fg], t[bg]);
+    const ok = r >= 4.5;
+    if (!ok) failures++;
+    rows.push([themeName, 'derived · ' + fg + ' on ' + bg + ' (' + file + ')',
+      r.toFixed(2) + ':1', '4.50:1', ok ? 'pass' : 'FAIL']);
   }
 }
 
