@@ -1,6 +1,10 @@
 import { sleepHabitDepth, sleepStageDepth } from '../data/healthDepth';
 import { useStore } from '../state/store';
-import { sleepWeek, sleepStages, sleepHabits, sleepByDay, sleepTargets } from '../data/content';
+import {
+  sleepWeek, sleepStages, sleepHabits, sleepByDay, sleepTargets, vitalityFoods,
+} from '../data/content';
+import { TierBadge } from '../components/TierBadge';
+import { HerbCaution } from '../components/TabbedGuide';
 import { DarkHeader } from '../components/Headers';
 import { Screen, Gutter, Band, Chip, ToggleRow } from '../components/ui';
 
@@ -501,6 +505,14 @@ export function IntimacyScreen() {
                   fontSize: 'calc(14px * var(--scale))', fontWeight: 700,
                   color: 'var(--ink)', lineHeight: 1.25,
                 }}>{v.name}</span>
+                {/*
+                  Every entry here carries `ev` and none of it reached the
+                  screen. This row was already space-between with one child -
+                  the slot was built for a badge and left empty. Sleep is well
+                  established, the herbal end of the list is not, and on a
+                  screen about desire that difference is the whole point.
+                */}
+                <TierBadge kind="ev" evLabel={v.ev} />
               </div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
@@ -509,6 +521,48 @@ export function IntimacyScreen() {
             </div>
           ))}
         </div>
+
+        {/*
+          vitalityFoods was exported from content.ts and imported by nothing.
+          The cards above name mechanisms - minerals, sleep, circulation,
+          safety - and stop short of what to actually eat. These six close
+          that gap, and they are the diaspora's own: sorrel, cacao, damiana,
+          maca, pumpkin seed, watermelon.
+
+          Each keeps its own tier rather than inheriting the section's. Two of
+          the six are herbs rather than foods, so the screen ends on the same
+          HerbCaution the apothecary uses - not a softer one written for here.
+        */}
+        <h2 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+          fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
+        }}>Foods that do the work</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {(vitalityFoods as any[]).map((f) => (
+            <div key={f.name} style={{
+              background: 'var(--card)', border: '1px solid var(--border)',
+              borderRadius: 'var(--r-tile)', padding: '13px 14px',
+              borderLeft: '3px solid ' + f.c,
+            }}>
+              <div style={{
+                display: 'flex', justifyContent: 'space-between', gap: 10,
+                alignItems: 'flex-start',
+              }}>
+                <span style={{
+                  fontSize: 'calc(14px * var(--scale))', fontWeight: 700,
+                  color: 'var(--ink)', lineHeight: 1.25,
+                }}>{f.name}</span>
+                <TierBadge kind="ev" evLabel={f.ev} />
+              </div>
+              <p className="rs-prose" style={{
+                fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+                lineHeight: 1.5, margin: '6px 0 0',
+              }}>{f.why}</p>
+            </div>
+          ))}
+        </div>
+
+        <HerbCaution />
 
         <Band tone="safety" title="When it is worth a clinician" style={{ marginTop: 16 }}>
           A sustained change in desire or function can point at thyroid, blood pressure,
