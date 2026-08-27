@@ -1589,6 +1589,58 @@ silently fall back to an oyster illustration.
 
 ---
 
+## 45. Five links named a source and delivered all sixty-six — **fixed**
+
+The same shape as item 38, found by looking for that shape deliberately rather
+than by reading screens.
+
+Four links in `MoveDetail.tsx` and one in `Restaurant.tsx` read
+**"Source: &lt;title&gt; →"** and all five called `go('sources')`, which lands on
+the undifferentiated 66-entry library. Tapping *"Source: Nature Immersion"* gave
+exactly the screen that *"Source: Elder Plant-Based Fitness"* gave, with nothing
+recording which of the sixty-six had been named.
+
+All five name real `sourceLibrary` entries, but four are abbreviated on the
+button, so each link now carries the **full** title rather than its own label:
+
+| the link says | the entry is |
+|---|---|
+| Source: Nature Immersion | Nature Immersion **as Anabolic Medicine** |
+| Source: Nervous-System Frequencies | **Nutritional Frequencies for** Nervous-System **Regulation** |
+| Source: Ancestral Movement & Ritual | Ancestral Movement, **Dance** & Ritual |
+| Source: … T2 Diabetes | Plant-Based Strategies for **Type 2** Diabetes |
+| Source: Elder Plant-Based Fitness | *(exact)* |
+
+**The library is not filtered down to the named entry.** The other sixty-five
+are the point of a library, and hiding them would answer a question nobody
+asked. The entry is marked, scrolled to, and can be cleared.
+
+The mark is announced as text — "The source you followed" — rather than carried
+by the border alone, which is the rule the tier badges already follow.
+
+The other six `go('sources')` links are generic ("See the source library"), and
+they now **clear** the focus. Without that, a mark left from an earlier visit
+would highlight an entry the user had not asked for on a generic arrival.
+
+### Verified
+
+The finder was proved before it was trusted. `nav_dupes.py` looks for a `.map()`
+that navigates without recording which item was tapped — the item 38 shape. Run
+against the pre-fix `Move.tsx` (`8d1188a94^`) it reports the farm-movement
+defect; run against current `main` it reports none. A checker that has only ever
+returned "clean" has not been shown to work. A second pass, for hardcoded
+sibling links rather than mapped ones, is what surfaced these five.
+
+Confirmed in the running app: the abbreviated label marks the full title, a
+generic arrival clears a stale mark, Clear works, and there is no overflow at
+200% text.
+
+Worth recording that the first browser check reported the marker missing and was
+wrong — the CSS uppercase transform meant a case-sensitive search for the label
+did not match what `innerText` returns.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
