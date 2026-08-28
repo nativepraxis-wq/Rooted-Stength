@@ -82,5 +82,13 @@ jobs:
       - name: Allergen declarations
         run: npm run allergens
 
+      # PhotoHeader paints 47 different per-item colour pairs from
+      # content.ts as the ground behind a lazy image. No other pass can see
+      # them: they are not tokens, they are built at runtime from data, and
+      # a gradient has no single colour for a DOM audit to read. The
+      # Illustration mark sits where the scrim is thinnest.
+      - name: Header legibility
+        run: npm run headers
+
       - name: Build
         run: npm run build

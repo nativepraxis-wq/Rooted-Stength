@@ -85,12 +85,29 @@ export function PhotoHeader({ src, alt, note, c1, c2, back, children }: {
       <div style={{ position: 'absolute', top: 58, left: 18, right: 18 }}>
         <BackButton onDark onClick={back} />
       </div>
+      {/*
+        This mark was 82% cream with a text shadow, leaning on the page-wide
+        scrim - which thins to 34% at exactly the bottom edge where the mark
+        sits. Over the pale-gold fallback stripes (fonio, black-eyed pea) that
+        came out at 3.19:1 against a 4.5:1 requirement for 9.5px text, and over
+        a light photograph it was unmeasurable: the scrim is the only thing
+        between cream text and an arbitrary image. A text shadow helps a reader
+        but earns nothing under WCAG.
+
+        It now carries its own ground. At 68% ink the mark clears 4.5:1 even
+        against a pure white image (5.89:1), so its legibility no longer depends
+        on which illustration loaded behind it. That matters more here than a
+        lighter touch would: this app treats an image as a claim, and this is
+        the label saying what the claim rests on.
+      */}
       <div style={{
         position: 'absolute', right: 12, bottom: 8,
         fontSize: 'calc(9.5px * var(--scale))', letterSpacing: 1,
         textTransform: 'uppercase', fontWeight: 700,
-        color: 'rgba(244,237,223,0.82)',
-        textShadow: '0 1px 3px rgba(15,13,10,0.8)',
+        color: 'var(--on-dark)',
+        background: 'rgba(15,13,10,0.68)',
+        padding: '2px 6px',
+        borderRadius: 7,
       }}>
         <span aria-hidden="true">Illustration</span>
         <span className="rs-sr">{note}</span>
