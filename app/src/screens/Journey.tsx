@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { hubImage, HUB_NOTE, subImage } from '../data/media';
 import { useStore } from '../state/store';
 import { useJournal } from '../state/journal';
@@ -165,7 +166,9 @@ export function JourneyScreen() {
                     display: 'inline-block', marginTop: 5,
                     fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                     letterSpacing: 0.8, textTransform: 'uppercase',
-                    color: v.c, background: 'var(--surface-2)',
+                    /* Data hex as 10px text: five of these measured
+                       1.65-2.72:1 in dark mode. The dot above keeps v.c. */
+                    color: textColour(v.c), background: 'var(--surface-2)',
                     padding: '2px 8px', borderRadius: 10,
                   }}>{v.icon}</span>
                 )}
@@ -416,7 +419,7 @@ export function ProgressScreen() {
                 }}>{p.name}</span>
                 <span style={{
                   fontSize: 'calc(12.5px * var(--scale))',
-                  fontWeight: 800, color: p.c,
+                  fontWeight: 800, color: textColour(p.c),
                 }}>{p.n}</span>
               </div>
               <div aria-hidden="true" style={{
