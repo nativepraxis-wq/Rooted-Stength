@@ -90,5 +90,15 @@ jobs:
       - name: Header legibility
         run: npm run headers
 
+      # Inherited-colour contrast, on every route, in both themes, with no
+      # browser. The token-pair and style-object passes cannot see text that
+      # takes its colour from one element and its ground from an ancestor.
+      # This renders each route through react-dom/server the way h1-check
+      # does and walks the HTML with a stack. It carries a baseline of 126
+      # known failures and fails on anything new, or on a baselined entry
+      # that now passes - so the debt can only shrink.
+      - name: Inherited contrast
+        run: npm run contrast-ssr
+
       - name: Build
         run: npm run build
