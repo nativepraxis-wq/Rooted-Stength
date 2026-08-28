@@ -1875,6 +1875,74 @@ a gap to fill.
 
 ---
 
+## 49. The component library nobody uses, and why "just use it" is not free
+
+Item 48 found `StripedHeader` dead by accident, while tracing something else. It
+also named the reason: the sweep in item 44 covered `content.ts` exports, not
+component exports. This is that sweep widened to all 441 exports in `src/`.
+
+### What is dead
+
+Eighty-nine exports are referenced nowhere outside their own file. Most of that
+is not a defect and is not reported as one: roughly thirty are `*_DEPTH_COUNT`
+assertions that document a module's size, and roughly thirty are exported
+`type`s used only in their own file. Neither costs a reader anything.
+
+Six of them are a different matter. **`ui.tsx` exports `Eyebrow`, `H1`, `H2`,
+`Body`, `Meta` and `Card`, and every one is used exactly zero times.** Screens
+write raw `<h1 style={{…}}>` and `<h2 style={{…}}>` instead — nineteen and
+fifty-seven of them.
+
+Also dead: `withName` (CouncilSheet), `moveImage`, `TRADITION_NOTE` and
+`MoveFamily` (media.ts), and `exVariantText` in `content.ts`.
+
+`exVariantText` is worth a line of its own. Item 44's sweep missed it because
+`moveDepth.ts` mentions it **in a comment** — "three variant texts that were in
+`exVariantText`" — and that sweep did not strip comments before counting
+references. This one does. A plain `grep` still reports it as used.
+
+### Why this matters, and where it connects
+
+This is the root cause of item 47. The hydration button was a hand-rolled copy
+of `PrimaryButton` with one token swapped, and the copy drifted into a 1.85:1
+failure in dark mode. Copies drift because nothing compares them.
+
+### But "just use the components" is not free
+
+The obvious remedy — adopt the library — would be a visual regression, because
+the library has drifted from the app rather than the other way round:
+
+| | `ui.tsx` says | the app actually uses |
+|---|---|---|
+| section `<h1>` | 29px | **24px**, in 7 of 19 |
+| `<h2>` | 20px | **19px**, in 44 of 57 |
+
+Adopting `H2` today would change forty-four headings by a pixel. That is a
+design decision, not a cleanup.
+
+### What was NOT wrong
+
+The heading sizes were measured for drift and mostly came back **deliberate**.
+
+`<h2>` has five distinct sizes, which looks like drift until each is read in
+place. The 17px one in `Journey.tsx` is a row title — `flex: 1`, `margin: 0`,
+sitting inside a list row — and the same 17px serif is used for the same purpose
+twice more on that screen, marked up as `<span>`. The 18px one in `A11y.tsx` is
+the only heading on its screen. Those are hierarchy, not accident.
+
+The real inconsistency is narrower than it first appeared: a 19px/20px split for
+the same role, 44 against 10.
+
+**No heading sizes were changed.** They looked like drift, they measured like
+drift, and on inspection they were intent. Changing them would have been
+inventing a defect.
+
+**Still needs an editorial decision:** whether to delete the six unused
+primitives, or to update them to the app's real values so they can be adopted.
+Deleting a design system is not a gap to fill.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
