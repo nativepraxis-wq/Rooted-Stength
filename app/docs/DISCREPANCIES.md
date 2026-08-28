@@ -1798,6 +1798,83 @@ accessibility one.
 
 ---
 
+## 48. The 47 header colours nothing could measure — **fixed, and gated**
+
+Item 47 made the contrast gate derive its pairs instead of trusting a
+hand-maintained list. This is the ground that neither the old list nor the new
+derived pass could reach.
+
+`PhotoHeader` paints its ground from a `c1`/`c2` colour pair carried on the
+item — 47 of them across crops, codex volumes and places — as a two-colour
+stripe behind a lazy-loaded image. Three passes, none of which can see it:
+
+- `contrast.mjs` `PAIRS` compares **token to token**. This ground is not a
+  token; it is per-item data.
+- The derived pass from item 47 reads style objects. This ground is built at
+  runtime by `stripes(c1, c2)`.
+- A runtime DOM audit cannot read it either: a `repeating-linear-gradient` gives
+  `getComputedStyle` no single background colour to measure against.
+
+So the most variable ground in the app was the one nobody was checking.
+
+### What was wrong
+
+The **"Illustration"** mark — the label that says an image here is a drawing and
+not a photograph — was 82% cream with a text shadow, leaning on the page-wide
+scrim. That scrim is not uniform: it is 58% black at the top and thins to **34%
+at exactly the bottom edge where the mark sits**.
+
+| ground | ratio | requirement |
+|---|---|---|
+| pale-gold fallback stripe (fonio, black-eyed pea) | **3.19:1** | 4.5:1 at 9.5px/700 |
+| a light photograph | not measurable | — |
+
+A text shadow helps a reader and earns nothing under WCAG.
+
+The mark now carries its own ground: full cream on `rgba(15,13,10,0.68)`. That
+clears 4.5:1 against a **pure white image** (5.89:1), so its legibility no
+longer depends on which illustration loaded behind it. On the worst fallback
+stripe it went from 3.19:1 to 11.52:1.
+
+This one earned a fix rather than a caveat. The app treats an image as a claim,
+and this is the label saying what the claim rests on — the provenance mark being
+the least legible text on the screen is the wrong way round.
+
+### What was NOT wrong
+
+The **titles were never in danger**. The lowest of the 47 measures 6.95:1
+against a 3:1 requirement. This is a small-text finding, not a header-wide one,
+and the scrim does its job for everything larger.
+
+### The gate
+
+`scripts/headers.mjs` measures all 47 grounds — title at 3:1 where the scrim is
+strongest, mark at 4.5:1 where it is thinnest — and separately measures the mark
+against pure white, which is the binding case now that it has its own backing.
+
+Proved by setting the backing alpha to zero, reproducing the old mark: five
+grounds fail and the white case drops to 1.16:1, exit non-zero.
+
+### `StripedHeader` is dead code
+
+Found while tracing where the 47 pairs are consumed. `StripedHeader` is exported
+from `components/Headers.tsx`, takes the same `c1`/`c2`, and is imported by
+nothing; every pair goes to `PhotoHeader`.
+
+This mattered before it was a curiosity: the two components use **different
+scrims** (0.55/0.30 against 0.58/0.34), and the checker was first written
+against the dead one's numbers. Measuring a component nobody renders would have
+given confident, wrong figures for the one people see.
+
+The dead-export sweep in item 44 did not catch this because it swept
+`content.ts` exports, not component exports.
+
+**Still needs an editorial decision:** whether `StripedHeader` should be
+deleted. Removing a component is a call for whoever owns the design system, not
+a gap to fill.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
