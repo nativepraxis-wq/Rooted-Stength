@@ -22,6 +22,11 @@
   --leaf-mid: #3C5A42;
   --clay: #8F4230;
   --clay-hover: #8F3E2C;
+  /* Gold. The most-used colour in the data layer with no token behind it
+     (47 uses), and the state fill for a logged session. Both were fixed
+     hexes that stayed light-theme values in dark mode - see DISCREPANCIES. */
+  --gold: #7E5F1C;
+  --logged-bg: #E4EDDD;
   --earth: #7E5124;
   --ochre: #C79A45;
   --ochre-light: #D4AA5C;
@@ -95,6 +100,8 @@
   --leaf-mid: #A3CC9F;
   --clay: #E0876B;
   --clay-hover: #EC9478;
+  --gold: #D9B65E;
+  --logged-bg: #1E2C1F;
   --earth: #D2A263;
   --ochre: #C79A45;
   --ochre-light: #DDB971;

@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { hubImage, HUB_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import { warriorDefs, saladDefs, teaGoalDefs, goalTeaMap, goalTeaLabel } from '../data/content';
@@ -31,7 +32,15 @@ function StripeCard({ stripe, eyebrow, title, sub, onClick, tag }: {
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
           <div style={{
             fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.2,
-            textTransform: 'uppercase', color: stripe,
+            /*
+              The 12px bar can be any colour - it is aria-hidden decoration.
+              This eyebrow is TEXT at 10.5px, so it needs 4.5:1. Eight of the
+              nine cards pass a token here and are fine; the fermentation jar
+              passes jar.c, a fixed hex that stays a light-theme colour in
+              dark mode - 2.41:1. textColour() returns the token carrying that
+              same colour, and leaves anything it does not recognise alone.
+            */
+            textTransform: 'uppercase', color: textColour(stripe),
           }}>{eyebrow}</div>
           {tag && (
             <div style={{

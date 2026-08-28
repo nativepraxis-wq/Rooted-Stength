@@ -36,7 +36,14 @@ export function SessionButton({ name, meta }: { name: string; meta: string }) {
       aria-pressed={s.logged}
       style={{
         width: '100%', border: '1px solid ' + (s.logged ? 'var(--leaf-mid)' : 'var(--border-2)'),
-        background: s.logged ? '#E4EDDD' : 'var(--card-warm)',
+        /*
+          This fill was the hex #E4EDDD - the light green-tier background,
+          copied in as a literal. It did not follow the theme, while the
+          text above it (var(--leaf)) did, so in dark mode a light-green
+          label sat on a pale-green fill at 1.75:1. Now a token, defined in
+          both themes.
+        */
+        background: s.logged ? 'var(--logged-bg)' : 'var(--card-warm)',
         color: s.logged ? 'var(--leaf)' : 'var(--teal)',
         borderRadius: 14, padding: 14, minHeight: 44, cursor: 'pointer',
         fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
