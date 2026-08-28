@@ -1943,6 +1943,83 @@ Deleting a design system is not a gap to fill.
 
 ---
 
+## 50. Data colours used as text, and seven dark-mode failures — **fixed**
+
+Items 47 and 48 fixed contrast the static passes could reach. This is the class
+they cannot: **colour is inherited**, so a static check only ever sees a
+foreground and a background written in the same style object. Text that takes
+its colour from one element and its ground from an ancestor three levels up is
+invisible to it.
+
+A runtime audit of every text node — effective foreground against effective
+background, walking up for the first opaque ground — found seven failures across
+240+ elements on five screens. **Every one in dark mode. None in light.**
+
+| screen | | ratio | required |
+|---|---|---|---|
+| Today | "Fermentation jar" eyebrow | 2.41:1 | 4.5:1 |
+| Journey | five victory tags | 1.65 – 2.72:1 | 4.5:1 |
+| Move | logged-session button | **1.75:1** | 4.5:1 |
+
+### One cause
+
+**273 uses of 28 colours are written as fixed hexes in the data layer.** Most
+are decorative — a 12px stripe down a card, a dot beside a row — where a fixed
+hex is harmless and 4.5:1 does not apply.
+
+Where one is used as **text**, it is not harmless. A hex does not respond to the
+theme, so a colour chosen to read against a light card stays dark on a dark one.
+
+Ten of those 28 hexes are **exactly** a light-theme token value. The data was
+written by copying the palette, which means the theme-aware equivalent already
+existed and the hex simply never reached it.
+
+`Move`'s logged button was the same mistake from the other direction: its fill
+was the literal `#E4EDDD`, the light green-tier background copied in, which
+stayed pale in dark mode while the label above it (`var(--leaf)`) correctly
+lightened. Light-green text on pale-green fill.
+
+### The fix, and its boundary
+
+`data/paletteTokens.ts` maps a known palette hex to the token carrying the same
+colour, applied **only at the render sites where a data colour becomes text**.
+An unrecognised hex is returned unchanged — a colour with no token is not
+improved by being mapped to an approximation of itself.
+
+Two tokens were added for colours that had none: `--gold`, the most-used
+untokened data colour at 47 uses, and `--logged-bg`.
+
+**The data layer was not remapped.** `content.ts` is verbatim, and the 273 uses
+are overwhelmingly decorative and correct as they stand. Three render sites
+changed; nothing else.
+
+### Verified
+
+The audit was re-run after the fix: all seven cleared, **0 failures in both
+themes** on all three screens.
+
+Light mode is unchanged to the byte. The victory tags still compute to
+`#2E6B7A`, `#2F4A31`, `#8F4230` and `#7E5F1C` exactly as before; dark now
+resolves them to `#7BBACB`, `#8FBF8C`, `#E0876B` and `#D9B65E`. The fix is
+invisible in the theme that was already correct, which is the point.
+
+### A gap this does not close
+
+The contrast gate's derived pass reads literal `var(--x)` in style objects, so
+it cannot see a colour arriving through `textColour()`. The runtime audit is
+what covers this class, and it needs a browser, so it is **not in CI**.
+
+That is stated rather than solved. The three fixed sites will not regress
+silently, because their colours are now tokens the gate already checks — but a
+NEW site that puts a data hex into text would not be caught by any gate. It
+would be caught by re-running the audit, which is a manual step.
+
+**Still needs an editorial decision:** whether the runtime audit is worth
+wiring into CI behind a headless browser, or whether a manual pass after
+theme-affecting work is enough.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
