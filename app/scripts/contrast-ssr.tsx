@@ -237,6 +237,36 @@ const baseline: string[] = JSON.parse(
 const known = new Set(baseline);
 const seen = new Set<string>();
 
+/*
+  THE CLOCK IS PINNED, AND IT HAS TO BE.
+
+  The seasonal calendar picks its default period from `new Date().getMonth()`:
+
+      const now = new Date().getMonth();
+      const i = region.periods.findIndex((p) => periodMonths(p).includes(now));
+
+  So the rendered HTML - and therefore this gate's result - depends on the day
+  it runs. That was not theoretical: baselining in one month and re-running in
+  another turned "Jun – Aug" into a FIXED entry and "Sep – Nov" into a NEW
+  failure, with nothing in the app having changed.
+
+  A gate that fails on its own at every season boundary, with a message pointing
+  at a screen nobody touched, teaches people to ignore gates. Pinning to a fixed
+  month makes the render reproducible; the seasonal screen's other periods are
+  still reachable through state.seasonIdx and are not what this measures.
+*/
+const FIXED_NOW = new Date('2026-01-15T12:00:00Z').getTime();
+const RealDate = Date;
+// eslint-disable-next-line no-global-assign
+(globalThis as { Date: DateConstructor }).Date = class extends RealDate {
+  constructor(...args: ConstructorParameters<DateConstructor>) {
+    // @ts-expect-error - forwarding a variadic Date constructor
+    if (args.length === 0) super(FIXED_NOW); else super(...args);
+  }
+
+  static now() { return FIXED_NOW; }
+} as unknown as DateConstructor;
+
 let failing = 0;
 let totalChecked = 0;
 let totalSkipped = 0;

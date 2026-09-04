@@ -324,7 +324,7 @@ export function SugarMealScreen() {
             fontSize: 'calc(11px * var(--scale))', fontWeight: 700,
           }}>
             <span style={{ color: 'var(--leaf)' }}>— This meal (steady)</span>
-            <span style={{ color: '#A9736F' }}>-- Refined carbs (spike)</span>
+            <span style={{ color: 'var(--clay)' }}>-- Refined carbs (spike)</span>
           </div>
         </div>
 
