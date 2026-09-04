@@ -231,7 +231,7 @@ export function OrderScreen() {
           </div>
           <div style={{
             marginTop: 10, borderRadius: 12, padding: '10px 12px',
-            background: ov.gapDone ? '#E4EDDD' : 'var(--surface-3)',
+            background: ov.gapDone ? 'var(--logged-bg)' : 'var(--surface-3)',
             color: ov.gapDone ? 'var(--leaf)' : 'var(--earth)',
             fontSize: 'calc(12px * var(--scale))', fontWeight: 700, lineHeight: 1.45,
           }}>{ov.gapText}</div>

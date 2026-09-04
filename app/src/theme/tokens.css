@@ -27,6 +27,9 @@
      hexes that stayed light-theme values in dark mode - see DISCREPANCIES. */
   --gold: #7E5F1C;
   --logged-bg: #E4EDDD;
+  /* Text on a --leaf fill. The check badges hardcoded #FFFFFF, which is right
+     in light and wrong in dark, where --leaf becomes a pale green. */
+  --on-leaf: #FFFFFF;
   --earth: #7E5124;
   --ochre: #C79A45;
   --ochre-light: #D4AA5C;
@@ -102,6 +105,7 @@
   --clay-hover: #EC9478;
   --gold: #D9B65E;
   --logged-bg: #1E2C1F;
+  --on-leaf: #16241A;
   --earth: #D2A263;
   --ochre: #C79A45;
   --ochre-light: #DDB971;

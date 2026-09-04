@@ -72,8 +72,24 @@ const TOO_PALE_FOR_TEXT: Record<string, string> = {
   '#A9736F': 'clay',
 };
 
+/*
+  ─────────────────────────────────────────
+  THIS ASSUMES THE GROUND IS THE CARD
+
+  textColour() flips a colour with the theme. That is right on the card, which
+  flips too, and WRONG on a ground that does not.
+
+  Applying it across every `color: x.c` site produced exactly three regressions,
+  all the same shape: text on `background: sel.tint`, a fixed light chip out of
+  the data. The chip stayed pale in dark mode while the text flipped to its
+  light-theme value, giving light on light - 1.54:1 where the original hex had
+  been fine. Those three sites keep the raw colour and say why.
+
+  If a ground does not flip, its text must not either.
+*/
+
 /**
- * The theme-aware form of a data colour, for use as TEXT.
+ * The theme-aware form of a data colour, for use as TEXT ON THE CARD.
  * Returns `var(--token)` when the hex is a known palette colour, substitutes a
  * darker sibling when the colour cannot be read as text, and returns the input
  * unchanged otherwise - including when it is already a `var(...)`.

@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import type { ReactNode } from 'react';
 import {
   sessionImage, SESSION_NOTE, mobImage, seatImage,
@@ -556,7 +557,7 @@ export function AncestralScreen() {
                 {/* Named attribution, always — this is Content Rule 11 in practice. */}
                 <div style={{
                   fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700,
-                  color: t.c, marginTop: 2,
+                  color: textColour(t.c), marginTop: 2,
                 }}>{t.origin}</div>
                 <p className="rs-prose" style={{
                   fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
@@ -959,7 +960,7 @@ export function HikeScreen() {
                   background: on ? 'var(--leaf)' : 'var(--card)',
                   border: '1px solid ' + (on ? 'var(--leaf)' : 'var(--border-2)'),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#FFFFFF', fontSize: 13, fontWeight: 800,
+                  color: 'var(--on-leaf)', fontSize: 13, fontWeight: 800,
                 }}>{on ? '✓' : ''}</span>
                 <span style={{
                   flex: 1, minWidth: 0, fontSize: 'calc(12.5px * var(--scale))',

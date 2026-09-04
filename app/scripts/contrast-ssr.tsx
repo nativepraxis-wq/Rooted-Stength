@@ -160,7 +160,17 @@ const decode = (s: string) => s
   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
   .replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&nbsp;/g, ' ');
 
-type Fail = { text: string; r: number; min: number; size: number };
+type Fail = { text: string; r: number; min: number; size: number; fg: string; bg: string };
+
+/*
+  `npm run contrast-ssr -- --report` groups every failure, baselined or not, by
+  the colour pair behind it. 116 baselined entries are not 116 decisions - they
+  are a handful of shared components used many times, and the grouping is what
+  makes that visible. Burning the baseline down screen by screen would fix the
+  same thing over and over.
+*/
+const REPORT = process.argv.includes('--report');
+const hexOf = (rgb: number[]) => '#' + rgb.map((v) => v.toString(16).padStart(2, '0')).join('');
 
 function audit(html: string, theme: Record<string, string>) {
   const rootBg = resolve('var(--sand)', theme, null) ?? [255, 255, 255];
@@ -184,7 +194,10 @@ function audit(html: string, theme: Record<string, string>) {
       checked += 1;
       const min = (f.size >= 24 || (f.size >= 18.66 && f.weight >= 700)) ? 3 : 4.5;
       const r = ratio(fg, f.bg);
-      if (r < min - 0.005) fails.push({ text: t.slice(0, 40), r: +r.toFixed(2), min, size: f.size });
+      if (r < min - 0.005) {
+        fails.push({ text: t.slice(0, 40), r: +r.toFixed(2), min, size: f.size,
+          fg: hexOf(fg), bg: hexOf(f.bg) });
+      }
       continue;
     }
 
@@ -267,6 +280,8 @@ const RealDate = Date;
   static now() { return FIXED_NOW; }
 } as unknown as DateConstructor;
 
+const groups = new Map<string, number>();
+const examples = new Map<string, string[]>();
 let failing = 0;
 let totalChecked = 0;
 let totalSkipped = 0;
@@ -288,6 +303,12 @@ for (const route of ROUTES) {
     totalChecked += checked;
     totalSkipped += skipped;
     for (const f of fails) {
+      if (REPORT) {
+        const g = f.fg + ' on ' + f.bg;
+        groups.set(g, (groups.get(g) || 0) + 1);
+        const ex = examples.get(g) || []; if (ex.length < 3) ex.push(route + ' · ' + f.text);
+        examples.set(g, ex);
+      }
       const key = route + '|' + name + '|' + f.text;
       seen.add(key);
       if (known.has(key)) continue;
@@ -308,6 +329,18 @@ for (const k of fixed) {
 }
 
 for (const line of report) console.log(line);
+
+if (REPORT) {
+  const rows = [...groups.entries()].sort((x, y) => y[1] - x[1]);
+  console.log('-'.repeat(72));
+  console.log('Every failure grouped by colour pair — ' + rows.length + ' distinct pairs');
+  console.log('-'.repeat(72));
+  for (const [pair, n] of rows) {
+    console.log('  ' + String(n).padStart(3) + 'x  ' + pair);
+    console.log('        ' + (examples.get(pair) || []).join('  |  ').slice(0, 100));
+  }
+}
+
 console.log('-'.repeat(72));
 console.log(totalChecked + ' text nodes measured across ' + ROUTES.length
   + ' routes in both themes');
