@@ -30,6 +30,14 @@
   /* Text on a --leaf fill. The check badges hardcoded #FFFFFF, which is right
      in light and wrong in dark, where --leaf becomes a pale green. */
   --on-leaf: #FFFFFF;
+  /* The fill behind a chosen menu item. Was the literal #EAF0E3, which stayed
+     pale in dark while the text on it followed the theme. */
+  --selected-bg: #EAF0E3;
+  /* Text on a solid ACCENT fill. Every accent token is dark in the light theme
+     and light in the dark one, so the text on it has to travel the opposite
+     way. Chip hardcoded --on-dark, which is cream in both - right in light,
+     wrong in dark, where a selected chip put cream on a pale accent. */
+  --on-accent: #F4EDDF;
   --earth: #7E5124;
   --ochre: #C79A45;
   --ochre-light: #D4AA5C;
@@ -106,6 +114,8 @@
   --gold: #D9B65E;
   --logged-bg: #1E2C1F;
   --on-leaf: #16241A;
+  --selected-bg: #1C2A1E;
+  --on-accent: #1A1712;
   --earth: #D2A263;
   --ochre: #C79A45;
   --ochre-light: #DDB971;

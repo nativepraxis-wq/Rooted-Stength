@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { codexRegions, codexFamilies, pantryVols } from '../data/content';
 import { CLS_TIER, CLAIM_TIER } from '../data/tiers';
 import { regionImage, volumeImage, LANDSCAPE_NOTE, VOLUME_NOTE } from '../data/media';
@@ -317,7 +318,7 @@ export function CodexRegionScreen() {
           lineHeight: 1.15, color: 'var(--ink)', margin: '4px 0 0',
         }}>{g.name}</h1>
         <div style={{
-          fontSize: 'calc(12px * var(--scale))', color: g.ink, fontWeight: 700, marginTop: 4,
+          fontSize: 'calc(12px * var(--scale))', color: textColour(g.ink), fontWeight: 700, marginTop: 4,
         }}>{g.sub}</div>
         <div style={{ marginTop: 9 }}><TierBadge kind="ev" tierKey={g.ev} /></div>
 
@@ -354,7 +355,7 @@ export function CodexRegionScreen() {
                 fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2,
               }}>{z.z}</div>
               <div style={{
-                fontSize: 'calc(11.5px * var(--scale))', color: g.ink, fontWeight: 700, marginTop: 3,
+                fontSize: 'calc(11.5px * var(--scale))', color: textColour(g.ink), fontWeight: 700, marginTop: 3,
               }}>{z.crops}</div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.5,
@@ -638,7 +639,7 @@ export function PantryVolScreen() {
           lineHeight: 1.15, color: 'var(--ink)', margin: '4px 0 0',
         }}>{v.name}</h1>
         <div style={{
-          fontSize: 'calc(12px * var(--scale))', color: v.ink, fontWeight: 700, marginTop: 4,
+          fontSize: 'calc(12px * var(--scale))', color: textColour(v.ink), fontWeight: 700, marginTop: 4,
         }}>{v.sub}</div>
         <div style={{ marginTop: 9 }}><TierBadge kind="ev" tierKey={v.ev} /></div>
 
@@ -668,7 +669,7 @@ export function PantryVolScreen() {
                 fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2,
               }}>{f.z}</div>
               <div style={{
-                fontSize: 'calc(11.5px * var(--scale))', color: v.ink, fontWeight: 700, marginTop: 3,
+                fontSize: 'calc(11.5px * var(--scale))', color: textColour(v.ink), fontWeight: 700, marginTop: 3,
               }}>{f.crops}</div>
               <p className="rs-prose" style={{
                 fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.5,

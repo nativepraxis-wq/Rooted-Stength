@@ -148,7 +148,7 @@ export function OrderScreen() {
           {ov.items.map((m: any) => (
             <div key={m.id} style={{
               display: 'flex', gap: 11, alignItems: 'flex-start',
-              background: m.clash ? 'var(--safety-bg)' : (m.sel ? '#EAF0E3' : 'var(--card)'),
+              background: m.clash ? 'var(--safety-bg)' : (m.sel ? 'var(--selected-bg)' : 'var(--card)'),
               border: '1px solid ' + (m.clash ? 'var(--border-rose)' : (m.sel ? '#B9CFA9' : 'var(--border)')),
               borderRadius: 'var(--r-tile)', padding: '13px 14px',
             }}>

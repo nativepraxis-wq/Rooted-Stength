@@ -1,3 +1,4 @@
+import { onColour } from '../data/paletteTokens';
 import type { CSSProperties, ReactNode } from 'react';
 import { useStore } from '../state/store';
 
@@ -183,7 +184,7 @@ export function Chip({ selected, onClick, color = 'var(--clay)', children }: {
       style={{
         border: selected ? '1px solid ' + color : '1px solid var(--border)',
         background: selected ? color : 'var(--card)',
-        color: selected ? 'var(--on-dark)' : 'var(--ink-muted)',
+        color: selected ? onColour(color) : 'var(--ink-muted)',
         borderRadius: 999, padding: '9px 14px', minHeight: 44,
         fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
         /*
