@@ -114,7 +114,35 @@ export function textColour(c: string | undefined): string {
  * fill's own luminance is correct whichever accent a tier carries later.
  */
 export function onColour(c: string | undefined): string {
-  if (!c || c.startsWith('var(')) return 'var(--on-dark)';
+  /*
+    A var() fill is a TOKEN, and every accent token flips between themes, so
+    its text has to flip the opposite way: --on-accent, cream in light and ink
+    in dark. A literal hex does NOT flip, so its text must not either - and
+    that is decided below, by the fill's own luminance.
+
+    Chip callers are a mix of both. Giving all of them --on-accent put dark ink
+    on the fixed dark hexes (#2E6B7A, #7E5F1C, #1E3A2B) in dark mode: 19
+    regressions, caught by the gate before it shipped.
+  */
+  if (!c) return 'var(--on-dark)';
+  if (c.startsWith('var(')) {
+    /*
+      Not every token flips. Exactly three are defined identically in both
+      themes, so their text must be fixed rather than flipping:
+
+        --forest    #1E3A2B  dark in both   -> cream
+        --forest-2  #14231A  dark in both   -> cream
+        --ochre     #C79A45  light in both  -> ink
+
+      Treating --forest as a flipping accent put dark ink on dark forest in
+      dark mode - three more regressions, on top of the nineteen. The gate
+      caught both rounds.
+    */
+    const tok = /var\(\s*--([\w-]+)/.exec(c)?.[1];
+    if (tok === 'forest' || tok === 'forest-2') return 'var(--on-dark)';
+    if (tok === 'ochre') return 'var(--ink)';
+    return 'var(--on-accent)';
+  }
   const rgb = /^#([0-9a-fA-F]{6})$/.exec(c.trim());
   if (!rgb) return 'var(--on-dark)';
   const n = rgb[1];

@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { plateImage, ILLUSTRATION_NOTE, hubImage, HUB_NOTE, subImage, SCAN_NOTE } from '../data/media';
 import { recipeDepth } from '../data/recipeDepth';
 import { useStore } from '../state/store';
@@ -394,7 +395,7 @@ export function ReportScreen() {
                 }}>{n.label}</span>
                 {/* the note carries the meaning; the bar colour only reinforces it */}
                 <span style={{
-                  fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: n.col,
+                  fontSize: 'calc(11.5px * var(--scale))', fontWeight: 700, color: textColour(n.col),
                 }}>{n.pct}% · {n.note}</span>
               </div>
               <div style={{
