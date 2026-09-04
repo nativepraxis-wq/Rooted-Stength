@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { nourImage, pairImage, ILLUSTRATION_NOTE } from '../data/media';
 import {
   pairingDepth, methodDepth, hydratorDepth, filterDepth,
@@ -105,7 +106,7 @@ export function PairingsScreen() {
                 }}>{p.combo}</span>
                 <span style={{
                   fontSize: 'calc(11.5px * var(--scale))',
-                  fontWeight: 800, color: p.c,
+                  fontWeight: 800, color: textColour(p.c),
                 }}>{p.gain}</span>
               </div>
               <p className="rs-prose" style={{
@@ -592,7 +593,7 @@ export function FiltersScreen() {
                   }}>{f.name}</span>
                   <span style={{
                     display: 'block', fontSize: 'calc(11px * var(--scale))',
-                    fontWeight: 800, color: f.c, marginTop: 2,
+                    fontWeight: 800, color: textColour(f.c), marginTop: 2,
                     textTransform: 'uppercase', letterSpacing: 0.6,
                   }}>{f.tier}</span>
                 </span>

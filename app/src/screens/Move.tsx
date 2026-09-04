@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import type { ReactNode } from 'react';
 import { traditionImage, farmMoveImage, FARM_MOVE_NOTE, warriorImage, WARRIOR_NOTE } from '../data/media';
 import {
@@ -830,6 +831,8 @@ export function WarriorScreen() {
         }}>
           <div style={{
             fontSize: 'calc(11px * var(--scale))', letterSpacing: 1, textTransform: 'uppercase',
+            /* Ground is sel.tint, a fixed light chip that does not flip, so this
+               colour must not flip either - textColour() assumes the card. */
             fontWeight: 800, color: sel.c, marginBottom: 6,
           }}>{sel.origin}</div>
           <div className="rs-prose" style={{

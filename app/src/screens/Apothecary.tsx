@@ -146,7 +146,7 @@ export function ApothecaryScreen() {
                   }}>{t.name}</span>
                   <span style={{
                     display: 'block', fontSize: 'calc(11.5px * var(--scale))',
-                    fontWeight: 700, color: t.c, marginTop: 2,
+                    fontWeight: 700, color: textColour(t.c), marginTop: 2,
                   }}>{t.supports}</span>
                 </span>
                 <TierBadge kind="ev" evLabel={t.ev} />
@@ -341,6 +341,8 @@ export function TeaIntelScreen() {
         }}>
           <div style={{
             fontSize: 'calc(11px * var(--scale))', letterSpacing: 1, textTransform: 'uppercase',
+            /* Ground is sel.tint, a fixed light chip that does not flip, so this
+               colour must not flip either - textColour() assumes the card. */
             fontWeight: 800, color: sel.c, marginBottom: 6,
           }}>The ritual</div>
           <p className="rs-prose" style={{

@@ -189,7 +189,7 @@ export function TodayScreen() {
               }}>
                 <div style={{
                   fontFamily: 'var(--font-serif)', fontSize: 'calc(18px * var(--scale))',
-                  fontWeight: 600, color: t.c, lineHeight: 1.15,
+                  fontWeight: 600, color: textColour(t.c), lineHeight: 1.15,
                 }}>{t.n}</div>
                 <div style={{
                   fontSize: 'calc(10.5px * var(--scale))', color: 'var(--ink-meta)',

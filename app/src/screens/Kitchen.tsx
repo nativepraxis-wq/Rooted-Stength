@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { kitchenImage, HUB_NOTE } from '../data/media';
 import { useStore } from '../state/store';
 import {
@@ -17,7 +18,7 @@ function CheckBox({ on, dim }: { on: boolean; dim?: boolean }) {
       background: dim ? 'var(--ink-meta)' : (on ? 'var(--leaf)' : 'var(--card)'),
       border: '1px solid ' + (dim ? 'var(--ink-soft)' : (on ? 'var(--leaf)' : 'var(--border-2)')),
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      color: '#FFFFFF', fontSize: 13, fontWeight: 800,
+      color: 'var(--on-leaf)', fontSize: 13, fontWeight: 800,
     }}>{(on || dim) ? '✓' : ''}</span>
   );
 }
@@ -114,7 +115,7 @@ export function MealPlanScreen() {
         }}>
           <div style={{
             fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.4,
-            textTransform: 'uppercase', color: day.accent,
+            textTransform: 'uppercase', color: textColour(day.accent),
           }}>{day.label}</div>
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
@@ -186,7 +187,7 @@ export function PantryScreen() {
   const freshTone: Record<string, { bg: string; fg: string }> = {
     urgent: { bg: 'var(--safety-bg)', fg: 'var(--clay)' },
     soon: { bg: 'var(--surface-3)', fg: 'var(--earth)' },
-    ok: { bg: '#E4EDDD', fg: 'var(--leaf)' },
+    ok: { bg: 'var(--logged-bg)', fg: 'var(--leaf)' },
     neutral: { bg: 'var(--surface-2)', fg: 'var(--ink-meta)' },
   };
 
@@ -474,7 +475,7 @@ export function GroceryScreen() {
                         <span style={{
                           fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                           padding: '3px 8px', borderRadius: 12,
-                          background: it.g ? '#E4EDDD' : 'var(--surface-2)',
+                          background: it.g ? 'var(--logged-bg)' : 'var(--surface-2)',
                           color: it.g ? 'var(--leaf)' : 'var(--earth)',
                         }}>{it.pantryTag}</span>
                       )}

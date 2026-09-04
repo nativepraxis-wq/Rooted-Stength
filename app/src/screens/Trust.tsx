@@ -874,7 +874,7 @@ export function MembershipScreen() {
                     style={{
                       width: '100%', marginTop: 14, minHeight: 44, cursor: 'pointer',
                       border: '1px solid ' + (current ? 'var(--leaf-mid)' : t.accent),
-                      background: current ? '#E4EDDD' : t.accent,
+                      background: current ? 'var(--logged-bg)' : t.accent,
                       color: current ? 'var(--leaf)' : 'var(--on-dark)',
                       borderRadius: 14, padding: 13,
                       fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
@@ -991,7 +991,7 @@ export function SovereigntyScreen() {
               {c.stat && (
                 <div style={{
                   fontSize: 'calc(11.5px * var(--scale))', fontWeight: 800,
-                  color: sel.c, marginTop: 7,
+                  color: textColour(sel.c), marginTop: 7,
                 }}>{c.stat}</div>
               )}
 
@@ -1065,7 +1065,7 @@ export function AdminScreen() {
             }}>
               <div style={{
                 fontFamily: 'var(--font-serif)', fontSize: 'calc(18px * var(--scale))',
-                fontWeight: 600, color: s.c,
+                fontWeight: 600, color: textColour(s.c),
               }}>{s.n}</div>
               <div style={{ fontSize: 'calc(9.5px * var(--scale))', lineHeight: 1.3, marginTop: 2 }}>{s.label}</div>
             </div>
@@ -1113,7 +1113,7 @@ export function AdminScreen() {
                     onClick={() => set((s) => ({ approved: { ...s.approved, [q.id]: !ok } }))}
                     style={{
                       border: '1px solid ' + (ok ? 'var(--leaf-mid)' : 'var(--border-2)'),
-                      background: ok ? '#E4EDDD' : 'var(--card)',
+                      background: ok ? 'var(--logged-bg)' : 'var(--card)',
                       color: ok ? 'var(--leaf)' : 'var(--ink-muted)',
                       borderRadius: 999, padding: '9px 15px', minHeight: 44, cursor: 'pointer',
                       fontSize: 'calc(12px * var(--scale))', fontWeight: 800,
@@ -1167,7 +1167,7 @@ export function AdminScreen() {
                 <span style={{
                   fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800,
                   padding: '3px 9px', borderRadius: 12,
-                  background: b.status === 'pass' ? '#E4EDDD' : 'var(--safety-bg)',
+                  background: b.status === 'pass' ? 'var(--logged-bg)' : 'var(--safety-bg)',
                   color: b.status === 'pass' ? 'var(--leaf)' : 'var(--clay)',
                 }}>{b.status === 'pass' ? 'pass' : b.status}</span>
               </div>

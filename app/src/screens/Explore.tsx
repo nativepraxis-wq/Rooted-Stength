@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import {
   placeImage, cropImage, CROP_NOTE, forageImage, ATLAS_PREP_NOTE, freqImage,
 } from '../data/media';
@@ -624,7 +625,7 @@ export function CommunityScreen() {
                       onClick={() => set((s) => ({ rsvp: { ...s.rsvp, [e.id]: !going } }))}
                       style={{
                         border: '1px solid ' + (going ? 'var(--leaf-mid)' : 'var(--border-2)'),
-                        background: going ? '#E4EDDD' : 'var(--card)',
+                        background: going ? 'var(--logged-bg)' : 'var(--card)',
                         color: going ? 'var(--leaf)' : 'var(--ink-muted)',
                         borderRadius: 999, padding: '9px 16px', minHeight: 44, cursor: 'pointer',
                         fontSize: 'calc(12.5px * var(--scale))', fontWeight: 800,
@@ -753,7 +754,7 @@ export function SeasonalScreen() {
         }}>
           <div style={{
             fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.2,
-            textTransform: 'uppercase', color: period.accent,
+            textTransform: 'uppercase', color: textColour(period.accent),
           }}>{period.months}</div>
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(21px * var(--scale))',
@@ -894,7 +895,7 @@ export function MineralsScreen() {
                   }}>{m.name}</span>
                   <span style={{
                     display: 'block', fontSize: 'calc(11.5px * var(--scale))',
-                    fontWeight: 700, color: m.c, marginTop: 1,
+                    fontWeight: 700, color: textColour(m.c), marginTop: 1,
                   }}>{m.builds}</span>
                 </span>
                 <TierBadge kind="ev" evLabel={m.ev} />
@@ -1021,13 +1022,13 @@ export function MineralsScreen() {
                   }}>{pr.pair}</span>
                   <span style={{
                     fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
-                    letterSpacing: 1, textTransform: 'uppercase', color: tone.c,
+                    letterSpacing: 1, textTransform: 'uppercase', color: textColour(tone.c),
                   }}>{tone.label}</span>
                   <TierBadge kind="ev" evLabel={pr.ev} />
                 </div>
 
                 <p className="rs-prose" style={{
-                  fontSize: 'calc(12.5px * var(--scale))', color: tone.c,
+                  fontSize: 'calc(12.5px * var(--scale))', color: textColour(tone.c),
                   fontWeight: 700, lineHeight: 1.45, margin: '6px 0 0',
                 }}>{pr.short}</p>
                 <p className="rs-prose" style={{
@@ -1147,6 +1148,8 @@ export function FrequenciesScreen() {
         }}>
           <div style={{
             fontSize: 'calc(11px * var(--scale))', letterSpacing: 1, textTransform: 'uppercase',
+            /* Ground is sel.tint, a fixed light chip that does not flip, so this
+               colour must not flip either - textColour() assumes the card. */
             fontWeight: 800, color: sel.c,
           }}>{sel.state}</div>
           <p className="rs-prose" style={{

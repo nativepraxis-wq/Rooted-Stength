@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import { greenImage } from '../data/media';
 import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
@@ -125,7 +126,7 @@ export function MicrogreensScreen() {
                         <span style={{
                           fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                           padding: '2px 7px', borderRadius: 11,
-                          background: '#E4EDDD', color: 'var(--leaf)',
+                          background: 'var(--logged-bg)', color: 'var(--leaf)',
                         }}>Harvest ✓</span>
                       )}
                     </span>
@@ -141,7 +142,7 @@ export function MicrogreensScreen() {
                     style={{
                       flex: 'none', minHeight: 44, cursor: 'pointer', borderRadius: 999,
                       border: '1px solid ' + (done ? 'var(--leaf-mid)' : 'var(--border-2)'),
-                      background: done ? '#E4EDDD' : 'var(--card)',
+                      background: done ? 'var(--logged-bg)' : 'var(--card)',
                       color: done ? 'var(--leaf)' : 'var(--ink-muted)',
                       padding: '9px 14px',
                       fontSize: 'calc(12px * var(--scale))', fontWeight: 800,
@@ -286,7 +287,7 @@ export function MicrogreensScreen() {
                 }}>{s.name}</span>
                 <span style={{
                   fontSize: 'calc(10.5px * var(--scale))',
-                  fontWeight: 800, color: s.c,
+                  fontWeight: 800, color: textColour(s.c),
                 }}>{s.need}</span>
               </div>
               <p className="rs-prose" style={{
@@ -454,7 +455,7 @@ export function CropLibScreen() {
                         display: 'inline-block', marginTop: 6,
                         fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                         padding: '3px 8px', borderRadius: 12,
-                        background: '#E4EDDD', color: 'var(--leaf)',
+                        background: 'var(--logged-bg)', color: 'var(--leaf)',
                       }}>on the sill now</span>
                     )}
                   </span>
@@ -692,7 +693,7 @@ export function VarietyScreen() {
             style={{
               width: '100%', minHeight: 44, cursor: 'pointer', borderRadius: 14, padding: 14,
               border: '1px solid ' + (isSown ? 'var(--leaf-mid)' : 'var(--forest)'),
-              background: isSown ? '#E4EDDD' : 'var(--forest)',
+              background: isSown ? 'var(--logged-bg)' : 'var(--forest)',
               color: isSown ? 'var(--leaf)' : 'var(--on-dark)',
               fontSize: 'calc(14px * var(--scale))', fontWeight: 800,
             }}
@@ -809,7 +810,7 @@ export function GardenScreen() {
                   background: on ? t.c : 'var(--card)',
                   border: '1px solid ' + (on ? t.c : 'var(--border-2)'),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#FFFFFF', fontSize: 13, fontWeight: 800,
+                  color: 'var(--on-leaf)', fontSize: 13, fontWeight: 800,
                 }}>{on ? '✓' : ''}</span>
                 <span style={{ flex: 1 }}>
                   <span style={{
