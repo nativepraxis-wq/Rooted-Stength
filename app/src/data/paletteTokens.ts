@@ -47,14 +47,63 @@ const BY_HEX: Record<string, string> = {
   '#7E5F1C': 'gold',
 };
 
+/*
+  ─────────────────────────────────────────
+  COLOURS TOO PALE TO BE TEXT AT ALL
+
+  The map above is an identity mapping: same colour, theme-aware. Some data
+  colours are not readable as text in EITHER theme, because they were chosen to
+  be a fill and a fill can be far lighter than text is allowed to be.
+
+  Measured against the card (#FFFDF7), where 4.5:1 is required:
+
+    #C79A45  ochre       2.54:1   ->  --gold   5.83:1
+    #C9B98C  pale tan    1.91:1   ->  --earth  6.68:1
+    #A9736F  dusty rose  3.85:1   ->  --clay   6.90:1
+
+  These are substitutions, not identity mappings, and that is the point: the
+  darker member of the same family carries the same meaning at a legible weight.
+  A pricing table whose price is unreadable has not kept its colour coding, it
+  has lost its price.
+*/
+const TOO_PALE_FOR_TEXT: Record<string, string> = {
+  '#C79A45': 'gold',
+  '#C9B98C': 'earth',
+  '#A9736F': 'clay',
+};
+
 /**
  * The theme-aware form of a data colour, for use as TEXT.
- * Returns `var(--token)` when the hex is a known palette colour, and the input
+ * Returns `var(--token)` when the hex is a known palette colour, substitutes a
+ * darker sibling when the colour cannot be read as text, and returns the input
  * unchanged otherwise - including when it is already a `var(...)`.
  */
 export function textColour(c: string | undefined): string {
   if (!c) return 'var(--ink-meta)';
   if (c.startsWith('var(')) return c;
-  const tok = BY_HEX[c.toUpperCase()];
+  const up = c.toUpperCase();
+  const pale = TOO_PALE_FOR_TEXT[up];
+  if (pale) return 'var(--' + pale + ')';
+  const tok = BY_HEX[up];
   return tok ? 'var(--' + tok + ')' : c;
+}
+
+/**
+ * Text to place ON a solid fill of `c`: ink for a light fill, cream for a dark
+ * one.
+ *
+ * The membership badge hardcoded cream, which is right for the two dark tier
+ * accents and wrong for the one light one - "Most chosen" is the only badge
+ * that renders, and it sits on the light ochre at 2.22:1. Deciding by the
+ * fill's own luminance is correct whichever accent a tier carries later.
+ */
+export function onColour(c: string | undefined): string {
+  if (!c || c.startsWith('var(')) return 'var(--on-dark)';
+  const rgb = /^#([0-9a-fA-F]{6})$/.exec(c.trim());
+  if (!rgb) return 'var(--on-dark)';
+  const n = rgb[1];
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(n.slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return L > 0.28 ? 'var(--ink)' : 'var(--on-dark)';
 }

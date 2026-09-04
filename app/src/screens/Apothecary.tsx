@@ -1,3 +1,4 @@
+import { textColour } from '../data/paletteTokens';
 import {
   apoImage, APOTHECARY_NOTE, shroomImage, ATLAS_PREP_NOTE,
   swapGroupImage, teaGoalImage, nervImage, waterImage, fermImage, teaImage,
@@ -552,7 +553,7 @@ export function MushroomsScreen() {
                   }}>{m.name}</span>
                   <span style={{
                     display: 'block', fontSize: 'calc(11.5px * var(--scale))',
-                    fontWeight: 700, color: m.c, marginTop: 2,
+                    fontWeight: 700, color: textColour(m.c), marginTop: 2,
                   }}>{m.role}</span>
                 </span>
                 <TierBadge kind="ev" evLabel={m.ev} />

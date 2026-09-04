@@ -1,3 +1,4 @@
+import { textColour, onColour } from '../data/paletteTokens';
 import { useEffect, useRef } from 'react';
 import { sovImage, ILLUSTRATION_NOTE } from '../data/media';
 import { conditionDepth, labDepth } from '../data/healthDepth';
@@ -833,7 +834,7 @@ export function MembershipScreen() {
                           display: 'inline-block', marginLeft: 8,
                           fontSize: 'calc(10px * var(--scale))', fontWeight: 800,
                           letterSpacing: 0.6, textTransform: 'uppercase',
-                          background: t.accent, color: '#F4EDDF',
+                          background: t.accent, color: onColour(t.accent),
                           padding: '2px 8px', borderRadius: 10,
                         }}>Most chosen</span>
                       )}
@@ -845,7 +846,7 @@ export function MembershipScreen() {
                     <span style={{
                       flex: 'none', textAlign: 'right',
                       fontFamily: 'var(--font-serif)', fontSize: 'calc(20px * var(--scale))',
-                      fontWeight: 600, color: t.accent,
+                      fontWeight: 600, color: textColour(t.accent),
                     }}>
                       {price === 0 ? 'Free' : '$' + price}
                       {price !== 0 && (
