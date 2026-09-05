@@ -105,7 +105,28 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
-    /* Drop caches from older versions, or they accumulate forever. */
+    /*
+      Drop caches from older versions, or they accumulate forever.
+
+      Verified by bumping VERSION, rebuilding and reloading: the new caches are
+      built, the old ones are gone, and the app keeps working.
+
+      ─────────────────────────────────────
+      THIS IS SAFE ONLY BECAUSE NOTHING IS LAZY-LOADED
+
+      skipWaiting() plus clients.claim() hands an ALREADY-OPEN page to the new
+      worker mid-session. That page is still running the previous build's
+      JavaScript, and the asset cache underneath it has just been deleted.
+
+      Today that does not matter: the app ships as one chunk, so everything the
+      open page will ever need is already in memory.
+
+      It stops being true the moment routes are code-split. A page that then
+      asks for an old hashed chunk would find it purged and the network the
+      only option - which is exactly the situation offline support exists for.
+      Whoever adds splitting has to either keep the previous asset cache until
+      the page reloads, or drop skipWaiting and let the update wait for one.
+    */
     const keys = await caches.keys();
     await Promise.all(
       keys

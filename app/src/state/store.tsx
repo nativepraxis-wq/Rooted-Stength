@@ -4,7 +4,21 @@ import {
 } from 'react';
 import { initialState } from '../data/initialState';
 import { load, save, clear as clearStored } from './persist';
-import * as C from '../data/content';
+/*
+  A named import, not a namespace one.
+
+  This was `import * as C`, used for exactly one export out of a 292 KB module.
+
+  Changed on the theory that a namespace object asks the bundler to keep every
+  export reachable. Measured before and after: the bundle came out BYTE
+  IDENTICAL - same hash, 1,104.95 KB either way. Rollup was already resolving
+  the static property access and shaking the rest.
+
+  Kept because one named import reads better than a namespace alias used once.
+  It is not a payload win, and this note is here so the theory does not get
+  re-derived by someone expecting one.
+*/
+import { a11yMeta } from '../data/content';
 import { OB_ROUTES, type Route } from '../nav/routes';
 
 /*
@@ -228,5 +242,5 @@ export function useA11y() {
     (key: string) => set((s) => ({ a11y: { ...s.a11y, [key]: !s.a11y[key] } })),
     [set],
   );
-  return { a11y: state.a11y as Record<string, boolean>, toggle, meta: C.a11yMeta as Record<string, any> };
+  return { a11y: state.a11y as Record<string, boolean>, toggle, meta: a11yMeta as Record<string, any> };
 }
