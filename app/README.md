@@ -26,6 +26,32 @@ npm run claims     # comparative claims agree across screens
 npm run allergens  # a dish declares every allergen it names
 npm run headers    # header text stays legible on every ground
 npm run contrast-ssr  # inherited colour, every route, both themes
+
+## Installable, and offline
+
+The app is a PWA: `public/manifest.webmanifest`, icons drawn from the app's own
+sprout mark, and a hand-written service worker in `public/sw.js`.
+
+No Workbox. It would have been the largest thing in a dependency tree of two
+runtime packages, for a problem that is a hundred lines - the same reasoning
+that left this app without a router or a state library.
+
+The precache list is **read, not written**. Vite hashes its filenames, so on
+install the worker fetches the shell and reads the asset URLs out of the HTML it
+just received. Whatever shipped is what gets cached, with no second copy to
+drift. Media is excluded and cached only as it is genuinely viewed: `public/media`
+is 16 MB, and precaching that would be a 16 MB install on a field connection.
+
+**The first visit must be online.** After it, the app opens with no connection -
+verified by stopping the server and reloading, not by reading the spec.
+
+### Known gap: the fonts are not self-hosted
+
+Spectral and Hanken Grotesk come from Google Fonts. The service worker caches
+them, so they survive offline after the first load, but a genuinely offline-first
+build would vendor them. Until then the app makes exactly one class of network
+request it does not control, and on a cold offline start the type would fall back
+to system faces.
 ```
 
 `.claude/launch.json` lets the in-app browser preview start the dev server. It
