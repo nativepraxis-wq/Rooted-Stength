@@ -88,6 +88,29 @@ self.addEventListener('install', (event) => {
       if (urls.size) {
         const assets = await caches.open(ASSETS);
         await assets.addAll([...urls]);
+
+        /*
+          The fonts are named in the CSS, not the HTML, so reading the shell
+          alone would miss them. They would then be fetched on a first load
+          while this worker is not yet controlling the page, never get cached,
+          and a cold offline start would fall back to system faces - the app
+          running perfectly while quietly setting in Georgia.
+
+          So the stylesheets that were just cached are read too, and their
+          /fonts/ URLs cached alongside. Same principle as the shell: the list
+          is read out of what actually shipped, never written down.
+        */
+        const fonts = new Set();
+        for (const href of urls) {
+          if (!href.endsWith('.css')) continue;
+          const sheet = await assets.match(href, { ignoreVary: true });
+          if (!sheet) continue;
+          const text = await sheet.clone().text();
+          for (const m of text.matchAll(/url\(['"]?(\/fonts\/[^'")]+)['"]?\)/g)) {
+            fonts.add(m[1]);
+          }
+        }
+        if (fonts.size) await assets.addAll([...fonts]);
       }
     } catch {
       /* Offline during install, or the shell moved. The runtime handlers below
@@ -205,17 +228,18 @@ self.addEventListener('fetch', (event) => {
   }
 
   /*
-    ---- hashed build assets, and the fonts ----
+    ---- hashed build assets, and the self-hosted fonts ----
 
-    Google Fonts is cached too. The app otherwise makes no network requests at
-    all, and without this the serif and sans would silently fall back to system
-    faces the moment someone was offline - the app would work and simply look
-    like a different app. Self-hosting them would be better still; see the
-    README.
+    /fonts/ is same-origin but does not live under /assets/, so it needs
+    naming here or the woff2 files would miss every handler, go to the
+    network, and fail offline - the app would run and quietly set in Georgia.
+
+    The Google Fonts hosts are gone from this list because they are gone from
+    the app: the faces are vendored under public/fonts now, which is what makes
+    the Privacy screen honest about making no network requests.
   */
-  const isAsset = (sameOrigin && url.pathname.startsWith('/assets/'))
-    || url.hostname === 'fonts.googleapis.com'
-    || url.hostname === 'fonts.gstatic.com';
+  const isAsset = sameOrigin
+    && (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/fonts/'));
 
   if (isAsset) {
     event.respondWith((async () => {

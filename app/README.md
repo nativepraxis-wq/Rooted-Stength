@@ -45,13 +45,29 @@ is 16 MB, and precaching that would be a 16 MB install on a field connection.
 **The first visit must be online.** After it, the app opens with no connection -
 verified by stopping the server and reloading, not by reading the spec.
 
-### Known gap: the fonts are not self-hosted
+### The fonts are self-hosted
 
-Spectral and Hanken Grotesk come from Google Fonts. The service worker caches
-them, so they survive offline after the first load, but a genuinely offline-first
-build would vendor them. Until then the app makes exactly one class of network
-request it does not control, and on a cold offline start the type would fall back
-to system faces.
+Spectral and Hanken Grotesk are vendored under `public/fonts` and declared in
+`src/theme/fonts.css`. Both are OFL, which permits it.
+
+They came from Google Fonts until the Privacy screen started saying the app
+"makes no network requests at all" — a sentence that was false while every cold
+load handed the reader's IP to a third party from the one screen promising it
+did not. The sentence is true now.
+
+Two things were measured rather than assumed:
+
+- **Subset.** Every non-ASCII character in the content layer was counted. The
+  accented letters are all Latin-1 and nothing reaches Latin Extended, so `latin`
+  is correct — the same subset Google was serving.
+- **Deduplication.** Hanken Grotesk is one *variable* file spanning 100–900.
+  Requesting it per weight returns five byte-identical copies; shipping those
+  would have wasted 136 KB. Six files, 146 KB, not ten files and 281 KB.
+
+Verified by **measuring rendered text**, not by trusting `document.fonts`: with
+the server stopped, a Spectral string measures 457.11px against 431.34px for
+Times, and Hanken 307.17px against 321.88px for Arial. The heading stack is
+`Spectral, Georgia, serif` and it is demonstrably not setting in Georgia.
 ```
 
 `.claude/launch.json` lets the in-app browser preview start the dev server. It
