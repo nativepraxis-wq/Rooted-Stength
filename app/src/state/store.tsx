@@ -1,8 +1,9 @@
 import {
-  createContext, useCallback, useContext, useMemo, useRef, useState,
+  createContext, useCallback, useContext, useEffect, useMemo, useRef, useState,
   type ReactNode,
 } from 'react';
 import { initialState } from '../data/initialState';
+import { load, save, clear as clearStored } from './persist';
 import * as C from '../data/content';
 import { OB_ROUTES, type Route } from '../nav/routes';
 
@@ -19,6 +20,8 @@ type Updater = Partial<AppState> | ((s: AppState) => Partial<AppState>);
 type Store = {
   state: AppState;
   set: (u: Updater) => void;
+  /** Erase everything stored on this device and return to first run. */
+  forget: () => void;
   go: (route: Route) => void;
   goBack: () => void;
   canGoBack: boolean;
@@ -36,10 +39,72 @@ type Store = {
 const Ctx = createContext<Store | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AppState>(() => ({ ...initialState, profileReturn: null }));
+  /*
+    Saved state merged over the seed. `profileReturn` is forced null afterwards
+    because it is a "where to go back to" marker - restoring one would send a
+    returning reader to a screen they never asked for.
+
+    load() runs inside the initialiser, so once per mount rather than on every
+    render, and it never throws. Under renderToStaticMarkup there is no
+    localStorage, so the h1 and contrast gates keep rendering the seed and stay
+    deterministic.
+  */
+  const [state, setState] = useState<AppState>(
+    () => ({ ...(load() as unknown as AppState), profileReturn: null }),
+  );
   const hist = useRef<Route[]>([]);
   const scroller = useRef<HTMLDivElement | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
+
+  /*
+    Write on change, coalesced. Toggling a chip fires several updates in a row,
+    and each one would otherwise be its own JSON.stringify plus a synchronous
+    localStorage write on the main thread.
+  */
+  const saveTimer = useRef<number | undefined>(undefined);
+
+  /*
+    Set while a deliberate erase is in flight.
+
+    Without it, "forget everything" did not: clear() removed the record, the
+    reset then counted as a state change, and the debounced save wrote a fresh
+    file 250ms later. Storage came back on its own and the button silently lied.
+    Verified in the browser - stored before: true, stored after: true.
+
+    One skip is enough. Whatever the reader does next is a real change and is
+    saved normally, which is what should happen once they are using the app
+    again.
+  */
+  const skipSave = useRef(false);
+
+  useEffect(() => {
+    if (saveTimer.current !== undefined) window.clearTimeout(saveTimer.current);
+    if (skipSave.current) {
+      skipSave.current = false;
+      return undefined;
+    }
+    saveTimer.current = window.setTimeout(() => {
+      save(state as unknown as Record<string, unknown>);
+    }, 250);
+    return () => {
+      if (saveTimer.current !== undefined) window.clearTimeout(saveTimer.current);
+    };
+  }, [state]);
+
+  /*
+    Erase what is on the device and return to the first-run state.
+
+    This lives in the store rather than on the Privacy screen because clearing
+    storage and resetting state have to happen together, with the save
+    suppressed between them. A screen doing it by hand would hit the bug above.
+  */
+  const forget = useCallback(() => {
+    skipSave.current = true;
+    clearStored();
+    if (saveTimer.current !== undefined) window.clearTimeout(saveTimer.current);
+    hist.current = [];
+    setState({ ...initialState, profileReturn: null } as AppState);
+  }, []);
 
   const set = useCallback((u: Updater) => {
     setState((s) => ({ ...s, ...(typeof u === 'function' ? u(s) : u) }));
@@ -141,10 +206,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [state.hydrationCups, state.logs]);
 
   const value = useMemo<Store>(() => ({
-    state, set, go, goBack, canGoBack: hist.current.length > 0,
+    state, set, forget, go, goBack, canGoBack: hist.current.length > 0,
     toast, pushLog, removeLog, restockPantry, dayName, proteinTarget, cupsOn,
     scrollTop, registerScroller,
-  }), [state, set, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
+  }), [state, set, forget, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
     proteinTarget, cupsOn, scrollTop, registerScroller]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

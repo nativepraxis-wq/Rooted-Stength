@@ -194,7 +194,7 @@ function HLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function PrivacyScreen() {
-  const { state, set, go, goBack } = useStore();
+  const { state, set, forget, go, goBack } = useStore();
 
   return (
     <Screen>
@@ -322,6 +322,37 @@ export function PrivacyScreen() {
           We design for healthcare-grade privacy but don&rsquo;t claim legal compliance
           (HIPAA/GDPR) until independent audits and legal review are complete.
         </Band>
+
+        {/*
+          This app now keeps things on the device, so it has to be able to stop.
+          Storage without a way to empty it would contradict the sentence at the
+          top of this screen - "everything here is granular and reversible."
+
+          It says what is actually held and where, rather than "your data",
+          because a promise a reader cannot check is not worth making.
+        */}
+        <h2 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
+          fontWeight: 600, color: 'var(--ink)', margin: '22px 0 4px',
+        }}>On this device</h2>
+        <p className="rs-prose" style={{
+          fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+          lineHeight: 1.55, margin: '0 0 10px',
+        }}>
+          Your intake answers, restrictions, accessibility settings and everything you have
+          logged are stored in this browser, on this device. They are not sent anywhere —
+          the app makes no network requests at all. Clearing them cannot be undone.
+        </p>
+        <button
+          type="button"
+          onClick={forget}
+          style={{
+            width: '100%', minHeight: 44, cursor: 'pointer',
+            border: '1px solid var(--clay)', background: 'var(--card)',
+            color: 'var(--clay)', borderRadius: 14, padding: 14,
+            fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+          }}
+        >Forget everything on this device</button>
       </Gutter>
     </Screen>
   );

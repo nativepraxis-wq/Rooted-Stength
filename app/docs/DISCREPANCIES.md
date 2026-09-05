@@ -2020,6 +2020,94 @@ theme-affecting work is enough.
 
 ---
 
+## 51. Nothing survived a refresh — **fixed**, and one promise now needs re-reading
+
+Until now the app kept nothing. Intake answers, allergy restrictions,
+accessibility settings, every logged plate: all of it lived in React state and a
+reload put the reader back as Amara on day one. There were **zero** storage
+calls in the codebase.
+
+### An allowlist, not a denylist
+
+State has 100 top-level keys and they are three different things mixed together:
+what the reader has told us and accumulated, where they are standing, and what
+is open or half-typed right now. Only the first kind is written.
+
+`state/persist.ts` holds that list, and it is an **allowlist** on purpose:
+
+- A key added later is ephemeral until someone deliberately adds it. A denylist
+  would do the opposite and leak every new field by default.
+- The Privacy screen promises *"Data minimization — we collect only what
+  personalizes your plan."* An allowlist is that sentence written as code, in
+  one place a reviewer can read.
+
+The test applied to each key: would the reader be annoyed to lose it? A logged
+plate, a nut allergy, a text-size setting — yes. Which tab was open, which card
+was selected, a half-written note, a toast — no. **Restoring somebody into a
+modal they had closed is not persistence, it is a bug.**
+
+`obRestr` is worth naming: it drives the allergen checks, so losing it silently
+is a safety matter rather than an inconvenience.
+
+### The returning reader
+
+`route` is deliberately not stored, which left the opposite problem: the welcome
+screen is a first-run screen, and meeting it on every launch would read as the
+app having forgotten you — the exact thing persistence was added to fix.
+
+A returning reader now opens on **Today**. Not the screen they happened to leave
+from, which would drop them into a half-finished settings flow, but the front
+door. Verified both ways: with a stored profile the app opens on Today and
+greets them by their saved name; with nothing stored it still opens on Welcome
+with "Begin".
+
+### The delete button did not delete
+
+Storage without deletion would contradict this screen's own opening line —
+*"everything here is granular and reversible"* — so a "Forget everything on this
+device" control went on the Privacy screen.
+
+**It did not work, and the browser said so.** `clear()` removed the record, the
+reset then counted as a state change, and the debounced save wrote a fresh file
+250ms later. Stored before: `true`. Stored after: `true`. The button silently
+lied.
+
+The erase now lives in the store, where clearing and resetting happen together
+with the save suppressed for exactly one cycle. Re-verified: gone immediately,
+and still gone after the debounce window has passed.
+
+It is worth recording that this was only caught by checking storage **after**
+the debounce rather than right after the click. A faster check would have
+reported success.
+
+### Still needs an editorial decision — the encryption promise
+
+The Privacy screen's first standing promise reads:
+
+> **Encrypted at rest & in transit** — Health records are sealed end-to-end.
+
+Before this change there was nothing at rest and nothing in transit, so the
+sentence described nothing. **There is now something at rest, and it is not
+encrypted.** localStorage is origin-scoped and device-local — another site
+cannot read it, but anything running on this origin can, and so can anyone with
+the unlocked device.
+
+The app still makes no network requests, so "in transit" remains vacuous rather
+than false.
+
+Three ways out, and it is not this file's decision which:
+
+1. Reword the promise to describe what is true today.
+2. Encrypt the stored blob, which without a backend means a key on the same
+   device and is closer to obfuscation than encryption.
+3. Leave it until there is a backend, and treat the sentence as describing the
+   intended architecture rather than the present one.
+
+Whichever is chosen, it should be chosen. On an app whose Codex grades every
+claim by evidence tier, a privacy promise is not a feature blurb.
+
+---
+
 ## Not a discrepancy, but carried forward
 
 The README's known gap — **reflow at 200% zoom was never resolved** — has since
