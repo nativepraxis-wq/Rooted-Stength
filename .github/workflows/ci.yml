@@ -100,5 +100,14 @@ jobs:
       - name: Inherited contrast
         run: npm run contrast-ssr
 
+      # The Privacy screen tells readers the app makes no network requests,
+      # that nothing is hosted anywhere, and that their records never leave
+      # the phone. Three of those are true only because there is no backend,
+      # and the fourth was FALSE until the fonts were self-hosted. One fetch()
+      # added anywhere in src/ turns all of them into false statements with
+      # nothing to notice. This fails out loud and names the copy at stake.
+      - name: Privacy promises
+        run: npm run promises
+
       - name: Build
         run: npm run build

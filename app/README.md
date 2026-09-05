@@ -26,6 +26,8 @@ npm run claims     # comparative claims agree across screens
 npm run allergens  # a dish declares every allergen it names
 npm run headers    # header text stays legible on every ground
 npm run contrast-ssr  # inherited colour, every route, both themes
+npm run promises   # the privacy screen still tells the truth
+```
 
 ## Installable, and offline
 
@@ -68,7 +70,6 @@ Verified by **measuring rendered text**, not by trusting `document.fonts`: with
 the server stopped, a Spectral string measures 457.11px against 431.34px for
 Times, and Hanken 307.17px against 321.88px for Arial. The heading stack is
 `Spectral, Georgia, serif` and it is demonstrably not setting in Georgia.
-```
 
 `.claude/launch.json` lets the in-app browser preview start the dev server. It
 runs `npm run --prefix app dev` from the **repository root**, not from `app/`,
@@ -148,7 +149,7 @@ no longer a "not built yet" screen in normal use; `NotBuiltYet` remains in
 Verified mechanically:
 
 ```bash
-npm run typecheck && npm run contrast && npm run h1 && npm run claims && npm run allergens && npm run headers && npm run contrast-ssr
+npm run typecheck && npm run contrast && npm run h1 && npm run claims && npm run allergens && npm run headers && npm run contrast-ssr && npm run promises
 ```
 
 ## Rules that are load-bearing, not stylistic
