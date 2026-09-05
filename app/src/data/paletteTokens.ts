@@ -140,7 +140,7 @@ export function onColour(c: string | undefined): string {
     */
     const tok = /var\(\s*--([\w-]+)/.exec(c)?.[1];
     if (tok === 'forest' || tok === 'forest-2') return 'var(--on-dark)';
-    if (tok === 'ochre') return 'var(--ink)';
+    if (tok === 'ochre') return 'var(--on-light)';
     return 'var(--on-accent)';
   }
   const rgb = /^#([0-9a-fA-F]{6})$/.exec(c.trim());
@@ -149,5 +149,7 @@ export function onColour(c: string | undefined): string {
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(n.slice(i, i + 2), 16) / 255)
     .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
   const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return L > 0.28 ? 'var(--ink)' : 'var(--on-dark)';
+  /* Both of these are identical in the two themes, which is the point: a fixed
+     fill needs fixed text. --ink would have flipped light in dark mode. */
+  return L > 0.28 ? 'var(--on-light)' : 'var(--on-dark)';
 }

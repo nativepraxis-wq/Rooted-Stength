@@ -1,4 +1,4 @@
-import { textColour } from '../data/paletteTokens';
+import { textColour, onColour } from '../data/paletteTokens';
 import { greenImage } from '../data/media';
 import { prepDepth } from '../data/prepDepth';
 import { useStore } from '../state/store';
@@ -810,7 +810,7 @@ export function GardenScreen() {
                   background: on ? t.c : 'var(--card)',
                   border: '1px solid ' + (on ? t.c : 'var(--border-2)'),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--on-leaf)', fontSize: 13, fontWeight: 800,
+                  color: onColour(t.c), fontSize: 13, fontWeight: 800,
                 }}>{on ? '✓' : ''}</span>
                 <span style={{ flex: 1 }}>
                   <span style={{

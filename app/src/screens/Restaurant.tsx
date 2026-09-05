@@ -202,7 +202,7 @@ export function OrderScreen() {
                   flex: 'none', width: 34, height: 34, borderRadius: '50%', cursor: 'pointer',
                   border: '1px solid ' + (m.sel ? 'var(--leaf)' : 'var(--border-2)'),
                   background: m.sel ? 'var(--leaf)' : 'var(--card)',
-                  color: m.sel ? '#FFFFFF' : 'var(--ink-meta)',
+                  color: m.sel ? 'var(--on-leaf)' : 'var(--ink-meta)',
                   fontSize: 15, fontWeight: 800,
                 }}
               >{m.sel ? '✓' : '+'}</button>

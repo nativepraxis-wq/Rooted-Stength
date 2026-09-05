@@ -61,7 +61,7 @@ function VolumeCard({ swatch, name, ev, sub, ink, hook, counts, onClick }: {
           <TierBadge kind="ev" tierKey={ev} />
         </div>
         <div style={{
-          fontSize: 'calc(11.5px * var(--scale))', color: ink, fontWeight: 700, marginTop: 3,
+          fontSize: 'calc(11.5px * var(--scale))', color: textColour(ink), fontWeight: 700, marginTop: 3,
         }}>{sub}</div>
         <div className="rs-prose" style={{
           fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
