@@ -36,6 +36,8 @@ type Store = {
   set: (u: Updater) => void;
   /** Erase everything stored on this device and return to first run. */
   forget: () => void;
+  /** Replace everything with an exported file. */
+  restore: (data: Record<string, unknown>) => void;
   go: (route: Route) => void;
   goBack: () => void;
   canGoBack: boolean;
@@ -118,6 +120,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (saveTimer.current !== undefined) window.clearTimeout(saveTimer.current);
     hist.current = [];
     setState({ ...initialState, profileReturn: null } as AppState);
+  }, []);
+
+  /*
+    Take on an exported file.
+
+    Over the seed rather than over the current state: an import is "this is who
+    I am now", not a merge of two histories. Merging two log sets would invent a
+    third that never happened, and there is no way to tell which of two
+    conflicting profiles the reader meant.
+
+    The save is NOT suppressed here - unlike forget(), the point is that the
+    imported data persists.
+  */
+  const restore = useCallback((data: Record<string, unknown>) => {
+    hist.current = [];
+    setState({ ...initialState, ...data, route: 'today', profileReturn: null } as AppState);
   }, []);
 
   const set = useCallback((u: Updater) => {
@@ -220,10 +238,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [state.hydrationCups, state.logs]);
 
   const value = useMemo<Store>(() => ({
-    state, set, forget, go, goBack, canGoBack: hist.current.length > 0,
+    state, set, forget, restore, go, goBack, canGoBack: hist.current.length > 0,
     toast, pushLog, removeLog, restockPantry, dayName, proteinTarget, cupsOn,
     scrollTop, registerScroller,
-  }), [state, set, forget, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
+  }), [state, set, forget, restore, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
     proteinTarget, cupsOn, scrollTop, registerScroller]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

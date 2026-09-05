@@ -105,8 +105,6 @@ export const DURABLE: readonly string[] = [
   'pregStage', 'pregClinician',
 ];
 
-const DURABLE_SET = new Set(DURABLE);
-
 export type Stored = { v: number; s: Record<string, unknown> };
 
 /** Everything worth keeping, and nothing else. */
@@ -190,4 +188,90 @@ export function hasStored(): boolean {
   } catch {
     return false;
   }
+}
+
+/*
+  ─────────────────────────────────────────
+  TAKING IT WITH YOU
+
+  The Privacy screen says, accurately, that "nothing is recoverable if you lose
+  the phone." That is the honest consequence of keeping everything on the device
+  and hosting nothing - but on a health app it also means a cleared browser or a
+  new phone silently costs someone every plate, session and lab value they have
+  logged.
+
+  So the data has to be able to leave when its owner says so. Not to a server:
+  to a file they hold.
+
+  The export is built from the SAME DURABLE allowlist as the save. There is no
+  second list to drift, and a reader can satisfy themselves that the file
+  contains exactly what the app kept and nothing it did not.
+*/
+
+export type ExportFile = Stored & { app: string; exportedAt: string };
+
+const APP_TAG = 'rooted-strength';
+
+/** The stored state as a file the reader keeps. */
+export function exportFile(state: Record<string, unknown>): Blob {
+  const payload: ExportFile = {
+    app: APP_TAG,
+    v: VERSION,
+    exportedAt: new Date().toISOString(),
+    s: pick(state),
+  };
+  return new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+}
+
+/** `rooted-strength-2026-09-05.json` */
+export function exportName(): string {
+  return APP_TAG + '-' + new Date().toISOString().slice(0, 10) + '.json';
+}
+
+export type ImportResult =
+  | { ok: true; data: Record<string, unknown>; keys: number }
+  | { ok: false; reason: string };
+
+/**
+ * Read a file back.
+ *
+ * Everything is checked and nothing is trusted. The file is JSON somebody may
+ * have edited, moved between versions, or picked by mistake, so it is told
+ * apart from an arbitrary .json before any of it reaches app state - and it is
+ * read THROUGH the allowlist, so a key that is not durable cannot be injected
+ * by editing the file.
+ */
+export function parseImport(text: string): ImportResult {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    return { ok: false, reason: 'That file is not JSON.' };
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return { ok: false, reason: 'That file is not a Rooted Strength export.' };
+  }
+  const f = parsed as Partial<ExportFile>;
+  if (f.app !== APP_TAG) {
+    return { ok: false, reason: 'That file was not exported by Rooted Strength.' };
+  }
+  if (f.v !== VERSION) {
+    return {
+      ok: false,
+      reason: 'That export is from a different version of the app (' + String(f.v) + ').',
+    };
+  }
+  if (!f.s || typeof f.s !== 'object') {
+    return { ok: false, reason: 'That export has no data in it.' };
+  }
+  const data: Record<string, unknown> = {};
+  for (const k of DURABLE) {
+    if (k in f.s && (f.s as Record<string, unknown>)[k] !== undefined) {
+      data[k] = (f.s as Record<string, unknown>)[k];
+    }
+  }
+  if (!Object.keys(data).length) {
+    return { ok: false, reason: 'That export contained nothing this version keeps.' };
+  }
+  return { ok: true, data, keys: Object.keys(data).length };
 }
