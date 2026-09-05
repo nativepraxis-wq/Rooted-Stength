@@ -38,6 +38,10 @@
      way. Chip hardcoded --on-dark, which is cream in both - right in light,
      wrong in dark, where a selected chip put cream on a pale accent. */
   --on-accent: #F4EDDF;
+  /* Text on a fixed LIGHT fill - a data hex, which never flips. --ink flips,
+     so it cannot serve here: ink on a light fill goes light in dark mode.
+     Deliberately NOT redefined in the dark block. */
+  --on-light: #1A1712;
   --earth: #7E5124;
   --ochre: #C79A45;
   --ochre-light: #D4AA5C;

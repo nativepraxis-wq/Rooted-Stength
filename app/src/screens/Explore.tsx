@@ -1279,7 +1279,7 @@ export function FusionScreen() {
                   background: on ? 'var(--leaf)' : 'var(--surface-2)',
                   border: '1px solid ' + (on ? 'var(--leaf)' : 'var(--border-2)'),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: on ? '#FFFFFF' : 'var(--ink-meta)',
+                  color: on ? 'var(--on-leaf)' : 'var(--ink-meta)',
                   fontSize: 12, fontWeight: 800,
                 }}>{on ? '✓' : i + 1}</span>
                 <span style={{ flex: 1 }}>
