@@ -1,10 +1,11 @@
 import { textColour, onColour } from '../data/paletteTokens';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sovImage, ILLUSTRATION_NOTE } from '../data/media';
 import { conditionDepth, labDepth } from '../data/healthDepth';
 import {
   consentDepth, neverDepth, vaultPermDepth, biasTestDepth,
 } from '../data/trustDepth';
+import { exportFile, exportName, parseImport } from '../state/persist';
 import { useStore } from '../state/store';
 import {
   sourceLibrary, consentList, egressLog, dsNeverList,
@@ -194,7 +195,8 @@ function HLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function PrivacyScreen() {
-  const { state, set, forget, go, goBack } = useStore();
+  const { state, set, forget, restore, go, goBack } = useStore();
+  const [importNote, setImportNote] = useState('');
 
   return (
     <Screen>
@@ -343,6 +345,78 @@ export function PrivacyScreen() {
           logged are stored in this browser, on this device. They are not sent anywhere —
           the app makes no network requests at all. Clearing them cannot be undone.
         </p>
+        {/*
+          Keeping everything on the device is why "nothing is recoverable if you
+          lose the phone" is true. On a health app that is also a trap: a cleared
+          browser or a new phone costs someone every plate, session and lab value
+          they have logged.
+
+          So the data can leave when its owner says so - to a file they hold, not
+          to a server. The export is built from the same allowlist as the save,
+          so there is no second list to drift and the file contains exactly what
+          the app kept.
+        */}
+        <div style={{ display: 'flex', gap: 9, marginBottom: 10 }}>
+          <button
+            type="button"
+            onClick={() => {
+              const url = URL.createObjectURL(exportFile(state));
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = exportName();
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            style={{
+              flex: 1, minHeight: 44, cursor: 'pointer',
+              border: '1px solid var(--border-2)', background: 'var(--card)',
+              color: 'var(--ink)', borderRadius: 14, padding: 14,
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+            }}
+          >Save a copy</button>
+          <label
+            style={{
+              flex: 1, minHeight: 44, cursor: 'pointer', display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+              border: '1px solid var(--border-2)', background: 'var(--card)',
+              color: 'var(--ink)', borderRadius: 14, padding: 14,
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+            }}
+          >
+            Load a copy
+            <input
+              type="file"
+              accept="application/json,.json"
+              className="rs-sr"
+              onChange={(e) => {
+                const file = e.target.files && e.target.files[0];
+                e.target.value = '';
+                if (!file) return;
+                file.text().then((text) => {
+                  const res = parseImport(text);
+                  if (!res.ok) { setImportNote(res.reason); return; }
+                  restore(res.data);
+                  setImportNote('');
+                });
+              }}
+            />
+          </label>
+        </div>
+        {importNote && (
+          <p className="rs-prose" style={{
+            fontSize: 'calc(12px * var(--scale))', color: 'var(--clay)',
+            fontWeight: 700, lineHeight: 1.5, margin: '0 0 10px',
+          }}>{importNote}</p>
+        )}
+        <p className="rs-prose" style={{
+          fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)',
+          lineHeight: 1.5, margin: '0 0 12px',
+        }}>
+          The copy is a plain file with your logs and answers in it — readable by anything you
+          open it with, so keep it somewhere you would keep a health record. Loading one
+          replaces what is on this device rather than merging with it.
+        </p>
+
         <button
           type="button"
           onClick={forget}
