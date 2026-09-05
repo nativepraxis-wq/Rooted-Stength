@@ -29,8 +29,8 @@ npm run contrast-ssr  # inherited colour, every route, both themes
 
 ## Installable, and offline
 
-The app is a PWA: , icons drawn from the app's own
-sprout mark, and a hand-written service worker in .
+The app is a PWA: `public/manifest.webmanifest`, icons drawn from the app's own
+sprout mark, and a hand-written service worker in `public/sw.js`.
 
 No Workbox. It would have been the largest thing in a dependency tree of two
 runtime packages, for a problem that is a hundred lines - the same reasoning
@@ -39,7 +39,7 @@ that left this app without a router or a state library.
 The precache list is **read, not written**. Vite hashes its filenames, so on
 install the worker fetches the shell and reads the asset URLs out of the HTML it
 just received. Whatever shipped is what gets cached, with no second copy to
-drift. Media is excluded and cached only as it is genuinely viewed: 
+drift. Media is excluded and cached only as it is genuinely viewed: `public/media`
 is 16 MB, and precaching that would be a 16 MB install on a field connection.
 
 **The first visit must be online.** After it, the app opens with no connection -
