@@ -47,6 +47,32 @@ is 16 MB, and precaching that would be a 16 MB install on a field connection.
 **The first visit must be online.** After it, the app opens with no connection -
 verified by stopping the server and reloading, not by reading the spec.
 
+### The media is already about the right size — measured
+
+`public/media` is 14.2 MB and looks like an obvious thing to shrink. It is not,
+and this note exists so the day is not spent finding that out twice.
+
+| dimensions | images | size | |
+|---|---|---|---|
+| 900×502 | 185 | **10.34 MB** | the headers — 73% of all media |
+| 520×290 | 140 | 2.91 MB | cards |
+| 520×388 | 39 | 0.94 MB | cards |
+
+A header renders in a **343×156** box at the 393px design width. At DPR 3 —
+which is most current phones — that needs **1029px** wide, and the source is
+900px. The headers are already marginally *under* resolution, not over.
+Downscaling them would trade bytes for visible softness on the devices this app
+is built for.
+
+The card thumbnails are the same story: a 305px box needs 915px at DPR 3 against
+a 520px source. They cannot be improved by resizing either, since the pixels are
+not there — that would mean regenerating from source.
+
+The 900×502 sources do carry roughly 18% of height that `object-fit: cover`
+crops away at the header's 2.2 aspect. Cropping to fit would save around 1.5 MB
+and recompose 185 illustrations that were composed at 1.79. That is a design
+call, not a performance one.
+
 ### The fonts are self-hosted
 
 Spectral and Hanken Grotesk are vendored under `public/fonts` and declared in

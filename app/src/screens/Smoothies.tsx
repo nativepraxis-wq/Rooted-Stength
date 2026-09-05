@@ -1,3 +1,4 @@
+import { onColour } from '../data/paletteTokens';
 import type { ReactNode } from 'react';
 import { nourImage, ILLUSTRATION_NOTE } from '../data/media';
 import { prepDepth } from '../data/prepDepth';
@@ -216,7 +217,7 @@ function SbChip({ on, onClick, children }: { on: boolean; onClick: () => void; c
       style={{
         border: '1px solid ' + (on ? 'var(--clay)' : 'var(--border-2)'),
         background: on ? 'var(--clay)' : 'var(--card)',
-        color: on ? 'var(--on-dark)' : 'var(--ink-muted)',
+        color: on ? onColour('var(--clay)') : 'var(--ink-muted)',
         borderRadius: 20, padding: '9px 14px', minHeight: 44,
         fontSize: 'calc(12.5px * var(--scale))', fontWeight: 700, cursor: 'pointer',
       }}
