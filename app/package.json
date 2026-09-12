@@ -13,6 +13,7 @@
     "allergens": "node scripts/allergens.mjs",
     "headers": "node scripts/headers.mjs",
     "promises": "node scripts/promises.mjs",
+    "durable": "vite build --ssr scripts/durable.tsx --outDir .durablecheck --logLevel error && node .durablecheck/durable.js",
     "contrast-ssr": "vite build --ssr scripts/contrast-ssr.tsx --outDir .cssrcheck --logLevel error && node .cssrcheck/contrast-ssr.js",
     "h1": "vite build --ssr scripts/h1-check.tsx --outDir .h1check --logLevel error && node .h1check/h1-check.js"
   },

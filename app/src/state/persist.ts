@@ -69,6 +69,24 @@ export const DURABLE: readonly string[] = [
   */
   'obRestr', 'consent', 'vaultPerm', 'intimacyShare', 'dsDeviceOnly', 'dsRegion',
 
+  /*
+    Herb safety from intake: pregnant or nursing, blood-pressure medication,
+    blood thinners. These put the "hold" flags on brews in teaIntel and the
+    pregnancy notes in sleep.
+
+    MISSING from the first version of this list. A reader who said they were
+    pregnant had that forgotten on the next reload, and every brew traditionally
+    avoided in pregnancy went back to being shown unflagged - silently, on the
+    one surface that promised "never silently removed". Found by classifying
+    every key rather than listing the ones that came to mind; the `durable` gate
+    now makes that classification mandatory.
+  */
+  'teaSafety',
+
+  /* Clearing the transfer ledger is a deliberate act. Without this it came
+     back on reload, which is the forget() bug again in a smaller place. */
+  'dsPurged',
+
   /* Accessibility. Losing these on every reload would make the app unusable
      for exactly the people the settings exist for. */
   'a11y', 'a11ySize',
@@ -85,8 +103,13 @@ export const DURABLE: readonly string[] = [
   /* Growing and tending, which accumulate over days. */
   'fermJars', 'sownTrays', 'tended', 'watered', 'plantsEaten', 'hydrationCups',
 
-  /* Money and plan. */
-  'weeklyBudget', 'plan', 'billing',
+  /* Checklists the reader keeps ticking over days: sleep habits and the hike
+     pack list. Neither is seeded - both are first written by a tap. */
+  'sleepHabit', 'hikeChecked',
+
+  /* Money and plan. `spentAdd` is money the reader entered as spent this week;
+     losing it would quietly put the budget back in credit. */
+  'weeklyBudget', 'plan', 'billing', 'spentAdd',
 
   /* Community commitments. */
   'rsvp', 'approved',
@@ -99,10 +122,55 @@ export const DURABLE: readonly string[] = [
   'bioregion', 'forageRegion', 'recipeMode',
 
   /*
+    The chosen frequency band. ob2 writes it from the goal, so the seed's
+    invariant is freqBand === goalFreqMap[obGoal]. With obGoal durable and this
+    not, every reload broke that invariant: the goal came back, the band reset
+    to 'grounding'.
+  */
+  'freqBand',
+
+  /*
     Pregnancy context. Personal health information the user set deliberately;
     `pregStep` is excluded because it is a position within the flow.
   */
   'pregStage', 'pregClinician',
+];
+
+/**
+ * The keys that deliberately do NOT survive a reload.
+ *
+ * Nothing reads this at runtime - DURABLE alone decides what is saved. It exists
+ * so that every key is a decision somebody made. `npm run durable` fails when a
+ * seeded or set() key appears in neither list, so a new field cannot default to
+ * forgotten without anyone choosing that.
+ */
+export const EPHEMERAL: readonly string[] = [
+  /* Where the reader is standing. */
+  'route', 'profileReturn', 'pregStep', 'mealDay', 'trainDay', 'seasonIdx', 'sourceFocus',
+
+  /* Which item a detail screen is showing - set by the tap that opens it. */
+  'codexId', 'pantryId', 'plateId', 'plateRelaxed', 'cropId', 'restId', 'familyId',
+  'sovSystem', 'warriorId', 'greenId', 'libId', 'shroomRecipeId', 'exMove', 'exVariant',
+  'matrixDim',
+
+  /* Which tab of a guide is open. */
+  'teaGoal', 'coconutUse', 'honeyUse', 'nervineUse', 'waterUse', 'swapUse', 'fermUse',
+  'dbUse', 'cerUse', 'histFilter', 'libFilter', 'libQuery',
+
+  /* Open, half-typed, or showing for a moment. */
+  'noteOpen', 'noteDraft', 'councilOpen', 'councilDraft', 'logToast', 'toastLabel', 'toastTo',
+  'sbToast', 'shareSmoothie', 'shareCopied', 'expenseOpen', 'expenseCat', 'expenseAmt',
+  'resetOpen', 'resetDone',
+
+  /*
+    A flow in progress. The scan chain and the voice/barcode captures describe
+    one plate being logged; the smoothie builder is a draft until saved, and
+    saving writes savedSmoothies. The fusion check is answered per recipe.
+  */
+  'scanFromUpload', 'scanDrop', 'scanAlt', 'bcFound', 'voiceHeard', 'sb', 'fusionChecks',
+
+  /* Cycles so results do not repeat early; a fresh cycle after reload is fine. */
+  'genIdx',
 ];
 
 export type Stored = { v: number; s: Record<string, unknown> };

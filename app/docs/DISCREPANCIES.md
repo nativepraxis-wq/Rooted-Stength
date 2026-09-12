@@ -2080,6 +2080,39 @@ It is worth recording that this was only caught by checking storage **after**
 the debounce rather than right after the click. A faster check would have
 reported success.
 
+### The list was written from memory, and it forgot the pregnancy flags
+
+The first `DURABLE` list was drawn up by thinking of what a reader would miss.
+That is the wrong method, and it missed the most important thing on it:
+**`teaSafety`** — the intake answers for *pregnant or nursing*, *blood-pressure
+medication* and *blood thinners*.
+
+Consequence: a reader who told the app they were pregnant had that forgotten on
+the next reload. Every brew traditionally avoided in pregnancy went back to being
+shown **unflagged**, on the surface that promises brews are *"flagged with the
+reason — never silently removed."* Nothing errored. The app simply stopped
+knowing.
+
+Classifying every key instead of recalling some found five more:
+
+| key | what was lost on reload |
+|---|---|
+| `freqBand` | the chosen band; worse, `obGoal` came back and this did not, breaking the seed's invariant `freqBand === goalFreqMap[obGoal]` |
+| `spentAdd` | money entered as spent this week — the budget quietly went back into credit |
+| `dsPurged` | clearing the transfer ledger undid itself, the forget() bug again in miniature |
+| `sleepHabit` | the sleep-habit checklist |
+| `hikeChecked` | the hike pack list |
+
+The last two are never seeded — they exist only from the first tap — which is
+why reading `initialState` alone would not have found them.
+
+**The fix is a gate, not a longer list.** `EPHEMERAL` now names every key that is
+deliberately not saved, and `npm run durable` fails when a seeded or `set()` key
+is in neither list, in both, or listed but gone. It is not a judgement on *which*
+list is right; it forces somebody to make one. Sabotaged four ways before
+trusting it — dropping a seeded key, dropping a set-only key, a stale entry, a
+duplicate — and each fails by name.
+
 ### Still needs an editorial decision — the encryption promise
 
 The Privacy screen's first standing promise reads:
