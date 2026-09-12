@@ -2143,11 +2143,20 @@ renders all 86 routes **twice** — seed, and the state after Begin — so an em
 history is a tested case. Sabotaged: a `fermJars[0].name` read on Today passes on
 the seed and fails the clean pass by name.
 
-**Still open, not decided here:** `obRestr` is seeded nut-free and soy-free. A
-reader who passes that step without touching it keeps two restrictions they did
-not choose. Over-restricting is the safer direction for allergens, so it was left
-alone, but it is a default presented where an answer would be, and the intake
-rule elsewhere is that defaults are never shown as choices.
+**Decided afterwards — restrictions start switched off.** `obRestr` is seeded
+nut-free and soy-free, because they are the sample person's. A reader who passed
+that intake step without touching it kept two restrictions they never chose: a
+default presented where an answer would be, against the intake rule that defaults
+are never shown as choices. Over-restricting is the safer direction for allergens,
+which is why it was first left alone and put to the project owner rather than
+changed.
+
+The owner's call: **start switched off.** `OWN_START` now clears `obRestr`, so
+Begin and *Clear it and start with my own* both leave every restriction off and
+the reader turns on what applies. The sample person keeps hers while exploring.
+Verified in the browser: after Skip the stored restrictions are nut-free and
+soy-free; after clearing, and after Begin, they are empty, and the intake step
+*"How does your table eat?"* shows all four chips unpressed.
 
 ### The sample person also lived outside state
 

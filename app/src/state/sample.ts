@@ -23,8 +23,14 @@
   Cleared: things that describe what somebody DID or who they ARE - logs,
   conversation, jars, trays, ticks, RSVPs, the name and pronouns.
 
+  Also cleared: dietary restrictions. The seed has nut-free and soy-free on,
+  because they are the sample person's. A real reader who passed the intake
+  step without touching it kept two restrictions they never chose - a default
+  sitting where an answer should be. Decided with the project owner: they start
+  switched off, and the reader turns on what applies.
+
   Not cleared: settings the intake walks through with visible controls
-  (restrictions, traditions, consent, vault permissions, goal defaults) and the
+  (traditions, consent, vault permissions, goal defaults) and the
   accessibility settings. Those are defaults the reader can see and change, not
   a history attributed to them. Accessibility in particular must never reset -
   somebody who turned on larger text to read the welcome screen needs it on the
@@ -35,6 +41,7 @@ export const OWN_START: Record<string, unknown> = {
   sample: false,
   obName: '',
   obPronoun: '',
+  obRestr: {},
   logs: [],
   councilThread: [],
   fermJars: [],
