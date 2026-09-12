@@ -2230,7 +2230,7 @@ refused, the declined sentence appeared and the button went away. The granted
 wording was checked by stubbing `navigator.storage.persisted` to resolve true,
 since a real grant cannot be forced in a fresh profile.
 
-### Still needs an editorial decision — the encryption promise
+### Decided — the encryption promise
 
 The Privacy screen's first standing promise reads:
 
@@ -2255,6 +2255,35 @@ Three ways out, and it is not this file's decision which:
 
 Whichever is chosen, it should be chosen. On an app whose Codex grades every
 claim by evidence tier, a privacy promise is not a feature blurb.
+
+**Decided: say what is true now (option 1).** Before deciding, every encryption
+claim in the source was inventoried. It was not one sentence but nine:
+
+| where | said | now |
+|---|---|---|
+| Privacy promises | *Encrypted at rest & in transit — sealed end-to-end* | *Not encrypted yet* — stored in this browser, readable by anyone with the unlocked phone, nothing sent |
+| Data map · This phone | *Local encrypted store · Sealed by your passcode* | *This browser's storage · Not encrypted* |
+| Data map · This phone | *Deleting the app deletes all of it* | removing a home-screen app may not clear storage; *Forget everything* does |
+| Data map · Rooted vault | *Member co-op · On · End-to-end encrypted* | *Planned · not built yet*, 0% |
+| Data map · Council inference | *Cloud + device · transient* | *Planned · not built yet*; today the Council answers from built-in text |
+| Data map · header | *92% of your records never leave the phone* | *100%* — nothing is sent |
+| Vault header | *Encrypted before it leaves the phone* | *Nothing here is encrypted yet, and nothing leaves the phone* |
+| Journey tile | *Encrypted · you control AI access* | *On this device · not encrypted yet* |
+| Onboarding consent | *Health data is encrypted* | *stays on this device … but it is not encrypted yet* |
+
+Two more are verbatim in `content.ts` and were **not edited**: the health consent
+toggle (*Encrypted · revocable anytime · never sold*) and a membership feature
+(*Encrypted Medical Vault*). Each is rendered with a correction beside it from
+`data/claimNotes.ts`: *"Not true yet: nothing is encrypted…"*.
+
+Council inference was not an encryption claim, but it described a cloud service
+as running when none exists — the same class of promise — so it was labelled
+planned in the same change.
+
+**Gate:** `npm run promises` now also fails on any encryption claim in the source
+that is not marked on its line as not yet true or planned, unless it is an
+acknowledged `content.ts` line that is rendered with the correction. A stale
+acknowledgement fails too.
 
 ---
 

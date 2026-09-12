@@ -33,13 +33,13 @@
   means another site cannot read it, but anything running on this origin can,
   and so can anyone with the unlocked device.
 
-  The Privacy screen currently promises "Encrypted at rest & in transit —
-  health records are sealed end-to-end." Before this file existed there was
-  nothing at rest and nothing in transit, so the sentence described nothing.
-  There is now something at rest, and it is not encrypted. That is recorded in
-  docs/DISCREPANCIES.md as needing an editorial decision rather than quietly
-  left to drift, because on this app that sentence is a promise and not a
-  feature blurb.
+  The Privacy screen used to promise "Encrypted at rest & in transit — health
+  records are sealed end-to-end." Once this file existed there was something at
+  rest, and it was not encrypted. That went to the project owner as an
+  editorial decision rather than drifting, and the decision was to say what is
+  true: the screens now say the records are stored unencrypted on this device.
+  `npm run promises` fails if an unmarked encryption claim returns. See
+  DISCREPANCIES, "the encryption promise".
 */
 import { initialState } from '../data/initialState';
 

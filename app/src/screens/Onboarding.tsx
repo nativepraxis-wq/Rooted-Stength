@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { useStore } from '../state/store';
+import { claimNote } from '../data/claimNotes';
 import {
   obGoals, obDayDefs, obRestrList, obTradList, consentList, goalFreqMap, freqBandDefs,
   teaGoalDefs,
@@ -572,8 +573,8 @@ export function ConsentScreen() {
       <StepHeader step={5} onBack={() => go('obHerb')} />
       <Title>Your data, your land</Title>
       <Sub>
-        Everything below is granular and revocable. Health data is encrypted, never sold, never
-        used for ads.
+        Everything below is granular and revocable. Health data stays on this device, is never
+        sold and never used for ads — but it is not encrypted yet.
       </Sub>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -595,6 +596,10 @@ export function ConsentScreen() {
               <span style={{ flex: 1 }}>
                 <span style={{ display: 'block', fontSize: 'calc(13.5px * var(--scale))', fontWeight: 700, color: 'var(--ink)' }}>{c.label}</span>
                 <span style={{ display: 'block', fontSize: 'calc(11.5px * var(--scale))', color: 'var(--ink-meta)', marginTop: 3, lineHeight: 1.45 }}>{c.sub}</span>
+                {/* The verbatim sub-line promises encryption; its correction sits under it. */}
+                {claimNote(c.sub) && (
+                  <span style={{ display: 'block', fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)', marginTop: 4, lineHeight: 1.45, fontWeight: 700 }}>{claimNote(c.sub)}</span>
+                )}
               </span>
               <span aria-hidden="true" style={{
                 flex: 'none', width: 44, height: 26, borderRadius: 999, position: 'relative',

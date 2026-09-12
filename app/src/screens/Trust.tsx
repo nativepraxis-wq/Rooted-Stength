@@ -8,6 +8,7 @@ import {
 import {
   exportFile, exportName, parseImport, keeping, askToKeep, installed, type Keeping,
 } from '../state/persist';
+import { claimNote } from '../data/claimNotes';
 import { useStore } from '../state/store';
 import {
   sourceLibrary, consentList, egressLog, dsNeverList,
@@ -21,10 +22,20 @@ import { Screen, Gutter, Band, Chip, ToggleRow } from '../components/ui';
 
 /*
   The four standing privacy promises. These lived in the prototype's render
-  layer rather than its data block, so they come across here verbatim.
+  layer rather than its data block, so they came across verbatim.
+
+  The first one no longer does. It promised "Encrypted at rest & in transit -
+  health records are sealed end-to-end", and nothing in this app is encrypted:
+  records sit in browser storage, and there is no transit because the app makes
+  no requests. Decided with the project owner to say what is true now rather
+  than build encryption or label the promise as planned. See DISCREPANCIES,
+  "the encryption promise". `npm run promises` keeps it from coming back.
 */
 const PRIVACY_PROMISES = [
-  { t: 'Encrypted at rest & in transit', s: 'Health records are sealed end-to-end.' },
+  {
+    t: 'Not encrypted yet',
+    s: 'Your records are stored in this browser without encryption, so anyone who can open this phone unlocked can read them. Nothing is sent anywhere.',
+  },
   { t: 'Data minimization', s: 'We collect only what personalizes your plan.' },
   { t: 'Never sold', s: 'Your health data is never sold or brokered.' },
   { t: 'No medical ad targeting', s: 'Nothing you upload is used for advertising.' },
@@ -259,6 +270,13 @@ export function PrivacyScreen() {
                 on={!!state.consent[c.id]}
                 onToggle={() => set((s) => ({ consent: { ...s.consent, [c.id]: !s.consent[c.id] } }))}
               />
+              {/* A verbatim line that promises encryption gets its correction beside it. */}
+              {claimNote(c.sub) && (
+                <p className="rs-prose" style={{
+                  fontSize: 'calc(11.5px * var(--scale))', color: 'var(--clay)',
+                  lineHeight: 1.45, margin: '6px 2px 0', fontWeight: 700,
+                }}>{claimNote(c.sub)}</p>
+              )}
               {/*
                 Depth, from data/trustDepth.ts. A consent toggle the user cannot
                 evaluate is not really consent, so each one says what it covers,
@@ -511,26 +529,41 @@ export function DataSovScreen() {
   const vaultOn = Object.values(state.vaultPerm || {}).filter(Boolean).length;
   const region = REGIONS.find((r) => r.id === state.dsRegion) || REGIONS[1];
 
+  /*
+    What is true today, not the intended architecture.
+
+    This used to describe three live places: an "encrypted store sealed by your
+    passcode" on the phone, a co-op vault holding lab PDFs end-to-end encrypted,
+    and cloud inference for the Council. None of it existed. The phone store is
+    plain browser storage, no vault service exists, and the Council's answers
+    are text built into the app. The co-op vault and cloud inference are still
+    the plan, so they stay on the screen - marked as planned, at 0%, with
+    nothing claimed as running.
+
+    "Deleting the app deletes all of it" was also dropped: removing a web app
+    from a home screen does not reliably clear its storage. The Privacy screen's
+    "Forget everything" does.
+  */
   const places = [
     {
-      name: 'This phone', glyph: '1', where: 'Local encrypted store',
-      state: 'Always on', barW: only ? '100%' : '92%',
-      what: 'Every log, plate, session, note and photo you capture. Deleting the app deletes all of it.',
-      retention: 'until you delete it', crypto: 'Sealed by your passcode', c: '#2F4A31',
+      name: 'This phone', glyph: '1', where: 'This browser’s storage, on this device',
+      state: 'Always on', barW: '100%',
+      what: 'Every log, plate, session and note you enter. Removing the app from your home screen may not delete it — “Forget everything” on the Privacy screen does.',
+      retention: 'until you clear it', crypto: 'Not encrypted', c: '#2F4A31',
     },
     {
       name: 'Rooted vault', glyph: '2',
-      where: only ? 'Sync paused' : 'Member co-op · ' + region.label,
-      state: only ? 'Paused' : 'On', barW: only ? '0%' : '8%',
-      what: 'Only what you put in the Health Vault — lab PDFs, clinician notes. Encrypted before it leaves the phone: we hold the box, you hold the key.',
-      retention: 'until you revoke', crypto: 'End-to-end encrypted', c: '#7E5124',
+      where: 'Planned · not built yet · ' + (only ? 'off in device-only mode' : region.label),
+      state: 'Not built', barW: '0%',
+      what: 'Planned: lab PDFs and clinician notes, encrypted on the phone before upload so the co-op could hold them without being able to read them. None of this exists yet, and nothing is uploaded anywhere.',
+      retention: 'nothing held', crypto: 'Planned: end-to-end encryption', c: '#7E5124',
     },
     {
       name: 'Council inference', glyph: '3',
-      where: only ? 'On-device model only' : 'Transient · held in memory',
-      state: only ? 'On-device' : 'Cloud + device', barW: '0%',
-      what: 'Your question plus the Vault fields you allowed. Held for the length of one answer, then dropped — never written to disk, never used for training.',
-      retention: 'seconds', crypto: 'Never stored', c: '#2E6B7A',
+      where: 'Planned · not built yet',
+      state: 'Not built', barW: '0%',
+      what: 'Planned: your question plus the Vault fields you allowed, held for one answer and dropped. Today the Council answers from text built into the app, and your question never leaves the phone.',
+      retention: 'nothing sent', crypto: 'Nothing stored off the phone', c: '#2E6B7A',
     },
   ];
 
@@ -547,7 +580,8 @@ export function DataSovScreen() {
         <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
           {[
             { n: String(log.length), l: 'transfers off this device · last 7 days' },
-            { n: only ? '100%' : '92%', l: 'of your records never leave the phone' },
+            /* 100% because nothing is sent - the 92% figure assumed a vault that does not exist. */
+            { n: '100%', l: 'of your records never leave the phone' },
           ].map((s) => (
             <div key={s.l} style={{
               flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
@@ -810,7 +844,7 @@ export function VaultScreen() {
           fontSize: 'calc(13px * var(--scale))', lineHeight: 1.55,
           color: 'var(--on-dark-muted)', margin: 0,
         }}>
-          Encrypted before it leaves the phone. The Council reads only the fields you switch on —
+          Nothing here is encrypted yet, and nothing leaves the phone. The Council reads only the fields you switch on —
           and says so when an answer is limited by that.
         </p>
         <div style={{
@@ -1052,7 +1086,16 @@ export function MembershipScreen() {
                       <li key={f} style={{
                         fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
                         lineHeight: 1.55, marginBottom: 4,
-                      }}>{f}</li>
+                      }}>
+                        {f}
+                        {/* "Encrypted Medical Vault" is verbatim and not true yet. */}
+                        {claimNote(f) && (
+                          <span style={{
+                            display: 'block', fontSize: 'calc(11px * var(--scale))',
+                            color: 'var(--clay)', fontWeight: 700, lineHeight: 1.45,
+                          }}>{claimNote(f)}</span>
+                        )}
+                      </li>
                     ))}
                   </ul>
 
