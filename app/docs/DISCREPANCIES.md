@@ -2331,6 +2331,17 @@ Three things had to change with it, each for a reason that was measured:
   an update waits until the app is closed. A `ChunkBoundary` covers the remaining
   case of a chunk that is neither cached nor reachable, so one missing file shows
   a message under the tab bar instead of a white screen.
+
+  *Verified afterwards, not assumed.* The sentence above was written before the
+  update path had been exercised, so it was: v2 installed and controlling a page,
+  then `dist/sw.js` changed as a deploy would. With the page open, v3 installed
+  and **waited**; v2 stayed active; the v2 caches were intact; and Move and Sleep,
+  never opened in that session, still loaded. With every window closed, the next
+  launch had v3 active, **the v2 caches purged**, and the app running. Two traps on
+  the way: reopening a tab before the old one had released left v2 in control
+  (a race, not a bug — the real case is an app that is actually closed), and
+  "which version is active" cannot be read by fetching `reg.active.scriptURL`,
+  which returns whatever the server has now. The caches are what tell.
 - **The SSR gates cannot render a lazy component.** They `await loadScreens()`
   from the same table, which throws naming the route when an entry is not an
   exported component — the check the static imports used to give for free.
