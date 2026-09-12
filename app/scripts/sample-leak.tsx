@@ -33,7 +33,10 @@ import { loadScreens } from '../src/nav/screens';
 import { ROUTES } from '../src/nav/routes';
 import { initialState } from '../src/data/initialState';
 import { OWN_START } from '../src/state/sample';
-import { vaultLabs, vaultDocs, egressLog, sleepStages, journal } from '../src/data/content';
+import {
+  vaultLabs, vaultDocs, egressLog, sleepStages, journal,
+  trays, gardenMilestones, budgetCats,
+} from '../src/data/content';
 
 /* Screens are lazy in the app; render needs them resolved. See nav/screens.ts. */
 const SCREENS = await loadScreens();
@@ -54,10 +57,36 @@ const markers: Marker[] = [
   ...(journal as any[]).map((j) => ({ from: 'journal', text: j.text })),
   /* Not a fixture: a sentence written into Move.tsx describing the sample week. */
   { from: 'Move.tsx', text: 'from 150 to 200 ft' },
+
+  /*
+    The second sweep: the sample person's PROGRESS, not just her records - a
+    sill of trays mid-growth, a third-season garden with milestones, a $77
+    grocery week, and her age on the reader's own household card. Each marker
+    is the rendered form, so it is specific to that fixture rather than to a
+    crop or category name that is also public content elsewhere.
+  */
+  ...(trays as any[]).map((t) => ({ from: 'trays', text: 'Day ' + t.day + ' of ' + t.days })),
+  ...(gardenMilestones as any[]).map((m) => ({ from: 'gardenMilestones', text: m.s })),
+  ...(budgetCats as any[]).map((c) => ({ from: 'budgetCats', text: '$' + c.spent + ' / $' + c.budget })),
+  /*
+    Not covered: the sample age on the reader's own household card. A marker
+    for it ("34 · Training adult") was tried and the matcher guard rejected it -
+    the family screen opens on familyId 'kofi', so that card never renders
+    statically in EITHER state. Same gap as the Council replies, stated rather
+    than implied; the age was verified in the browser instead.
+  */
+  /* Written into Farm.tsx and Today.tsx, not a fixture. */
+  { from: 'Farm.tsx', text: 'Season 3 · late summer' },
 ];
 
 function decode(html: string): string {
   return html
+    /*
+      React puts <!-- --> between adjacent text nodes, so `Day {d} of {n}`
+      renders as "Day <!-- -->10<!-- --> of <!-- -->10". Removed outright, not
+      turned into spaces, or no marker built from a value could ever match.
+    */
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")

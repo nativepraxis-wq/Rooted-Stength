@@ -243,7 +243,13 @@ export function BudgetScreen() {
   const cats = budgetCats as any[];
   const weekly = state.weeklyBudget ?? 100;
 
-  const spent = cats.reduce((a, c, i) => a + c.spent + (add[i] || 0), 0);
+  /*
+    The per-category `spent` figures are a content fixture - the sample person's
+    $77 week. A real reader has spent only what they entered (spentAdd), so for
+    them the fixture counts as zero. See state/sample.ts.
+  */
+  const baseSpent = (c: any) => (state.sample ? c.spent : 0);
+  const spent = cats.reduce((a, c, i) => a + baseSpent(c) + (add[i] || 0), 0);
   const left = weekly - spent;
   const pct = Math.min(100, Math.round((spent / weekly) * 100));
 
@@ -289,7 +295,7 @@ export function BudgetScreen() {
       <Gutter style={{ paddingTop: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
           {cats.map((c, i) => {
-            const catSpent = c.spent + (add[i] || 0);
+            const catSpent = baseSpent(c) + (add[i] || 0);
             const over = catSpent > c.budget;
             return (
               <div key={c.cat} style={{
@@ -705,11 +711,17 @@ export function FamilyScreen() {
     it would contradict how the rest of the app handles an absent value, which is
     to name the absence: "No name set", "No goal set".
   */
+  /*
+    The age is the sample person's too. The app never asks a reader's age, so
+    after Begin their own card shows none rather than carrying hers - the same
+    reason the name falls back to the role instead of to 'Amara'.
+  */
   const people = (familyDefs as any[]).map((p) => {
     if (p.id !== 'amara') return p;
     const n = (state.obName ?? '').trim();
-    if (!n) return { ...p, name: p.role, initial: p.role[0].toUpperCase() };
-    return { ...p, name: n, initial: n[0].toUpperCase() };
+    const age = state.sample ? p.age : '';
+    if (!n) return { ...p, age, name: p.role, initial: p.role[0].toUpperCase() };
+    return { ...p, age, name: n, initial: n[0].toUpperCase() };
   });
   const sel = people.find((p) => p.id === state.familyId) ?? people[0];
 
@@ -774,7 +786,7 @@ export function FamilyScreen() {
               <span style={{
                 display: 'block', fontSize: 'calc(11.5px * var(--scale))',
                 color: 'var(--ink-meta)', marginTop: 1,
-              }}>{sel.age} · {sel.role}</span>
+              }}>{[sel.age, sel.role].filter(Boolean).join(' · ')}</span>
             </span>
           </div>
 

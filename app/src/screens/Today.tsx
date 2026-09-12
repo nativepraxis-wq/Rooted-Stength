@@ -382,7 +382,7 @@ export function TodayScreen() {
           <div style={{
             fontFamily: 'var(--font-serif)', fontSize: 'calc(22px * var(--scale))',
             fontWeight: 600, marginTop: 4,
-          }}>Season 3</div>
+          }}>{state.sample ? 'Season 3' : 'Season 1'}</div>
           <p className="rs-prose" style={{
             fontSize: 'calc(12.5px * var(--scale))', lineHeight: 1.5,
             color: 'var(--on-dark-muted)', margin: '6px 0 0',

@@ -67,6 +67,9 @@ export function MicrogreensScreen() {
   const list = crops();
   const sel = list.find((g) => g.id === state.libId) ?? list[0];
   const watered = state.watered || {};
+  const sownNames = ((state.sownTrays || []) as string[])
+    .map((id) => list.find((g) => g.id === id)?.name)
+    .filter(Boolean) as string[];
 
   /*
     Salads are flagged, not filtered — same rule as everywhere else. A mix that
@@ -103,8 +106,26 @@ export function MicrogreensScreen() {
           }}>a one-minute morning ritual</span>
         </div>
 
+        {/*
+          The four trays are a content fixture: the sample person's sill, each
+          at its own day of growth. For a real reader they would be trays nobody
+          sowed, with harvests ready that do not exist. The app records what a
+          reader sows (sownTrays) but not how many days in a tray is, so for them
+          this lists what they sowed and says the day count is not tracked.
+          See state/sample.ts.
+        */}
+        {!state.sample && (
+          <p className="rs-prose" style={{
+            fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+            lineHeight: 1.5, margin: '0 0 4px',
+          }}>
+            {sownNames.length
+              ? 'Sown: ' + sownNames.join(', ') + '. The app does not count tray days yet.'
+              : 'No trays growing yet. Sow one from the variety library below and it will show here.'}
+          </p>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-          {(trays as any[]).map((t) => {
+          {(state.sample ? (trays as any[]) : []).map((t) => {
             const ready = t.day >= t.days;
             const done = !!watered[t.id];
             return (
@@ -422,7 +443,8 @@ export function CropLibScreen() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
             {matches.map((c) => {
-              const growing = sown.includes(c.id) || (trays as any[]).some((t) => t.id === c.id);
+              /* The fixture trays count as growing only while they are the sample's. */
+              const growing = sown.includes(c.id) || (state.sample && (trays as any[]).some((t) => t.id === c.id));
               return (
                 <button
                   key={c.id}
@@ -523,7 +545,8 @@ export function VarietyScreen() {
   const v = list.find((c) => c.id === state.libId) ?? list[0];
   const sown = state.sownTrays || [];
   const cart = state.seedCart || {};
-  const isSown = sown.includes(v.id) || (trays as any[]).some((t) => t.id === v.id);
+  /* The fixture trays count as sown only while they are the sample's. */
+  const isSown = sown.includes(v.id) || (state.sample && (trays as any[]).some((t) => t.id === v.id));
   const inCart = !!cart[v.id];
   /*
     cropMeta carries `allergen` on the sesame variety and nothing read it. The
@@ -724,10 +747,25 @@ export function GardenScreen() {
   const { state, set, go, goBack } = useStore();
   const tended = state.tended || {};
   const doneCount = (tendDefs as any[]).filter((t) => tended[t.key]).length;
+  /*
+    The plots, the season number and the milestones are content fixtures - the
+    sample person's third season, grown plants, and "carry capacity up 18% across
+    8 weeks". Nothing in the app grows a garden from a reader's own practice
+    yet, so for a real reader the plots are unplanted, it is their first season,
+    and there are no milestones to claim. See state/sample.ts.
+  */
+  const plots = state.sample
+    ? (gardenBase as any[])
+    : (gardenBase as any[]).map((p) => ({ ...p, s: 0 }));
+  const milestones = state.sample ? (gardenMilestones as any[]) : [];
 
   return (
     <Screen>
-      <DarkHeader eyebrow="Season 3 · late summer" title="Your Strength Garden" back={goBack}>
+      <DarkHeader
+        eyebrow={state.sample ? 'Season 3 · late summer' : 'Season 1'}
+        title="Your Strength Garden"
+        back={goBack}
+      >
         <p className="rs-prose" style={{
           fontSize: 'calc(13px * var(--scale))', lineHeight: 1.55,
           color: 'var(--on-dark-muted)', margin: 0,
@@ -745,18 +783,22 @@ export function GardenScreen() {
         }}>
           <div
             role="img"
-            aria-label={'A garden of ' + (gardenBase as any[]).length + ' plots, grown from the practices you have kept this season.'}
+            aria-label={state.sample
+              ? 'A garden of ' + plots.length + ' plots, grown from the practices you have kept this season.'
+              : 'A garden of ' + plots.length + ' plots, not planted yet.'}
             style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 9 }}
           >
-            {(gardenBase as any[]).map((p, i) => (
+            {plots.map((p, i) => (
               <div key={i} style={{
                 aspectRatio: '1', borderRadius: 14, background: 'var(--surface-3)',
                 display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: 8,
               }}>
-                <div aria-hidden="true" style={{
-                  width: 6 + p.s * 3, height: 10 + p.s * 9,
-                  borderRadius: '50% 50% 40% 40%', background: p.c,
-                }} />
+                {p.s > 0 && (
+                  <div aria-hidden="true" style={{
+                    width: 6 + p.s * 3, height: 10 + p.s * 9,
+                    borderRadius: '50% 50% 40% 40%', background: p.c,
+                  }} />
+                )}
               </div>
             ))}
           </div>
@@ -852,8 +894,14 @@ export function GardenScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
         }}>Milestones</h2>
+        {!milestones.length && (
+          <p className="rs-prose" style={{
+            fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+            lineHeight: 1.5, margin: 0,
+          }}>None yet.</p>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {(gardenMilestones as any[]).map((m) => (
+          {milestones.map((m) => (
             <div key={m.t} style={{
               display: 'flex', gap: 11, alignItems: 'flex-start',
               background: 'var(--card)', border: '1px solid var(--border)',
