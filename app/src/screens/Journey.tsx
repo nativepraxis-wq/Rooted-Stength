@@ -194,7 +194,7 @@ export function JourneyScreen() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 16 }}>
           <Row
             title="Medical &amp; Health Vault"
-            sub="Encrypted · you control AI access · nothing sold"
+            sub="On this device · not encrypted yet · you control AI access · nothing sold"
             onClick={() => go('vault')}
           />
           <Row

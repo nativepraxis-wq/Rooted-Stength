@@ -25,12 +25,12 @@
   ─────────────────────────────────────────
   WHAT IT DOES NOT DO
 
-  It cannot check "never sold" or "encrypted at rest" - the first is a business
-  commitment and the second is currently FALSE and recorded as such in
-  DISCREPANCIES 51, awaiting an editorial decision rather than a script.
+  It cannot check "never sold" - that is a business commitment, not code.
 
-  It checks the two things that are mechanically checkable: that the app makes
-  no outbound request, and that the shell loads nothing third-party.
+  It checks three things that are mechanically checkable: that the app makes
+  no outbound request, that the shell loads nothing third-party, and that no
+  encryption is claimed unmarked. "Encrypted at rest" was FALSE; the project
+  owner decided the copy says what is true, and the third check keeps it so.
 */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -72,6 +72,59 @@ function strip(src) {
     .replace(/`(?:[^`\\]|\\.)*`/g, '``');
 }
 
+/*
+  ─────────────────────────────────────────
+  ENCRYPTION CLAIMS
+
+  Nothing in this app is encrypted. Nine places once said otherwise - the
+  Privacy promise, the data map, the vault header, the Journey tile, onboarding,
+  and two verbatim content.ts lines. The project owner decided the copy says what
+  is true now.
+
+  So any encryption claim in the source must be one of:
+    - marked on the same line as not yet true or planned
+    - a verbatim content.ts line listed in ACK below, which is rendered with the
+      correction from data/claimNotes.ts beside it
+  Comments are stripped first; strings are what the reader sees, so they stay.
+  A new unmarked claim fails, and so does an ACK entry that no longer exists.
+*/
+const CLAIM = /\bencrypt\w*|end-to-end|sealed (?:by|with) your/i;
+/* "encrypted yet" covers "Nothing here is encrypted yet" - the first version
+   missed it and flagged the vault header's own correction as a claim. */
+const MARKED = /not encrypted|encrypted yet|not true yet|not yet|planned|without encryption/i;
+const ACK = [
+  /* rendered with claimNote() in Trust.tsx and Onboarding.tsx (consent) */
+  "sub: 'Encrypted · revocable anytime · never sold'",
+  /* rendered with claimNote() in Trust.tsx (membership features) */
+  "'Encrypted Medical Vault'",
+  /* the sample person's ledger - shown only while state.sample is true */
+  "dest: 'Rooted vault (encrypted)'",
+  "payload: '2 lab PDFs · sealed with your passphrase — we cannot read them'",
+];
+const claimFindings = [];
+const ackSeen = new Set();
+
+function stripComments(src) {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+}
+
+function scanClaims(file, src) {
+  const lines = stripComments(src).split('\n');
+  lines.forEach((line, i) => {
+    if (!CLAIM.test(line) || MARKED.test(line)) return;
+    /*
+      Every acknowledgement on the line, not the first. The sample ledger row
+      carries two - its destination and its payload - on one line, and taking
+      only the first reported the second as stale.
+    */
+    const acks = ACK.filter((a) => line.includes(a));
+    if (acks.length && file.endsWith('content.ts')) { acks.forEach((a) => ackSeen.add(a)); return; }
+    claimFindings.push({ file, line: i + 1, text: line.trim().slice(0, 90) });
+  });
+}
+
 const findings = [];
 let scanned = 0;
 
@@ -82,7 +135,9 @@ function walk(dir) {
     if (!/\.(ts|tsx|js|jsx)$/.test(e.name)) continue;
     if (EXCLUDE.has(e.name)) continue;
     scanned += 1;
-    const code = strip(readFileSync(p, 'utf8'));
+    const raw = readFileSync(p, 'utf8');
+    scanClaims(relative('.', p), raw);
+    const code = strip(raw);
     for (const [re, label] of CALLS) {
       const m = re.exec(code);
       if (!m) continue;
@@ -109,7 +164,20 @@ for (const u of thirdParty) {
   console.log('  THIRD-PARTY  index.html  ' + u.slice(0, 60));
 }
 
-const failing = findings.length + thirdParty.length;
+for (const c of claimFindings) {
+  console.log('  UNMARKED ENCRYPTION CLAIM  ' + c.file + ':' + c.line + '  ' + c.text);
+}
+const staleAck = ACK.filter((a) => !ackSeen.has(a));
+for (const a of staleAck) {
+  console.log('  STALE ACK  ' + a + '  (no longer in content.ts)');
+}
+if (claimFindings.length) {
+  console.log('');
+  console.log('  Nothing in this app is encrypted. Say so, mark the line as planned,');
+  console.log('  or - for verbatim content.ts - render claimNote() beside it and ACK it.');
+}
+
+const failing = findings.length + thirdParty.length + claimFindings.length + staleAck.length;
 
 if (failing) {
   console.log('');
@@ -121,7 +189,9 @@ if (failing) {
 }
 
 console.log('-'.repeat(72));
-console.log(scanned + ' source files scanned, ' + failing + ' outbound request(s) found'
-  + (failing ? '' : ' — the app still makes none'));
+console.log(scanned + ' source files scanned, '
+  + (findings.length + thirdParty.length) + ' outbound request(s), '
+  + claimFindings.length + ' unmarked encryption claim(s), ' + staleAck.length + ' stale ack(s)'
+  + (failing ? '' : ' — the app still makes no requests and claims no encryption'));
 
 process.exit(failing ? 1 : 0);
