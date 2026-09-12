@@ -197,7 +197,7 @@ function HLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function PrivacyScreen() {
-  const { state, set, forget, restore, go, goBack } = useStore();
+  const { state, set, forget, restore, startOwn, go, goBack } = useStore();
   const [importNote, setImportNote] = useState('');
   /* Starts 'unknown' so the server render - and the gates - are deterministic. */
   const [keep, setKeep] = useState<Keeping>('unknown');
@@ -468,6 +468,22 @@ export function PrivacyScreen() {
             fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
           }}
         >Forget everything on this device</button>
+        {/*
+          Narrower than forget(): keeps settings and accessibility, drops only
+          the sample person's history. Shown only while that history is there.
+        */}
+        {state.sample && (
+          <button
+            type="button"
+            onClick={() => { startOwn(); go('today'); }}
+            style={{
+              width: '100%', minHeight: 44, cursor: 'pointer', marginTop: 9,
+              border: '1px solid var(--border-2)', background: 'var(--card)',
+              color: 'var(--ink)', borderRadius: 14, padding: 14,
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+            }}
+          >Clear the sample history, keep my settings</button>
+        )}
       </Gutter>
     </Screen>
   );

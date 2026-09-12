@@ -4,6 +4,11 @@
 
 export const initialState: any = {
     route: 'welcome',
+    /*
+      True while the history below is the sample person's rather than the
+      reader's. Begin clears it; see state/sample.ts.
+    */
+    sample: true,
     codexId: 'west',
     scanFromUpload: false,
     genIdx: 0,

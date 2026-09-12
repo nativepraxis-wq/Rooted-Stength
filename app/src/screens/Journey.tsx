@@ -577,7 +577,7 @@ export function ProfileScreen() {
   const rows = [
     {
       to: 'ob1', label: 'Who you are',
-      value: (state.obName || 'No name set') + ' · ' + state.obPronoun,
+      value: [state.obName || 'No name set', state.obPronoun].filter(Boolean).join(' · '),
       effect: 'Used throughout the app. Physiology questions stay optional and separate.',
     },
     {

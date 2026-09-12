@@ -4,6 +4,7 @@ import {
 } from 'react';
 import { initialState } from '../data/initialState';
 import { load, save, clear as clearStored } from './persist';
+import { OWN_START } from './sample';
 /*
   A named import, not a namespace one.
 
@@ -38,6 +39,8 @@ type Store = {
   forget: () => void;
   /** Replace everything with an exported file. */
   restore: (data: Record<string, unknown>) => void;
+  /** Drop the sample person's history so what follows is the reader's own. */
+  startOwn: () => void;
   go: (route: Route) => void;
   goBack: () => void;
   canGoBack: boolean;
@@ -54,7 +57,14 @@ type Store = {
 
 const Ctx = createContext<Store | null>(null);
 
-export function StoreProvider({ children }: { children: ReactNode }) {
+export function StoreProvider({ children, initial }: {
+  children: ReactNode;
+  /**
+   * Start from this state instead of storage. For the SSR gates only, so they
+   * can render every route as a first real run as well as with the sample.
+   */
+  initial?: AppState;
+}) {
   /*
     Saved state merged over the seed. `profileReturn` is forced null afterwards
     because it is a "where to go back to" marker - restoring one would send a
@@ -66,7 +76,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     deterministic.
   */
   const [state, setState] = useState<AppState>(
-    () => ({ ...(load() as unknown as AppState), profileReturn: null }),
+    () => (initial ? { ...initial } : { ...(load() as unknown as AppState), profileReturn: null }),
   );
   const hist = useRef<Route[]>([]);
   const scroller = useRef<HTMLDivElement | null>(null);
@@ -136,6 +146,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const restore = useCallback((data: Record<string, unknown>) => {
     hist.current = [];
     setState({ ...initialState, ...data, route: 'today', profileReturn: null } as AppState);
+  }, []);
+
+  /* See state/sample.ts for what is cleared and why the rest is kept. */
+  const startOwn = useCallback(() => {
+    setState((s) => ({ ...s, ...OWN_START }));
   }, []);
 
   const set = useCallback((u: Updater) => {
@@ -238,10 +253,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [state.hydrationCups, state.logs]);
 
   const value = useMemo<Store>(() => ({
-    state, set, forget, restore, go, goBack, canGoBack: hist.current.length > 0,
+    state, set, forget, restore, startOwn, go, goBack, canGoBack: hist.current.length > 0,
     toast, pushLog, removeLog, restockPantry, dayName, proteinTarget, cupsOn,
     scrollTop, registerScroller,
-  }), [state, set, forget, restore, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
+  }), [state, set, forget, restore, startOwn, go, goBack, toast, pushLog, removeLog, restockPantry, dayName,
     proteinTarget, cupsOn, scrollTop, registerScroller]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

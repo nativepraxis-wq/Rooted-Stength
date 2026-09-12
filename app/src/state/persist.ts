@@ -59,8 +59,9 @@ const VERSION = 1;
  * wrong group is visible in review.
  */
 export const DURABLE: readonly string[] = [
-  /* Who the user said they are. Entered by hand at intake. */
-  'obName', 'obPronoun', 'obGoal', 'obGoal2', 'obGoalSet', 'obDays', 'obDaysSet',
+  /* Who the user said they are. Entered by hand at intake. `sample` records
+     whether the history is still the demonstration person's - see sample.ts. */
+  'sample', 'obName', 'obPronoun', 'obGoal', 'obGoal2', 'obGoalSet', 'obDays', 'obDaysSet',
   'obTrad',
 
   /*

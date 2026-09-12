@@ -62,7 +62,7 @@ function StripeCard({ stripe, eyebrow, title, sub, onClick, tag }: {
 }
 
 export function TodayScreen() {
-  const { state, go, proteinTarget, cupsOn } = useStore();
+  const { state, go, startOwn, proteinTarget, cupsOn } = useStore();
 
   const logs = state.logs as any[];
   const dayPlates = (d: number) => logs.filter((l) => l.kind === 'plate' && l.d === d);
@@ -162,6 +162,39 @@ export function TodayScreen() {
       }}>{HUB_NOTE}</div>
 
       <Gutter style={{ paddingTop: 16 }}>
+        {/*
+          Everything below is computed from the log set. While that set is the
+          sample person's, every figure on this screen describes somebody who
+          does not exist - so say so above the first of them. See state/sample.
+        */}
+        {state.sample && (
+          <div role="note" style={{
+            background: 'var(--card)', border: '1px solid var(--border-2)',
+            borderRadius: 'var(--r-card)', padding: 15, marginBottom: 12,
+          }}>
+            <div style={{
+              fontSize: 'calc(10.5px * var(--scale))', fontWeight: 800, letterSpacing: 1.4,
+              textTransform: 'uppercase', color: 'var(--ink-meta)',
+            }}>Sample data</div>
+            <p className="rs-prose" style={{
+              fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+              lineHeight: 1.5, margin: '5px 0 11px',
+            }}>
+              These plates, sessions, notes and streak belong to a sample person, so you can see
+              how the app works. None of it was logged by you.
+            </p>
+            <button
+              type="button"
+              onClick={() => { startOwn(); go('ob1'); }}
+              style={{
+                width: '100%', minHeight: 44, cursor: 'pointer', border: 'none',
+                background: 'var(--forest)', color: 'var(--on-dark)', borderRadius: 14,
+                padding: 13, fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+              }}
+            >Clear it and start with my own</button>
+          </div>
+        )}
+
         {/* Today so far — computed, tappable through to history */}
         <button
           type="button"

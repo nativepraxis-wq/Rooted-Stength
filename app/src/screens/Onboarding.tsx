@@ -142,7 +142,13 @@ function useObFlow() {
 /* ===================== welcome ===================== */
 
 export function WelcomeScreen() {
-  const { go } = useStore();
+  const { state, go, startOwn } = useStore();
+  /*
+    Begin means "this is me", so the sample history goes before intake starts -
+    see state/sample.ts. Only while the sample is still in place: coming back to
+    this screen later must not wipe a real reader's own logs.
+  */
+  const begin = () => { if (state.sample) startOwn(); go('ob1'); };
   return (
     <div style={{
       animation: 'rs-fade 0.4s ease', minHeight: '100%',
@@ -191,7 +197,7 @@ export function WelcomeScreen() {
         </div>
       </div>
 
-      <button type="button" onClick={() => go('ob1')} style={{
+      <button type="button" onClick={begin} style={{
         width: '100%', border: 'none', background: '#C79A45', color: '#1E3A2B',
         borderRadius: 18, padding: 17, fontSize: 'calc(16px * var(--scale))',
         fontWeight: 800, cursor: 'pointer', minHeight: 44,
@@ -637,7 +643,7 @@ export function ObRecapScreen() {
   const rows = [
     {
       to: 'ob1', label: 'Who you are',
-      value: (state.obName || 'No name set') + ' · ' + state.obPronoun,
+      value: [state.obName || 'No name set', state.obPronoun].filter(Boolean).join(' · '),
       effect: 'Names and pronouns are used throughout; physiology questions stay optional.',
     },
     {
