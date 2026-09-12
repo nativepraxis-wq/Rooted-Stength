@@ -260,6 +260,63 @@ export function hasStored(): boolean {
 
 /*
   ─────────────────────────────────────────
+  WHETHER THE BROWSER WILL KEEP IT
+
+  Saving to localStorage is not the same as keeping. By default a browser
+  stores it "best-effort": it may clear the data by itself under storage
+  pressure. Safari goes further and deletes script-written storage "after seven
+  days of Safari use without user interaction on the site" (WebKit blog 10218).
+  Home-screen web apps are exempt in practice - WebKit gives them their own
+  counter that only advances on days the app is actually used.
+
+  persist() changes the first of those. Chrome and Safari grant or refuse it
+  silently from the reader's history with the site; Firefox asks (MDN, "Storage
+  quotas and eviction criteria"). A refusal is normal, not an error.
+
+  A reader who logged for a month and lost it to eviction would have been told,
+  by this app, that it was "stored in this browser, on this device". True at the
+  time; not a promise the app could keep. So the Privacy screen asks the browser
+  and says what it answered, rather than implying permanence.
+
+  persist() is requested only from a button. Firefox shows a permission prompt
+  for it, and a prompt on first launch, before the reader knows what the app
+  keeps, is the wrong moment to ask.
+*/
+
+export type Keeping = 'persisted' | 'best-effort' | 'unknown';
+
+/** What the browser has agreed to. Never throws; 'unknown' where unsupported. */
+export async function keeping(): Promise<Keeping> {
+  try {
+    if (typeof navigator === 'undefined' || !navigator.storage?.persisted) return 'unknown';
+    return (await navigator.storage.persisted()) ? 'persisted' : 'best-effort';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/** Ask the browser to exempt this app's storage from eviction. */
+export async function askToKeep(): Promise<Keeping> {
+  try {
+    if (typeof navigator === 'undefined' || !navigator.storage?.persist) return 'unknown';
+    return (await navigator.storage.persist()) ? 'persisted' : 'best-effort';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/** Opened from the home screen rather than a browser tab. */
+export function installed(): boolean {
+  try {
+    return window.matchMedia('(display-mode: standalone)').matches
+      || (navigator as Navigator & { standalone?: boolean }).standalone === true;
+  } catch {
+    return false;
+  }
+}
+
+/*
+  ─────────────────────────────────────────
   TAKING IT WITH YOU
 
   The Privacy screen says, accurately, that "nothing is recoverable if you lose

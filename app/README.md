@@ -48,6 +48,12 @@ is 16 MB, and precaching that would be a 16 MB install on a field connection.
 **The first visit must be online.** After it, the app opens with no connection -
 verified by stopping the server and reloading, not by reading the spec.
 
+Stored data is **best-effort** unless the browser agrees otherwise: it can be
+cleared under storage pressure, and Safari clears it after seven days without a
+visit unless the app is on the home screen. The Privacy screen asks the browser
+(`navigator.storage.persist()`, from a button, never on launch) and says what it
+answered. See DISCREPANCIES, *"Stored on this device" is not "kept"*.
+
 ### The media is already about the right size — measured
 
 `public/media` is 14.2 MB and looks like an obvious thing to shrink. It is not,
