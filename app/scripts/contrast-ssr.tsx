@@ -34,8 +34,11 @@
 import { readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StoreProvider } from '../src/state/store';
-import { SCREENS } from '../src/App';
+import { loadScreens } from '../src/nav/screens';
 import { ROUTES } from '../src/nav/routes';
+
+/* Screens are lazy in the app; render needs them resolved. See nav/screens.ts. */
+const SCREENS = await loadScreens();
 
 /* ---------- colour ---------- */
 

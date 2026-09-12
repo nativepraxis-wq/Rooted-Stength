@@ -2230,6 +2230,44 @@ refused, the declined sentence appeared and the button went away. The granted
 wording was checked by stubbing `navigator.storage.persisted` to resolve true,
 since a real grant cannot be forced in a fresh profile.
 
+### One 1.1 MB chunk, split by screen module
+
+Every screen was imported statically, so a phone downloaded, parsed and
+evaluated all 86 screens and their depth modules before it could draw the first.
+Screens now load per module on first use, from one table (`src/nav/screens.ts`).
+
+| | before | after |
+|---|---|---|
+| startup JS | 1,115 KB · 342 KB gzip | **446 KB · 154 KB gzip** |
+| scripts fetched to draw Welcome | 1 | 3 |
+
+`content.ts` (292 KB) stays in the entry chunk because the store imports it; the
+screens and their depth modules are what moved out.
+
+Three things had to change with it, each for a reason that was measured:
+
+- **Offline had to cover unopened screens.** The worker's precache list came
+  from the HTML, which names only the entry chunk — split, most of the app would
+  have been missing offline. The build now writes `dist/asset-manifest.json`,
+  and install precaches every chunk in it. Verified on a fresh install: 26 JS
+  chunks, the CSS and 6 fonts cached while the page itself had fetched 3 scripts;
+  then, **with the server stopped**, Explore, Journey and Privacy — none of them
+  opened before — rendered from cache.
+- **Updates no longer take over an open page.** v1's `skipWaiting()` plus the
+  activate purge was safe only while everything was in one chunk; its own comment
+  said so and named this change as the moment it stops being safe. It is gone:
+  an update waits until the app is closed. A `ChunkBoundary` covers the remaining
+  case of a chunk that is neither cached nor reachable, so one missing file shows
+  a message under the tab bar instead of a white screen.
+- **The SSR gates cannot render a lazy component.** They `await loadScreens()`
+  from the same table, which throws naming the route when an entry is not an
+  exported component — the check the static imports used to give for free.
+  Sabotaged with `TodaySreen`: h1 fails by name. Getting the gates to finish took
+  two wrong answers — default splitting deadlocked (screen chunks imported the
+  store from the gate's entry, which was paused on its own top-level await; Node
+  exits 13 and prints nothing), and inlining ran the await before the inlined
+  modules were declared. SSR builds now put all app code in one non-entry chunk.
+
 ### "Fits your profile" when nobody was asked
 
 Restrictions now start switched off for a real reader. The accepted cost of that

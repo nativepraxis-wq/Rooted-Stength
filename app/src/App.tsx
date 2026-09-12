@@ -1,158 +1,19 @@
+import { Component, Suspense, type ReactNode } from 'react';
 import { StoreProvider, useStore } from './state/store';
 import { Shell } from './components/Shell';
 import { activeTab, ROUTES } from './nav/routes';
+import { lazyScreens } from './nav/screens';
 import { Screen, Gutter, Band } from './components/ui';
 import { DarkHeader } from './components/Headers';
 
-import { TodayScreen } from './screens/Today';
-import { A11yScreen } from './screens/A11y';
-import {
-  WelcomeScreen, Ob1Screen, Ob2Screen, Ob3Screen, ObHerbScreen, ConsentScreen, ObRecapScreen,
-} from './screens/Onboarding';
-import {
-  CodexScreen, CodexRegionScreen, PantryCodexScreen, PantryVolScreen,
-} from './screens/Codex';
-import {
-  NourishScreen, ScanScreen, DetectedScreen, HiddenScreen, ReportScreen,
-  RecipeScreen, RecipeDetailScreen,
-} from './screens/Nourish';
-import {
-  MealPlanScreen, PantryScreen, GroceryScreen, PlanGroceryScreen,
-  BarcodeScreen, VoiceScreen,
-} from './screens/Kitchen';
-import { SmoothiesScreen, SmoothieBuilderScreen } from './screens/Smoothies';
-import { RestaurantScreen, OrderScreen, SugarMealScreen } from './screens/Restaurant';
-import {
-  MoveScreen, FarmScreen, ExerciseScreen, TrainPlanScreen, WarriorScreen,
-} from './screens/Move';
-import {
-  MobilityScreen, SeatedScreen, ElderScreen, AncestralScreen, BreathScreen, HikeScreen,
-} from './screens/MoveDetail';
-import {
-  ExploreScreen, CropScreen, MapScreen, ForageScreen, CommunityScreen,
-  SeasonalScreen, MineralsScreen, FrequenciesScreen, FusionScreen,
-} from './screens/Explore';
-import {
-  ApothecaryScreen, TeaIntelScreen, MushroomsScreen, NervinesScreen, WaterMedScreen,
-  FermentScreen, SwapsScreen, DiabetesScreen, CeremonyScreen, CoconutScreen,
-  HoneyScreen, ShroomRecipesScreen,
-} from './screens/Apothecary';
-import {
-  JourneyScreen, ProgressScreen, HistoryScreen, ProfileScreen,
-} from './screens/Journey';
-import {
-  SourcesScreen, PrivacyScreen, DataSovScreen, VaultScreen,
-  MembershipScreen, SovereigntyScreen, AdminScreen,
-} from './screens/Trust';
-import { SleepScreen, PregnancyScreen, IntimacyScreen } from './screens/Wellbeing';
-import {
-  MicrogreensScreen, CropLibScreen, VarietyScreen, GardenScreen,
-} from './screens/Farm';
-import {
-  PairingsScreen, BudgetScreen, HydrationScreen, FiltersScreen, FamilyScreen,
-} from './screens/Extras';
-
 /*
-  Route table. Screens built in this pass are wired here; the remaining routes
-  fall through to NotBuiltYet, which says plainly that the surface has not been
-  implemented rather than showing an empty shell that looks finished.
+  Screens are loaded per module, on first use - see nav/screens.ts for why, and
+  for how the SSR gates still render every one of them synchronously.
+
+  Built once at module load, not per render: React.lazy must be called outside
+  render or every navigation would create a new component type and remount.
 */
-/* Exported so scripts/h1-check.tsx can render every screen without a browser. */
-export const SCREENS: Partial<Record<string, () => JSX.Element>> = {
-  welcome: WelcomeScreen,
-  ob1: Ob1Screen,
-  ob2: Ob2Screen,
-  ob3: Ob3Screen,
-  obHerb: ObHerbScreen,
-  consent: ConsentScreen,
-  obRecap: ObRecapScreen,
-
-  today: TodayScreen,
-  a11y: A11yScreen,
-
-  codex: CodexScreen,
-  codexRegion: CodexRegionScreen,
-  pantryCodex: PantryCodexScreen,
-  pantryVol: PantryVolScreen,
-
-  nourish: NourishScreen,
-  scan: ScanScreen,
-  detected: DetectedScreen,
-  hidden: HiddenScreen,
-  report: ReportScreen,
-  recipe: RecipeScreen,
-  recipeDetail: RecipeDetailScreen,
-  mealPlan: MealPlanScreen,
-  pantry: PantryScreen,
-  grocery: GroceryScreen,
-  planGrocery: PlanGroceryScreen,
-  barcode: BarcodeScreen,
-  voice: VoiceScreen,
-  smoothies: SmoothiesScreen,
-  smoothieBuilder: SmoothieBuilderScreen,
-  restaurant: RestaurantScreen,
-  order: OrderScreen,
-  sugarMeal: SugarMealScreen,
-
-  move: MoveScreen,
-  farm: FarmScreen,
-  exercise: ExerciseScreen,
-  trainPlan: TrainPlanScreen,
-  warrior: WarriorScreen,
-  mobility: MobilityScreen,
-  seated: SeatedScreen,
-  elder: ElderScreen,
-  ancestral: AncestralScreen,
-  breath: BreathScreen,
-  hike: HikeScreen,
-
-  explore: ExploreScreen,
-  crop: CropScreen,
-  map: MapScreen,
-  forage: ForageScreen,
-  community: CommunityScreen,
-  seasonal: SeasonalScreen,
-  minerals: MineralsScreen,
-  frequencies: FrequenciesScreen,
-  fusion: FusionScreen,
-  apothecary: ApothecaryScreen,
-  teaIntel: TeaIntelScreen,
-  mushrooms: MushroomsScreen,
-  nervines: NervinesScreen,
-  waterMed: WaterMedScreen,
-  ferment: FermentScreen,
-  swaps: SwapsScreen,
-  diabetes: DiabetesScreen,
-  ceremony: CeremonyScreen,
-  coconut: CoconutScreen,
-  honey: HoneyScreen,
-  shroomRecipes: ShroomRecipesScreen,
-
-  journey: JourneyScreen,
-  progress: ProgressScreen,
-  history: HistoryScreen,
-  profile: ProfileScreen,
-  sources: SourcesScreen,
-  privacy: PrivacyScreen,
-  dataSov: DataSovScreen,
-  vault: VaultScreen,
-  membership: MembershipScreen,
-  sovereignty: SovereigntyScreen,
-  admin: AdminScreen,
-  sleep: SleepScreen,
-  pregnancy: PregnancyScreen,
-  intimacy: IntimacyScreen,
-
-  microgreens: MicrogreensScreen,
-  croplib: CropLibScreen,
-  variety: VarietyScreen,
-  garden: GardenScreen,
-  pairings: PairingsScreen,
-  budget: BudgetScreen,
-  hydration: HydrationScreen,
-  filters: FiltersScreen,
-  family: FamilyScreen,
-};
+const SCREENS = lazyScreens();
 
 const TAB_LABEL: Record<string, string> = {
   today: 'Today', nourish: 'Nourish', move: 'Move', explore: 'Explore', journey: 'Journey',
@@ -172,18 +33,8 @@ function NotBuiltYet() {
       <Gutter style={{ paddingTop: 18 }}>
         <Band tone="safety" title="This screen is not built yet">
           <p style={{ margin: 0, lineHeight: 1.55 }}>
-            <code>{state.route}</code> is one of the 86 routes in the design handoff, but it has not
-            been implemented in this pass. Its content and layout are specified in the prototype —
-            nothing here is a stub standing in for missing design.
+            <code>{state.route}</code> is not one of the routes this app knows how to draw.
           </p>
-        </Band>
-
-        <Band tone="cream" title="What is built" style={{ marginTop: 12 }}>
-          The shell, navigation, both themes and the accessibility layer; the shared tier-badge
-          system; the full content data layer; the four codex screens; all seven onboarding steps;
-          Today; the whole Nourish cluster — the plate-scan chain, the recipe generator, the meal
-          plan, pantry, both grocery lists, barcode and voice capture, the restaurant order builder
-          and the smoothie builder; the whole Move cluster; the whole Explore cluster; and the whole Journey cluster.
         </Band>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
@@ -206,12 +57,57 @@ function NotBuiltYet() {
   );
 }
 
+/*
+  A screen's chunk that will not load.
+
+  With the service worker installed every chunk is precached, so this should be
+  rare. It is not impossible: a first visit that went offline before the worker
+  finished installing, or a browser that evicted the cache. Without a boundary
+  the whole app would unmount to a white screen over one missing file. With it,
+  the tab bar stays and the reader is told what happened.
+*/
+class ChunkBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <Screen>
+        <Gutter style={{ paddingTop: 64 }}>
+          <Band tone="safety" title="This screen didn't load">
+            <p style={{ margin: 0, lineHeight: 1.55 }}>
+              Part of the app hasn&rsquo;t downloaded to this phone yet, and there&rsquo;s no
+              connection to fetch it. Everything you have logged is safe. Try again once you are
+              back online.
+            </p>
+          </Band>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            style={{
+              width: '100%', minHeight: 44, cursor: 'pointer', marginTop: 12,
+              border: '1px solid var(--border-2)', background: 'var(--card)',
+              color: 'var(--ink)', borderRadius: 14, padding: 14,
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+            }}
+          >Try again</button>
+        </Gutter>
+      </Screen>
+    );
+  }
+}
+
 function Router() {
   const { state } = useStore();
   const known = (ROUTES as readonly string[]).includes(state.route);
   const Screen_ = (known && SCREENS[state.route]) || NotBuiltYet;
   /*
-    Keying on the route restarts the rs-fade enter animation on every change.
+    Keying on the route restarts the rs-fade enter animation on every change,
+    and resets the chunk boundary so one failed screen does not stick.
 
     height: 100% matters. The onboarding screens and the pregnancy flow use
     `min-height: 100%` to push their footer button to the bottom of the frame.
@@ -219,11 +115,19 @@ function Router() {
     count — so without a definite height here that rule silently did nothing and
     those screens stopped 200px short. Content taller than the frame still
     overflows normally and .rs-scroll scrolls it.
+
+    The Suspense fallback is deliberately empty: a chunk from the cache arrives
+    in milliseconds, and a spinner that flashes for one frame is worse than
+    nothing.
   */
   return (
     <Shell>
       <div key={state.route} style={{ height: '100%' }}>
-        <Screen_ />
+        <ChunkBoundary>
+          <Suspense fallback={null}>
+            <Screen_ />
+          </Suspense>
+        </ChunkBoundary>
       </div>
     </Shell>
   );

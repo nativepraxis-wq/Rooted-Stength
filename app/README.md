@@ -49,6 +49,24 @@ is 16 MB, and precaching that would be a 16 MB install on a field connection.
 **The first visit must be online.** After it, the app opens with no connection -
 verified by stopping the server and reloading, not by reading the spec.
 
+### Split by screen module
+
+Screens load per module on first use (`src/nav/screens.ts`), so a phone no longer
+parses the whole app before drawing the first screen:
+
+| | before | after |
+|---|---|---|
+| startup JS | 1,115 KB (342 KB gzip) | **446 KB (154 KB gzip)** |
+| scripts fetched to draw Welcome | 1 | 3 — entry, Onboarding, one shared helper |
+
+Offline still covers every screen, including ones never opened: the build writes
+`dist/asset-manifest.json`, and the service worker precaches every chunk it
+lists on install. Updates now wait until the app is closed rather than taking
+over an open page, because an open page may still need chunks from its own build.
+
+The SSR gates cannot render a lazy component, so they `await loadScreens()` from
+the same table, and a misspelt export there fails them by name.
+
 Stored data is **best-effort** unless the browser agrees otherwise: it can be
 cleared under storage pressure, and Safari clears it after seven days without a
 visit unless the app is on the home screen. The Privacy screen asks the browser
@@ -128,6 +146,7 @@ directory the launcher is running from; that file is the problem, not this one.
 | `src/components/TabbedGuide.tsx` | The tab-selector pattern nine Explore surfaces share |
 | `src/state/journal.ts` | Streaks, week strip, protein trend, history timeline |
 | `src/nav/routes.ts` | All 86 routes and their tab groupings |
+| `src/nav/screens.ts` | Which module each route's screen lives in — lazy for the app, resolved for the gates |
 | `src/components/` | Shell, tab bar, FAB, Council sheet, tier badge, UI primitives |
 | `src/screens/` | Implemented screens |
 | `docs/DISCREPANCIES.md` | Where the handoff contradicts itself, and what was decided |
