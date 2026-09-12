@@ -50,7 +50,9 @@
                  it cannot grow without limit.
 */
 
-const VERSION = 'v1';
+/* v2: the app is code-split; install precaches every chunk from the build
+   manifest, and updates wait for the app to close. */
+const VERSION = 'v2';
 const SHELL = 'rs-shell-' + VERSION;
 const ASSETS = 'rs-assets-' + VERSION;
 const MEDIA = 'rs-media-' + VERSION;
@@ -85,6 +87,34 @@ self.addEventListener('install', (event) => {
       for (const m of html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)) {
         urls.add(m[1]);
       }
+
+      /*
+        EVERY CHUNK, NOT JUST THE ONES THE HTML NAMES.
+
+        The screens are code-split (src/nav/screens.ts). The HTML names only the
+        entry chunk, so reading it alone would cache the shell and leave every
+        screen the reader has not opened yet uncached - and a reader who goes
+        offline would find most of the app missing.
+
+        Vite writes /asset-manifest.json listing every chunk it emitted, with
+        its CSS and imported assets. Reading that keeps the same principle as
+        above: the list comes from what actually shipped, never written down.
+        If it is missing the HTML list still stands, so an older build degrades
+        to caching what it names rather than failing to install.
+      */
+      try {
+        const mres = await fetch('/asset-manifest.json', { cache: 'reload' });
+        if (mres.ok) {
+          const manifest = await mres.json();
+          for (const entry of Object.values(manifest)) {
+            if (entry.file) urls.add('/' + entry.file);
+            for (const c of entry.css || []) urls.add('/' + c);
+            for (const a of entry.assets || []) urls.add('/' + a);
+          }
+        }
+      } catch {
+        /* No manifest - the HTML list above is the fallback. */
+      }
       if (urls.size) {
         const assets = await caches.open(ASSETS);
         await assets.addAll([...urls]);
@@ -118,11 +148,20 @@ self.addEventListener('install', (event) => {
     }
 
     /*
-      Take over as soon as this worker is ready rather than waiting for every
-      tab to close. Paired with clients.claim() below, an update lands on the
-      next load instead of whenever the reader quits the app entirely.
+      NO skipWaiting(), deliberately.
+
+      v1 called it so an update landed on the next load. That was safe only
+      while the app was one chunk: the new worker's activate step deletes the
+      old asset cache, and an open page running the old build had everything it
+      needed already in memory.
+
+      Code-split, that page still has screens to fetch - old hashed chunks that
+      activate would just have deleted, leaving the network as the only source,
+      which is the situation offline support exists for. So an update now waits
+      in the "waiting" state until every window of the app is closed, and
+      activates cleanly on the next launch. The first install is unaffected:
+      with no previous worker there is nothing to wait for.
     */
-    await self.skipWaiting();
   })());
 });
 
@@ -135,20 +174,16 @@ self.addEventListener('activate', (event) => {
       built, the old ones are gone, and the app keeps working.
 
       ─────────────────────────────────────
-      THIS IS SAFE ONLY BECAUSE NOTHING IS LAZY-LOADED
+      WHY THE PURGE IS SAFE NOW THAT ROUTES ARE SPLIT
 
-      skipWaiting() plus clients.claim() hands an ALREADY-OPEN page to the new
-      worker mid-session. That page is still running the previous build's
-      JavaScript, and the asset cache underneath it has just been deleted.
+      v1 warned that this purge plus skipWaiting would strand an open page once
+      the app was code-split. It is split now, and skipWaiting is gone (see the
+      install handler), so a new worker only activates when no window of the
+      old build is open. Nothing running can still need the chunks deleted here.
 
-      Today that does not matter: the app ships as one chunk, so everything the
-      open page will ever need is already in memory.
-
-      It stops being true the moment routes are code-split. A page that then
-      asks for an old hashed chunk would find it purged and the network the
-      only option - which is exactly the situation offline support exists for.
-      Whoever adds splitting has to either keep the previous asset cache until
-      the page reloads, or drop skipWaiting and let the update wait for one.
+      clients.claim() stays: on a FIRST install it lets the page that installed
+      the worker be served from cache on its next request, and on an update
+      there are no old clients left to claim.
     */
     const keys = await caches.keys();
     await Promise.all(

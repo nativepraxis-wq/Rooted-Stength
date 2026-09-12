@@ -18,10 +18,13 @@
 */
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StoreProvider } from '../src/state/store';
-import { SCREENS } from '../src/App';
+import { loadScreens } from '../src/nav/screens';
 import { ROUTES } from '../src/nav/routes';
 import { initialState } from '../src/data/initialState';
 import { OWN_START } from '../src/state/sample';
+
+/* Screens are lazy in the app; render needs them resolved. See nav/screens.ts. */
+const SCREENS = await loadScreens();
 
 type Row = { route: string; count: number | null; note: string };
 
