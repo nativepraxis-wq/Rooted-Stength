@@ -109,5 +109,13 @@ jobs:
       - name: Privacy promises
         run: npm run promises
 
+      # Persistence saves an allowlist, so a field nobody thought about is
+      # forgotten on every reload. The first list left out the intake's
+      # pregnancy and medication flags, and flagged brews went back to being
+      # shown unflagged. Every state key must now be listed as durable or
+      # ephemeral - forgetting is allowed, forgetting without deciding is not.
+      - name: State durability
+        run: npm run durable
+
       - name: Build
         run: npm run build
