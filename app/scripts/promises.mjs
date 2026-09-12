@@ -177,7 +177,36 @@ if (claimFindings.length) {
   console.log('  or - for verbatim content.ts - render claimNote() beside it and ACK it.');
 }
 
-const failing = findings.length + thirdParty.length + claimFindings.length + staleAck.length;
+/*
+  ─────────────────────────────────────────
+  THE BROWSER ENFORCES IT TOO
+
+  public/_headers sets a Content-Security-Policy whose connect-src is 'self', so
+  a hosted build cannot reach another origin even if code tried. That is the
+  second lock on "makes no network requests", and loosening it quietly would
+  undo it - so the policy must exist, must not name any other origin, and its
+  connect-src must be exactly 'self'.
+*/
+const cspProblems = [];
+let headersText = '';
+try { headersText = readFileSync('public/_headers', 'utf8'); } catch { /* reported below */ }
+const cspLine = headersText.split(/\r?\n/).find((l) => /^\s+Content-Security-Policy:/.test(l));
+if (!headersText) {
+  cspProblems.push('public/_headers is missing');
+} else if (!cspLine) {
+  cspProblems.push('public/_headers has no Content-Security-Policy');
+} else {
+  const policy = cspLine.split(':').slice(1).join(':');
+  const connect = (policy.match(/connect-src([^;]*)/) || [])[1];
+  if (connect === undefined) cspProblems.push("CSP has no connect-src (default-src would govern it silently)");
+  else if (connect.trim() !== "'self'") cspProblems.push("CSP connect-src is '" + connect.trim() + "', not 'self'");
+  const origins = policy.match(/\b(?:https?|wss?):\/\/[^\s;]+|\*(?=[\s;])/g);
+  if (origins) cspProblems.push('CSP names another origin: ' + origins.join(', '));
+}
+for (const p of cspProblems) console.log('  CSP  ' + p);
+
+const failing = findings.length + thirdParty.length + claimFindings.length + staleAck.length
+  + cspProblems.length;
 
 if (failing) {
   console.log('');
@@ -191,7 +220,8 @@ if (failing) {
 console.log('-'.repeat(72));
 console.log(scanned + ' source files scanned, '
   + (findings.length + thirdParty.length) + ' outbound request(s), '
-  + claimFindings.length + ' unmarked encryption claim(s), ' + staleAck.length + ' stale ack(s)'
-  + (failing ? '' : ' — the app still makes no requests and claims no encryption'));
+  + claimFindings.length + ' unmarked encryption claim(s), ' + staleAck.length + ' stale ack(s), '
+  + cspProblems.length + ' CSP problem(s)'
+  + (failing ? '' : " — no requests, no encryption claimed, and the browser holds connect-src to 'self'"));
 
 process.exit(failing ? 1 : 0);

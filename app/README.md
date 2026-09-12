@@ -73,6 +73,28 @@ visit unless the app is on the home screen. The Privacy screen asks the browser
 (`navigator.storage.persist()`, from a button, never on launch) and says what it
 answered. See DISCREPANCIES, *"Stored on this device" is not "kept"*.
 
+### Hosting headers
+
+`public/_headers` holds the response headers any host must send. Netlify and
+Cloudflare Pages read that file as-is; another host needs the same rules in its
+own config. Two groups of rules:
+
+- **Security:** a Content-Security-Policy whose `connect-src` is `'self'`. The
+  Privacy screen promises the app makes no network requests, and this makes the
+  browser enforce that, not just the code. `npm run promises` fails if the policy
+  is removed, loosened, or names another origin. Camera, microphone and location
+  are denied because nothing uses them.
+- **Caching:** the shell, `sw.js` and both manifests are `no-cache`, so a new build
+  is always discovered. Hashed `/assets/*` are cached for a year as `immutable`.
+  Fonts and media keep their URLs when replaced, so they get a long but finite
+  lifetime instead.
+
+`vite preview` ignores `_headers`. To test with the real headers applied:
+
+```bash
+npm run build && node scripts/serve-dist.mjs 5180
+```
+
 ### The media is already about the right size — measured
 
 `public/media` is 14.2 MB and looks like an obvious thing to shrink. It is not,
