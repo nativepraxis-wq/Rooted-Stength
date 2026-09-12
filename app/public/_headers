@@ -1,0 +1,70 @@
+# Response headers for static hosting.
+#
+# This file format is read by Netlify and Cloudflare Pages as-is. Other hosts
+# need the same rules expressed in their own config; scripts/serve-dist.mjs
+# applies this file locally so the rules can be tested before any host exists.
+#
+# ---------------------------------------------------------------------------
+# SECURITY - every response
+#
+# connect-src 'self' is the Privacy screen's "the app makes no network requests
+# at all", enforced by the browser rather than only by `npm run promises`. If a
+# future change adds a third-party request, it fails in the browser before
+# anyone can notice the promise went false. `npm run promises` also fails if
+# this policy is loosened.
+#
+# script-src and style-src are 'self' with no 'unsafe-inline': the built page
+# has no inline script or style, and React applies style props through the DOM,
+# which CSP does not govern. img-src allows data: and blob: for the icons and
+# the "Save a copy" download link.
+#
+# camera, microphone and geolocation are denied because the app uses none of
+# them - the barcode and voice screens are demonstrations, and location is a
+# consent toggle with no reader behind it. Turn one on only in the same change
+# that starts using it.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# ---------------------------------------------------------------------------
+# CACHING
+#
+# Never cached by the HTTP layer: the shell, the service worker, and the two
+# manifests. These are how a new build is discovered. A service worker served
+# from an HTTP cache is the classic way to strand every reader on an old
+# version with no way forward.
+#
+# Cached forever: /assets/*, because Vite puts a content hash in every filename -
+# a changed file is a new URL.
+#
+# Fonts and media are NOT hashed, so they get a long but finite lifetime rather
+# than `immutable`: replacing one keeps its URL, and immutable would pin the old
+# bytes in browsers for a year.
+
+/
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
+
+/sw.js
+  Cache-Control: no-cache
+
+/asset-manifest.json
+  Cache-Control: no-cache
+
+/manifest.webmanifest
+  Cache-Control: no-cache
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=2592000
+
+/media/*
+  Cache-Control: public, max-age=604800

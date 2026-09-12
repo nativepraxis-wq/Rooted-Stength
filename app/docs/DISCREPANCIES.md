@@ -2262,6 +2262,46 @@ refused, the declined sentence appeared and the button went away. The granted
 wording was checked by stubbing `navigator.storage.persisted` to resolve true,
 since a real grant cannot be forced in a fresh profile.
 
+### A promise only the code kept
+
+"The app makes no network requests at all" was true, and `npm run promises` kept
+it true by scanning the source. But a scan is one lock, on the build machine. A
+hosted build had nothing stopping a request from reaching another origin — a
+dependency, an injected script, a mistake the scan's patterns did not cover.
+
+There was also no hosting configuration at all, so nothing said how the service
+worker, shell or hashed chunks should be cached, and the wrong defaults strand
+readers on an old build.
+
+`public/_headers` now carries both (Netlify and Cloudflare Pages read it as-is):
+
+- **A Content-Security-Policy with `connect-src 'self'`.** The browser now
+  refuses a request to another origin. Scripts and styles are `'self'` with no
+  `'unsafe-inline'` — the built page has none, and React applies style props
+  through the DOM. Camera, microphone and geolocation are denied; a search of
+  the source found no use of any of them.
+- **Caching:** the shell, `sw.js` and both manifests `no-cache`; hashed
+  `/assets/*` a year and `immutable`; fonts and media long but finite, because
+  their URLs do not change when their bytes do.
+
+`vite preview` ignores `_headers`, so `scripts/serve-dist.mjs` applies the file
+locally the way those hosts do. Served that way, from a fresh profile: every
+header arrived as written; the service worker installed; Today, Explore and
+Privacy loaded their chunks; fonts loaded; *Save a copy* still created its blob;
+**zero CSP violations and no console errors.** Then the positive control — a
+`fetch` to another origin from the page — was refused by the browser, while a
+same-origin fetch succeeded. A policy that blocks nothing is only proven by
+watching it block something.
+
+`npm run promises` now also fails if `_headers` or its policy is missing, if
+`connect-src` is anything but `'self'`, or if the policy names another origin.
+Sabotaged twice — an analytics host added to `connect-src`, and `connect-src`
+removed (which would have let `default-src` govern it silently) — and both fail
+by name.
+
+**Not done, and not this file's to do:** choosing a host and deploying. That needs
+an account, a domain and a decision.
+
 ### One 1.1 MB chunk, split by screen module
 
 Every screen was imported statically, so a phone downloaded, parsed and
