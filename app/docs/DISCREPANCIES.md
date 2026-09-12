@@ -2113,6 +2113,42 @@ list is right; it forces somebody to make one. Sabotaged four ways before
 trusting it — dropping a seeded key, dropping a set-only key, a stale entry, a
 duplicate — and each fails by name.
 
+### A real reader inherited the sample person's fortnight
+
+The seed is a demonstration: Amara, fourteen days of plates and sessions, a
+streak, notes, a Council thread that mentions *"your last ferritin read
+low-normal"*, three ferment jars, pantry ticks and an RSVP. Right for someone
+exploring, and it is what the screenshots and gates render.
+
+**Nothing ever cleared it.** A reader who tapped Begin and typed their own name
+kept all of it. Before persistence that lasted one session; after, it was saved
+as theirs, and *Save a copy* exported a fabricated fortnight — with a lab result
+in it — as their health record.
+
+Decided with the project owner: **Begin starts clean.**
+
+- Begin clears the history before intake (`state/sample.ts`, `OWN_START`), only
+  while the sample is still in place, so revisiting Welcome never wipes a real
+  reader's own logs.
+- *Skip for now — explore first* keeps the sample, and Today now opens with a
+  **Sample data** note saying none of it was logged by the reader, with *Clear it
+  and start with my own*. Privacy offers the same, narrower than forget.
+- Cleared: what somebody **did or is** — logs, thread, jars, trays, ticks, RSVPs,
+  name, pronouns. Kept: settings the intake walks through with visible controls,
+  and accessibility, which must never reset under someone who needed it to read
+  the first screen.
+
+Every screen had only ever been rendered with a full history. The h1 gate now
+renders all 86 routes **twice** — seed, and the state after Begin — so an empty
+history is a tested case. Sabotaged: a `fermJars[0].name` read on Today passes on
+the seed and fails the clean pass by name.
+
+**Still open, not decided here:** `obRestr` is seeded nut-free and soy-free. A
+reader who passes that step without touching it keeps two restrictions they did
+not choose. Over-restricting is the safer direction for allergens, so it was left
+alone, but it is a default presented where an answer would be, and the intake
+rule elsewhere is that defaults are never shown as choices.
+
 ### "Stored on this device" is not "kept"
 
 The Privacy screen said everything was *"stored in this browser, on this

@@ -20,32 +20,50 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { StoreProvider } from '../src/state/store';
 import { SCREENS } from '../src/App';
 import { ROUTES } from '../src/nav/routes';
+import { initialState } from '../src/data/initialState';
+import { OWN_START } from '../src/state/sample';
 
 type Row = { route: string; count: number | null; note: string };
 
 const rows: Row[] = [];
 
-for (const route of ROUTES) {
-  const Screen = (SCREENS as Record<string, (() => JSX.Element) | undefined>)[route];
+/*
+  Two starts. The seed is the sample person with a full fortnight of history;
+  OWN_START is what a real reader has after tapping Begin - no logs, no jars, no
+  thread, no name. Every screen was written against the first and had never
+  been rendered against the second, so a `logs[0].name` anywhere would only
+  have been found by a new user. Rendering both makes an empty history a
+  tested case rather than a production surprise.
+*/
+const STARTS: Array<[string, Record<string, unknown> | undefined]> = [
+  ['', undefined],
+  ['own:', { ...initialState, ...OWN_START }],
+];
 
-  if (!Screen) {
-    rows.push({ route, count: null, note: 'no screen component' });
-    continue;
+for (const [prefix, initial] of STARTS) {
+  for (const route of ROUTES) {
+    const Screen = (SCREENS as Record<string, (() => JSX.Element) | undefined>)[route];
+    const label = prefix + route;
+
+    if (!Screen) {
+      rows.push({ route: label, count: null, note: 'no screen component' });
+      continue;
+    }
+
+    let html: string;
+    try {
+      html = renderToStaticMarkup(
+        <StoreProvider initial={initial}>
+          <Screen />
+        </StoreProvider>,
+      );
+    } catch (err) {
+      rows.push({ route: label, count: null, note: 'threw: ' + (err as Error).message.slice(0, 90) });
+      continue;
+    }
+
+    rows.push({ route: label, count: (html.match(/<h1[\s>]/g) || []).length, note: '' });
   }
-
-  let html: string;
-  try {
-    html = renderToStaticMarkup(
-      <StoreProvider>
-        <Screen />
-      </StoreProvider>,
-    );
-  } catch (err) {
-    rows.push({ route, count: null, note: 'threw: ' + (err as Error).message.slice(0, 90) });
-    continue;
-  }
-
-  rows.push({ route, count: (html.match(/<h1[\s>]/g) || []).length, note: '' });
 }
 
 const bad = rows.filter((r) => r.count !== 1);
