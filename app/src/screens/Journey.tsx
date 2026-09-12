@@ -135,8 +135,22 @@ export function JourneyScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
         }}>Recent victories</h2>
+        {/*
+          These are content fixtures - the sample person's buckets, ridge hike and
+          sleep average - not anything derived from the reader's logs. After Begin
+          they would be victories credited to someone who never had them.
+          See state/sample.ts.
+        */}
+        {!state.sample && (
+          <p className="rs-prose" style={{
+            fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+            lineHeight: 1.5, margin: 0,
+          }}>
+            None yet. Use + Note to write down what your body did — a carry, a climb, a good night.
+          </p>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {(journal as any[]).map((v) => (
+          {(state.sample ? (journal as any[]) : []).map((v) => (
             <div key={v.text} style={{
               display: 'flex', gap: 11, alignItems: 'flex-start',
               background: 'var(--card)', border: '1px solid var(--border)',

@@ -28,6 +28,7 @@ npm run headers    # header text stays legible on every ground
 npm run contrast-ssr  # inherited colour, every route, both themes
 npm run promises   # the privacy screen still tells the truth
 npm run durable    # every state key is saved or deliberately forgotten
+npm run sample-leak  # the sample person's data never reaches a real reader
 ```
 
 ## Installable, and offline
@@ -182,7 +183,7 @@ no longer a "not built yet" screen in normal use; `NotBuiltYet` remains in
 Verified mechanically:
 
 ```bash
-npm run typecheck && npm run contrast && npm run h1 && npm run claims && npm run allergens && npm run headers && npm run contrast-ssr && npm run promises && npm run durable
+npm run typecheck && npm run contrast && npm run h1 && npm run claims && npm run allergens && npm run headers && npm run contrast-ssr && npm run promises && npm run durable && npm run sample-leak
 ```
 
 ## Rules that are load-bearing, not stylistic

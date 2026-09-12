@@ -106,7 +106,15 @@ export function CouncilSheet() {
   const submit = () => {
     const q = (state.councilDraft || '').trim();
     if (!q) return;
-    const rep = replyFor(q);
+    /*
+      The keyed replies cite the sample person's data as the asker's own - "your
+      last ferritin read low-normal", "you slept 6h10", "your sunflower tray is
+      ready". For a real reader none of that exists, and a Council that invents
+      lab results is the one thing it must never do. So after Begin every
+      question gets the general reply, which claims nothing specific.
+      See state/sample.ts.
+    */
+    const rep = state.sample ? replyFor(q) : _fallbackReply;
     set((s) => ({
       councilDraft: '',
       councilThread: [

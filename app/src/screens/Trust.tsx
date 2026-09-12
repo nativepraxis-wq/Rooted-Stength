@@ -501,7 +501,13 @@ export function DataSovScreen() {
   const { state, set, go, goBack } = useStore();
   const only = !!state.dsDeviceOnly;
   const purged = !!state.dsPurged;
-  const log = purged ? [] : (egressLog as any[]);
+  /*
+    The ledger rows are content fixtures describing the sample person's week -
+    a lab share with a named doctor, a Council call carrying sleep and plates.
+    For a real reader the true ledger is empty: this app makes no network
+    requests at all (npm run promises). See state/sample.ts.
+  */
+  const log = purged || !state.sample ? [] : (egressLog as any[]);
   const vaultOn = Object.values(state.vaultPerm || {}).filter(Boolean).length;
   const region = REGIONS.find((r) => r.id === state.dsRegion) || REGIONS[1];
 
@@ -784,6 +790,18 @@ export function VaultScreen() {
   const { state, set, go, goBack } = useStore();
   const perms = state.vaultPerm || {};
   const onCount = Object.values(perms).filter(Boolean).length;
+  /*
+    Lab values and documents are content fixtures: the sample person's ferritin,
+    B12 and physical-therapy notes. Nothing can put a real reader's results here -
+    there is no upload and no clinician connection - so for them both lists are
+    empty and say why. See state/sample.ts.
+  */
+  const labs = state.sample ? (vaultLabs as any[]) : [];
+  const docs = state.sample ? (vaultDocs as any[]) : [];
+  const emptyNote = {
+    fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+    lineHeight: 1.5, margin: 0,
+  };
 
   return (
     <Screen>
@@ -806,8 +824,14 @@ export function VaultScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '0 0 10px',
         }}>Latest labs</h2>
+        {!labs.length && (
+          <p className="rs-prose" style={emptyNote}>
+            No lab results. This prototype has no way to receive them yet — no upload and no
+            clinician connection — so nothing is shown rather than a sample.
+          </p>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {(vaultLabs as any[]).map((l) => (
+          {labs.map((l) => (
             <div key={l.name} style={{
               background: l.flag === 'watch' ? 'var(--surface-3)' : 'var(--card)',
               border: '1px solid ' + (l.flag === 'watch' ? 'var(--border-2)' : 'var(--border)'),
@@ -862,8 +886,11 @@ export function VaultScreen() {
           fontFamily: 'var(--font-serif)', fontSize: 'calc(19px * var(--scale))',
           fontWeight: 600, color: 'var(--ink)', margin: '22px 0 10px',
         }}>Documents</h2>
+        {!docs.length && (
+          <p className="rs-prose" style={emptyNote}>No documents.</p>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {(vaultDocs as any[]).map((d) => (
+          {docs.map((d) => (
             <div key={d.name} style={{
               display: 'flex', gap: 11, alignItems: 'center',
               background: 'var(--card)', border: '1px solid var(--border)',
