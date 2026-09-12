@@ -33,13 +33,22 @@ export function SleepScreen() {
 
   const pregOn = !!state.teaSafety.pregnant;
 
+  /*
+    The nights, stages and averages below come from content fixtures - a sample
+    week, not a measurement. The app has no sleep source: no tracker, no manual
+    sleep log. So they are shown only while the sample person is in place. For
+    a real reader the week would be somebody else's sleep presented as theirs.
+    See state/sample.ts.
+  */
+  const sampleSleep = !!state.sample;
+
   return (
     <Screen>
       <DarkHeader eyebrow="Journey · recovery" title="Sleep" back={goBack}>
         <div style={{ display: 'flex', gap: 9, marginTop: 2 }}>
           {[
-            { n: hm(avg), l: 'nightly average' },
-            { n: hm(target), l: 'target for your goal' },
+            { n: sampleSleep ? hm(avg) : '—', l: sampleSleep ? 'nightly average' : 'no nights recorded' },
+            { n: hm(target), l: state.obGoalSet ? 'target for your goal' : 'target until you set a goal' },
           ].map((s) => (
             <div key={s.l} style={{
               flex: 1, minWidth: 0, background: 'rgba(244,237,223,0.13)', borderRadius: 14, padding: '11px 12px',
@@ -55,6 +64,26 @@ export function SleepScreen() {
       </DarkHeader>
 
       <Gutter style={{ paddingTop: 16 }}>
+        {!sampleSleep && (
+          <div style={{
+            background: 'var(--card)', border: '1px solid var(--border)',
+            borderRadius: 'var(--r-card)', padding: 15,
+          }}>
+            <div style={{
+              fontFamily: 'var(--font-serif)', fontSize: 'calc(17px * var(--scale))',
+              fontWeight: 600, color: 'var(--ink)',
+            }}>No nights recorded</div>
+            <p className="rs-prose" style={{
+              fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+              lineHeight: 1.5, margin: '6px 0 0',
+            }}>
+              This app has no way to record sleep yet — no tracker connection and no sleep log — so
+              this stays empty rather than showing a sample week as yours. The wind-down habits below
+              still work.
+            </p>
+          </div>
+        )}
+        {sampleSleep && (<>
         <div style={{
           background: 'var(--card)', border: '1px solid var(--border)',
           borderRadius: 'var(--r-card)', padding: 15,
@@ -140,6 +169,7 @@ export function SleepScreen() {
           {movedDays.length} of the last 7 days had a logged session. Training raises the sleep you
           need, not just the sleep you get.
         </Band>
+        </>)}
 
         {/*
           Pregnancy makes the target a direction rather than a debt. Showing a

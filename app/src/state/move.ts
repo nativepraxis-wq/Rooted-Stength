@@ -167,7 +167,9 @@ export function useMoveStats() {
         : 'No sessions logged in the last 7 days. Start with one.',
     elderBarW: Math.round(Math.min(1, moved / 3) * 100) + '%',
     elderBarMet: moved >= 2,
-    elderProteinLine: 'Your profile targets ' + target + 'g of protein a day — about '
+    /* obGoal is a computation default until obGoalSet - never "your profile" before then. */
+    elderProteinLine: (state.obGoalSet ? 'Your profile targets ' : 'Until you choose a goal, the default target is ')
+      + target + 'g of protein a day — about '
       + Math.round(target / 4) + 'g across four plates, each with enough leucine to trigger repair.',
   };
 }

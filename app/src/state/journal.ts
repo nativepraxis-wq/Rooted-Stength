@@ -172,7 +172,9 @@ export function useJournal() {
       : (8 - cups(0)) + ' more cups keeps it alive',
     daysLogged, plateCount14, sessionCount14,
     proteinAvg: avgP + 'g',
-    proteinTargetLabel: 'target ' + tgt + 'g · set by your goal',
+    /* obGoal is a computation default until obGoalSet - never "your goal" before then. */
+    proteinTargetLabel: 'target ' + tgt + 'g · '
+      + (state.obGoalSet ? 'set by your goal' : 'a default until you choose a goal'),
     onTargetLabel: onTarget + ' of 14 days hit it',
     proteinReadLine: avgP >= tgt
       ? 'You are averaging above target — protein is not the limiter right now.'

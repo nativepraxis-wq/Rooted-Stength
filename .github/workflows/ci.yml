@@ -117,5 +117,14 @@ jobs:
       - name: State durability
         run: npm run durable
 
+      # Begin clears the sample person's history from state, but some sample
+      # data lives in content fixtures that screens render as the reader's
+      # own: lab results, a sleep week, a transfer ledger naming a doctor.
+      # This renders every route as a first real run and fails if any of it
+      # appears - and fails if a marker is missing from the sample render too,
+      # so a broken matcher cannot pass silently.
+      - name: Sample data stays sample
+        run: npm run sample-leak
+
       - name: Build
         run: npm run build

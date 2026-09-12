@@ -7,3 +7,4 @@ dist
 
 .cssrcheck/
 .durablecheck/
+.leakcheck/

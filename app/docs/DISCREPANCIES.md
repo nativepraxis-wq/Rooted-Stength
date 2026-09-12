@@ -2149,6 +2149,45 @@ not choose. Over-restricting is the safer direction for allergens, so it was lef
 alone, but it is a default presented where an answer would be, and the intake
 rule elsewhere is that defaults are never shown as choices.
 
+### The sample person also lived outside state
+
+Begin cleared the sample *history* from state. A render of every route as the
+state after Begin, filtered for sentences that describe "you" with specifics,
+found a second layer: **content fixtures that screens present as the reader's
+own**, which no state change could reach.
+
+| screen | what a brand-new reader was shown as theirs |
+|---|---|
+| sleep | seven nights, stage durations, *"You are 5h 46m short of target across the week"* |
+| vault | five lab results including ferritin *low-normal* and B12 *below optimal*; four medical documents |
+| dataSov | a transfer ledger: a lab panel shared with a named doctor, a Council call carrying their sleep and plates |
+| journey | five "recent victories" — buckets carried, a ridge hike, a sleep average |
+| trainPlan | *"This week's carries went from 150 to 200 ft"* |
+| Council | every keyed reply cites the sample's labs and logs: *"your last ferritin read low-normal"* |
+
+`content.ts` is verbatim, so nothing was edited there. Each surface now renders
+its fixture only while `state.sample` is true, and otherwise says plainly that
+nothing is recorded — and, where true, that the app has no way to record it yet
+(no sleep source, no lab upload). The dataSov ledger is simply empty, which is
+the truth: the app makes no requests. After Begin the Council gives its general
+reply, which claims nothing specific — a real loss of usefulness, taken
+deliberately, because a Council that invents a lab result is the one thing it
+must not do.
+
+Two lines also said "your goal" while `obGoalSet` was false, breaking the rule
+the seed itself states: Progress (*"set by your goal"*) and Elder strength
+(*"Your profile targets"*). Both now say it is a default.
+
+**Gate: `npm run sample-leak`.** Markers are read from the fixtures, every route
+is rendered after Begin, and any marker found fails. Every marker must also be
+found in the *sample* render, so a broken matcher fails rather than passing
+silently. First run caught the Journey victories unaided — the fix had not been
+written yet — and also produced three false leaks: it matched ledger
+*destinations*, and "Sankofa Community Garden" is a real public place on three
+screens. It now matches what was *sent*. Council replies render only after a
+typed question, which a static render never does; that gap is stated in the
+gate, and the reply path was verified in the browser instead.
+
 ### "Stored on this device" is not "kept"
 
 The Privacy screen said everything was *"stored in this browser, on this

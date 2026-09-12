@@ -765,8 +765,10 @@ export function TrainPlanScreen() {
         </button>
 
         <Band tone="cream" title="Progressive overload" style={{ marginTop: 12 }}>
-          Add load, distance or slower tempo before adding volume. This week&rsquo;s carries went
-          from 150 to 200 ft — the Council nudges the next step when you&rsquo;re ready.
+          Add load, distance or slower tempo before adding volume.
+          {/* The carry distances are the sample person's week, not the reader's. */}
+          {state.sample && <> This week&rsquo;s carries went
+          from 150 to 200 ft — the Council nudges the next step when you&rsquo;re ready.</>}
         </Band>
       </Gutter>
     </Screen>
