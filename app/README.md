@@ -73,6 +73,35 @@ visit unless the app is on the home screen. The Privacy screen asks the browser
 (`navigator.storage.persist()`, from a button, never on launch) and says what it
 answered. See DISCREPANCIES, *"Stored on this device" is not "kept"*.
 
+### Deploying — Cloudflare Pages
+
+Chosen host. Nothing here is deployed yet; the project has to be created from a
+Cloudflare account. In the Cloudflare dashboard, **Workers & Pages → Create →
+Pages → Connect to Git**, pick this repository, and set:
+
+| setting | value |
+|---|---|
+| Framework preset | React (Vite) |
+| Root directory | `app` |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+
+Node is pinned by `app/.nvmrc` (22), which Pages reads and CI also uses, so the
+version that passes the gates is the version that builds the site. If a build
+log ever shows a different Node version, set `NODE_VERSION` to the same value
+in the project's environment variables.
+
+Checked against Cloudflare's documentation rather than assumed: `_headers` in
+`public/` lands in `dist/` where Pages reads it; 9 rules against a limit of 100;
+longest line 267 characters against 2,000; comments allowed; a request matching
+several rules gets all their headers. `dist/` is 406 files (limit 20,000) and
+its largest file is 438 KB (limit 25 MiB). No Pages Functions are used, which is
+the one case where `_headers` would be ignored.
+
+After the first deploy, check on the live URL: the response headers match
+`_headers`, the app installs and opens offline, and a request to another
+origin is refused.
+
 ### Hosting headers
 
 `public/_headers` holds the response headers any host must send. Netlify and

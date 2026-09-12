@@ -35,7 +35,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # One Node version for CI and the host. Cloudflare Pages reads
+          # app/.nvmrc when building (its default would otherwise be 22.16);
+          # CI reads the same file, so what passes here is what deploys.
+          node-version-file: app/.nvmrc
           cache: npm
           cache-dependency-path: app/package-lock.json
 
