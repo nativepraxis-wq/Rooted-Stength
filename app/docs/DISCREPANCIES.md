@@ -2158,6 +2158,38 @@ Verified in the browser: after Skip the stored restrictions are nut-free and
 soy-free; after clearing, and after Begin, they are empty, and the intake step
 *"How does your table eat?"* shows all four chips unpressed.
 
+### The sample person's progress, too
+
+The first sweep of content fixtures looked for sentences about "you" with
+specifics, and found records: labs, sleep, a ledger. A second look at what a
+reader sees after Begin found **progress** — the same kind of leak without the
+word "you" to catch it:
+
+| screen | shown to a brand-new reader |
+|---|---|
+| microgreens | "Your trays": four trays at day 10 of 10, 9 of 11, 4 of 10, 2 of 12, one ready to harvest |
+| variety / crop library | those four crops marked as already sown |
+| garden | *Season 3 · late summer*, nine grown plots, milestones incl. *"Carry capacity up 18% across 8 weeks"* |
+| Today | the garden card's *Season 3* |
+| budget | $77 already spent this week across four categories |
+| family | the reader's own card carrying the sample person's age, 34 |
+
+Each now follows `state.sample`. A real reader sees what they sowed (the app
+records that, but not tray days, and says so), an unplanted first season with no
+milestones, only the spending they entered, and no age — the app never asks for
+one.
+
+Kofi and Nana stay on the family screen. They are life-stage guidance — a
+growing child, an elder — rather than a record of what someone did, and the
+screen is about feeding a household in general.
+
+**Gate:** `sample-leak` gained 12 markers. Run against the unfixed screens it
+reported all 12 leaks. A thirteenth, the family age, was rejected by the matcher
+guard: the family screen opens on another member, so that card never renders
+statically in either state. It is stated as uncovered in the gate and was
+verified in the browser. The gate's decoder also had to drop React's `<!-- -->`
+text-node separators, or no marker built from a value could ever match.
+
 ### The sample person also lived outside state
 
 Begin cleared the sample *history* from state. A render of every route as the
