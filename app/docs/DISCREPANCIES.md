@@ -2113,6 +2113,39 @@ list is right; it forces somebody to make one. Sabotaged four ways before
 trusting it — dropping a seeded key, dropping a set-only key, a stale entry, a
 duplicate — and each fails by name.
 
+### "Stored on this device" is not "kept"
+
+The Privacy screen said everything was *"stored in this browser, on this
+device"* — true, but it read as permanent, and by default it is not. A browser
+keeps localStorage **best-effort**:
+
+- any browser may clear it under storage pressure (MDN, *Storage quotas and
+  eviction criteria*);
+- Safari deletes script-written storage *"after seven days of Safari use without
+  user interaction on the site"* (WebKit blog 10218). Home-screen web apps get
+  their own counter that advances only on days the app is used.
+
+For an app whose data is a month of plates and a pregnancy flag, that is the
+difference between a saved record and a record that quietly disappears.
+
+The screen now **asks the browser and reports its answer**:
+
+- granted: *"This browser has agreed to keep it."*
+- otherwise: the best-effort sentence, the Safari seven-day sentence (hidden
+  when opened from the home screen), and an **Ask this browser to keep it**
+  button.
+
+The request is made only from that button, never on launch. Firefox shows a
+permission prompt, and asking before the reader knows what the app keeps is the
+wrong moment. Chrome and Safari decide silently from engagement, so **a refusal
+is the normal case for a new reader**, and the copy then points at the saved copy
+as the protection they control.
+
+Verified in the browser: best-effort state and button shown; pressing it, Chromium
+refused, the declined sentence appeared and the button went away. The granted
+wording was checked by stubbing `navigator.storage.persisted` to resolve true,
+since a real grant cannot be forced in a fresh profile.
+
 ### Still needs an editorial decision — the encryption promise
 
 The Privacy screen's first standing promise reads:

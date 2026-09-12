@@ -5,7 +5,9 @@ import { conditionDepth, labDepth } from '../data/healthDepth';
 import {
   consentDepth, neverDepth, vaultPermDepth, biasTestDepth,
 } from '../data/trustDepth';
-import { exportFile, exportName, parseImport } from '../state/persist';
+import {
+  exportFile, exportName, parseImport, keeping, askToKeep, installed, type Keeping,
+} from '../state/persist';
 import { useStore } from '../state/store';
 import {
   sourceLibrary, consentList, egressLog, dsNeverList,
@@ -197,6 +199,16 @@ function HLabel({ children }: { children: React.ReactNode }) {
 export function PrivacyScreen() {
   const { state, set, forget, restore, go, goBack } = useStore();
   const [importNote, setImportNote] = useState('');
+  /* Starts 'unknown' so the server render - and the gates - are deterministic. */
+  const [keep, setKeep] = useState<Keeping>('unknown');
+  const [asked, setAsked] = useState(false);
+  const [onHome, setOnHome] = useState(false);
+  useEffect(() => {
+    let live = true;
+    keeping().then((k) => { if (live) setKeep(k); });
+    setOnHome(installed());
+    return () => { live = false; };
+  }, []);
 
   return (
     <Screen>
@@ -345,6 +357,35 @@ export function PrivacyScreen() {
           logged are stored in this browser, on this device. They are not sent anywhere —
           the app makes no network requests at all. Clearing them cannot be undone.
         </p>
+        {/*
+          "Stored on this device" is not "kept". Say what the browser actually
+          agreed to - see WHETHER THE BROWSER WILL KEEP IT in state/persist.
+        */}
+        <p className="rs-prose" role="status" style={{
+          fontSize: 'calc(12px * var(--scale))', color: 'var(--ink-muted)',
+          lineHeight: 1.55, margin: '0 0 10px',
+        }}>
+          {keep === 'persisted'
+            ? 'This browser has agreed to keep it. It stays until you clear it, here or in the browser settings.'
+            : <>
+                This browser keeps it on a best-effort basis, so it may clear it by itself if the
+                device runs low on space.
+                {!onHome && ' Safari also clears it after seven days of browsing without opening the app, unless the app is on your home screen.'}
+                {asked && ' The browser declined to promise more. Chrome and Safari decide from how often you use the app, so a saved copy is the protection you control.'}
+              </>}
+        </p>
+        {keep === 'best-effort' && !asked && (
+          <button
+            type="button"
+            onClick={() => { askToKeep().then((k) => { setKeep(k); setAsked(true); }); }}
+            style={{
+              width: '100%', minHeight: 44, cursor: 'pointer', marginBottom: 10,
+              border: '1px solid var(--border-2)', background: 'var(--card)',
+              color: 'var(--ink)', borderRadius: 14, padding: 14,
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+            }}
+          >Ask this browser to keep it</button>
+        )}
         {/*
           Keeping everything on the device is why "nothing is recoverable if you
           lose the phone" is true. On a health app that is also a trap: a cleared
