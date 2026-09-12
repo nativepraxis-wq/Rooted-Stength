@@ -2230,6 +2230,35 @@ refused, the declined sentence appeared and the button went away. The granted
 wording was checked by stubbing `navigator.storage.persisted` to resolve true,
 since a real grant cannot be forced in a fresh profile.
 
+### "Fits your profile" when nobody was asked
+
+Restrictions now start switched off for a real reader. The accepted cost of that
+decision was someone with a nut allergy who skips the intake step being shown
+nuts unflagged. Checking what they would actually see found it was worse than
+unflagged: **four surfaces reassured them.**
+
+- Microgreens: *"All 8 mixes fit your profile"*
+- Smoothies: *"All 5 recipes fit your profile"*
+- Grocery: *"Nothing on this list clashes with your profile"*
+- Restaurant order: *"nothing here clashes with your profile"*
+
+An empty `obRestr` meant both "none apply" and "never asked", and every line read
+it as the first. Same shape as `obGoal`, and the same fix: **`obRestrSet`** records
+whether the restrictions are an answer. Tapping a restriction, or going forward
+from that step with none selected, sets it; going back does not, and *Skip for
+now* never reaches the step. The sample person has answered; `OWN_START` resets
+it.
+
+Until it is set, those four lines say *"No restrictions set yet — nothing is being
+checked for allergens"*, and Today opens with **Allergies and restrictions aren't
+set** and a *Set them now* button that returns to Today when done.
+
+Verified in the browser as a real reader with nothing set: the Today note shows,
+Smoothies says nothing is being checked, *Set them now* opens the step as an edit
+(*Done — back to your plan*), and pressing it with nothing selected returns to
+Today with the note gone and `obRestrSet: true` stored. Durable gate now counts
+51 durable keys.
+
 ### Decided — the encryption promise
 
 The Privacy screen's first standing promise reads:

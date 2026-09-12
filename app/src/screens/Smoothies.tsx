@@ -98,8 +98,11 @@ export function SmoothiesScreen() {
   const main = mark(saved.concat(smoothies as any[]));
   const kids = mark(kidSmoothies as any[]);
 
+  /* "Fits your profile" only once restrictions are an answer - see obRestrSet. */
   const flagLine = main.flagged === 0
-    ? 'All ' + main.list.length + ' recipes fit your profile'
+    ? (state.obRestrSet
+      ? 'All ' + main.list.length + ' recipes fit your profile'
+      : 'No restrictions set yet — nothing is being checked for allergens')
     : main.flagged + ' of ' + main.list.length + ' recipes flagged for your profile · shown last';
 
   return (

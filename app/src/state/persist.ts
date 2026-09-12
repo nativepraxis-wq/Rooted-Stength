@@ -68,7 +68,7 @@ export const DURABLE: readonly string[] = [
     Restrictions and consent. `obRestr` drives the allergen checks, so losing it
     silently is a safety matter, not an inconvenience.
   */
-  'obRestr', 'consent', 'vaultPerm', 'intimacyShare', 'dsDeviceOnly', 'dsRegion',
+  'obRestr', 'obRestrSet', 'consent', 'vaultPerm', 'intimacyShare', 'dsDeviceOnly', 'dsRegion',
 
   /*
     Herb safety from intake: pregnant or nursing, blood-pressure medication,

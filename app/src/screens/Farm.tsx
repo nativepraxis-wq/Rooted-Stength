@@ -271,7 +271,9 @@ export function MicrogreensScreen() {
           color: flaggedSalads ? 'var(--clay)' : 'var(--ink-meta)', marginBottom: 10,
         }}>
           {flaggedSalads === 0
-            ? 'All ' + salads.length + ' mixes fit your profile'
+            ? (state.obRestrSet
+              ? 'All ' + salads.length + ' mixes fit your profile'
+              : 'No restrictions set yet — nothing is being checked for allergens')
             : flaggedSalads + ' of ' + salads.length + ' mixes flagged for your profile · shown last'}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>

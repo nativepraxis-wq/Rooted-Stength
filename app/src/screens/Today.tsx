@@ -62,7 +62,7 @@ function StripeCard({ stripe, eyebrow, title, sub, onClick, tag }: {
 }
 
 export function TodayScreen() {
-  const { state, go, startOwn, proteinTarget, cupsOn } = useStore();
+  const { state, set, go, startOwn, proteinTarget, cupsOn } = useStore();
 
   const logs = state.logs as any[];
   const dayPlates = (d: number) => logs.filter((l) => l.kind === 'plate' && l.d === d);
@@ -192,6 +192,39 @@ export function TodayScreen() {
                 padding: 13, fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
               }}
             >Clear it and start with my own</button>
+          </div>
+        )}
+
+        {/*
+          Restrictions start switched off (DISCREPANCIES, "restrictions start
+          switched off"). The cost of that decision is someone with a nut allergy
+          who skipped the step and is now shown nuts unflagged. So until the step
+          has actually been answered, say so where the day starts.
+        */}
+        {!state.sample && !state.obRestrSet && (
+          <div role="note" style={{
+            background: 'var(--safety-bg)', border: '1px solid var(--border-rose)',
+            borderRadius: 'var(--r-card)', padding: 15, marginBottom: 12,
+          }}>
+            <div style={{
+              fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800, color: 'var(--ink)',
+            }}>Allergies and restrictions aren&rsquo;t set</div>
+            <p className="rs-prose" style={{
+              fontSize: 'calc(12.5px * var(--scale))', color: 'var(--ink-muted)',
+              lineHeight: 1.5, margin: '5px 0 11px',
+            }}>
+              Nothing is being filtered or flagged for you yet — dishes with nuts, soy, gluten or
+              sesame are shown without a warning.
+            </p>
+            <button
+              type="button"
+              onClick={() => { set({ profileReturn: 'today' }); go('ob3'); }}
+              style={{
+                width: '100%', minHeight: 44, cursor: 'pointer', border: 'none',
+                background: 'var(--forest)', color: 'var(--on-dark)', borderRadius: 14,
+                padding: 13, fontSize: 'calc(13.5px * var(--scale))', fontWeight: 800,
+              }}
+            >Set them now</button>
           </div>
         )}
 
