@@ -446,7 +446,7 @@ export function Ob3Screen() {
           <ObChip
             key={x.id}
             on={!!state.obRestr[x.id]}
-            onClick={() => set((s) => ({ obRestr: { ...s.obRestr, [x.id]: !s.obRestr[x.id] } }))}
+            onClick={() => set((s) => ({ obRestr: { ...s.obRestr, [x.id]: !s.obRestr[x.id] }, obRestrSet: true }))}
           >{x.label}</ObChip>
         ))}
       </div>
@@ -466,7 +466,12 @@ export function Ob3Screen() {
       </Why>
 
       <div style={{ flex: 1 }} />
-      <NextButton onClick={() => leave('obHerb')}>{nextLabel}</NextButton>
+      {/*
+        Going forward from this step is an answer, including "none of these
+        apply". Going back is not, and "Skip for now" on Welcome never reaches
+        here - so obRestrSet stays false for anyone who was never asked.
+      */}
+      <NextButton onClick={() => { set({ obRestrSet: true }); leave('obHerb'); }}>{nextLabel}</NextButton>
     </ObScreen>
   );
 }

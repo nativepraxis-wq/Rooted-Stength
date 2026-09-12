@@ -42,6 +42,7 @@ export const OWN_START: Record<string, unknown> = {
   obName: '',
   obPronoun: '',
   obRestr: {},
+  obRestrSet: false,
   logs: [],
   councilThread: [],
   fermJars: [],

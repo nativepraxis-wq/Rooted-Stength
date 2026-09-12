@@ -240,8 +240,11 @@ export function groceryView(state: AppState) {
     doneLine: 'All ' + total
       + ' items picked up. Restock the jars in your pantry so the plates know what you have.',
     est: '$' + sum.toFixed(2),
+    /* "No clash" only once restrictions are an answer - see obRestrSet. */
     swapLine: swaps === 0
-      ? 'Nothing on this list clashes with your profile'
+      ? (state.obRestrSet
+        ? 'Nothing on this list clashes with your profile'
+        : 'No restrictions set yet — nothing on this list was checked for allergens')
       : swaps + (swaps === 1 ? ' item was swapped' : ' items were swapped') + ' for your profile',
   };
 }
@@ -394,7 +397,10 @@ export function orderView(state: AppState) {
       "nothing here clashes" while one is on screen is the overclaim this
       fix exists to remove.
     */
-    fitLine: flagCount === 0 && cautionCount === 0
+    fitLine: !state.obRestrSet && flagCount === 0
+      ? fitCount + ' dishes · no restrictions set yet, so nothing was checked against your profile'
+        + (cautionCount ? ' · ' + cautionCount + ' carrying an allergen caution' : '')
+      : flagCount === 0 && cautionCount === 0
       ? fitCount + ' dishes · nothing here clashes with your profile'
       : flagCount === 0
         ? fitCount + ' dishes · no profile clashes · '

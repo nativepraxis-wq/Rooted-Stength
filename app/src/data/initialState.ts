@@ -102,6 +102,13 @@ export const initialState: any = {
     obDays: null as string | null,
     obDaysSet: false,
     obRestr: { soyfree: true, nutfree: true },
+    /*
+      Whether the restrictions above are an ANSWER. Same discipline as obGoalSet:
+      an empty obRestr can mean "none apply" or "never asked", and the allergen
+      lines must not say food "fits your profile" in the second case. The sample
+      person answered; OWN_START resets this to false.
+    */
+    obRestrSet: true,
     obTrad: { caribbean: true, gullah: false, westafrican: true, creole: false, indigenous: false },
     consent: { health: true, photos: false, location: true, research: false },
     vaultPerm: { labs: true, meds: false, exports: false },
